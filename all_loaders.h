@@ -17,9 +17,11 @@
 #include <boost/foreach.hpp>
 #include <boost/optional.hpp>
 
+#include <DxLib.h>
+
 #include "main.h"
 #include "Units.h"
-#include "JSONParser.h"
+#include "Parser.h"
 
 using namespace std;
 /* BOOST C++ LIBRARIES */

@@ -32,7 +32,7 @@
     <ClInclude Include="Units.h">
       <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
     </ClInclude>
-    <ClInclude Include="JSONParser.h">
+    <ClInclude Include="Parser.h">
       <Filter>ヘッダー ファイル\データ パーシング クラス</Filter>
     </ClInclude>
     <ClInclude Include="all_loaders.h">
