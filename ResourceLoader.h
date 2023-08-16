@@ -35,11 +35,11 @@
 #include <DxLib.h>
 
 #include "all_loaders.h"
-#include "ResourceLoader.h"
 #include "strconv2.h"
 #include "main.h"
-#include "Pilots.h"
 #include "Units.h"
+#include "Pilots.h"
+#include "Parser.h"
 #include "json11.hpp"
 
 using namespace std;
@@ -54,21 +54,26 @@ using namespace boost::optional_ns;
 using namespace json11;
 
 namespace TREx {
-	namespace Utils {
-		class JSONParser;
-
-		/* -- begin class: JSONParser -- */
+	namespace Loaders {
+		class LanguageHandler;
+		class ImageHandler;
 
 		/// <summary>
-		/// JSONをパーシングするためのクラスです。
+		/// 言語分類(ローカライズ)の読み込み用クラスです。
 		/// </summary>
-		class JSONParser {
+		class LanguageHandler {
 		protected:
 		public:
 		};
 
-		/* -- end class: JSONParser -- */
+		/* -- End class: LanguageHandler -- */
+
+		/// <summary>
+		/// 画像(イメージ)の読み込み用クラスです。
+		/// </summary>
+		class ImageHandler {
+		protected:
+		public:
+		};
 	}
 }
-
-using namespace TREx;

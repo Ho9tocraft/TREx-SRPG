@@ -1,12 +1,20 @@
-# The Reminiscence of Exellia SRPG Project
+ï»¿# The Reminiscence of Exellia SRPG Project
 ## For Japanese
-@‚±‚ÌƒvƒƒWƒFƒNƒg‚ÍTRPGuƒ\[ƒhEƒ[ƒ‹ƒh2.5v‚ÌƒLƒƒƒ“ƒy[ƒ“uThe Reminiscence of Exellia(TREx)v‚Ìƒ^[ƒ“§ípƒVƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“RPGƒQ[ƒ€‰»ƒvƒƒWƒFƒNƒg‚Å‚·B
+ã€€ã“ã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã¯TRPGã€Œã‚½ãƒ¼ãƒ‰ãƒ»ãƒ¯ãƒ¼ãƒ«ãƒ‰2.5ã€ã®ã‚­ãƒ£ãƒ³ãƒšãƒ¼ãƒ³ã€ŒThe Reminiscence of Exellia(TREx)ã€ã®ã‚¿ãƒ¼ãƒ³åˆ¶æˆ¦è¡“ã‚·ãƒŸãƒ¥ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³RPGã‚²ãƒ¼ãƒ åŒ–ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã§ã™ã€‚
 ### Required Libraries
- - DXƒ‰ƒCƒuƒ‰ƒŠ (»ìFR“cI—l) v3.24bˆÈã
- - Boost C++ ƒ‰ƒCƒuƒ‰ƒŠ (»ì: Boost Community—l) v1.83.0ˆÈã
+- DXãƒ©ã‚¤ãƒ–ãƒ©ãƒª (è£½ä½œ: å±±ç”°å·§æ§˜) v3.24bä»¥ä¸Š
+- Boost C++ ãƒ©ã‚¤ãƒ–ãƒ©ãƒª (è£½ä½œ: Boost Communityæ§˜) v1.83.0
+- OpenSSL (è£½ä½œ: The OpenSSL Projectæ§˜) v3.1.2
+### Included Libraries
+- strconv2.h (è£½ä½œ: Javacommonsæ§˜): ã€Œpragma onceã€ã¨ã€Œusing namespace stdã€ã‚’é‘‘ã¿ã¦ã®å®Ÿè£…ã‚’è¡Œã£ãŸãŸã‚ã€å†…éƒ¨çš„ã«ãƒ•ã‚¡ã‚¤ãƒ«è¿½åŠ 
+- dropbox/json11 (è£½ä½œ: Dropboxæ§˜, æ—¥æœ¬èªæ–‡å­—åˆ—å•é¡Œ(5Cå•é¡Œ)å¯¾ç­–: Teramonte4æ§˜): å†…è”µãŒå‰æã¨ãªã‚‹ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã€‚
 
 ## For Universal
   This project is a turn-based tactical simulation RPG game adaptation of the TRPG Sword World 2.5 campaign The Reminiscence of Exellia (TREx).
 ### Required Libraries
- - DX Library (Made by Takumi Yamada) version 3.24b and above
- - Boost C++ Library (Made by Boost Community) version 1.83.0 and above
+- DX Library (Made by Takumi Yamada) version 3.24b and above
+- Boost C++ Library (Made by Boost Community) version 1.83.0
+- OpenSSL (Made by The OpenSSL Project) v3.1.2
+### Included Libraries
+- strconv2.h (Made by Javacommons): Because of the implementation in consideration of "pragma once" and "using namespace std", files were added internally.
+- dropbox/json11 (Made by Dropbox, Modification for Japanese String Problem (5C Problem) by Teramonte4): Libraries that are assumed to be built-in.

@@ -19,10 +19,19 @@
     <Filter Include="ヘッダー ファイル\データ パーシング クラス">
       <UniqueIdentifier>{32fb9ce8-3242-4f6f-9a10-39629781e3fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\データ パーシング クラス">
+      <UniqueIdentifier>{fdb6f849-bf3f-4197-9465-3ec932e70759}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\ローカライズ">
+      <UniqueIdentifier>{223571c8-70cf-4187-a081-20da2b1d102d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="json11.cpp">
+      <Filter>ソース ファイル\データ パーシング クラス</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,10 +47,34 @@
     <ClInclude Include="all_loaders.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Pilots.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="strconv2.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceLoader.h">
+      <Filter>ヘッダー ファイル\データ パーシング クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="json11.hpp">
+      <Filter>ヘッダー ファイル\データ パーシング クラス</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
       <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include=".gitignore">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Resources\datas\units.json">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Resources\datas\pilots.json">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Resources\datas\localization\ja_jp.yml">
+      <Filter>リソース ファイル\ローカライズ</Filter>
     </None>
   </ItemGroup>
 </Project>
