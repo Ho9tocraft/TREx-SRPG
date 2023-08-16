@@ -173,9 +173,18 @@
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="README.md" />
-    <None Include="Resources\datas\datapacks\pilots.json" />
-    <None Include="Resources\datas\datapacks\units.json" />
-    <None Include="Resources\datas\localization\ja_jp.yml" />
+    <Text Include="Resources\datas\datapacks\pilots.json">
+      <FileType>Document</FileType>
+      <DeploymentContent>true</DeploymentContent>
+    </Text>
+    <Text Include="Resources\datas\datapacks\units.json">
+      <FileType>Document</FileType>
+      <DeploymentContent>true</DeploymentContent>
+    </Text>
+    <Text Include="Resources\datas\localization\ja_jp.yml">
+      <FileType>Document</FileType>
+      <DeploymentContent>true</DeploymentContent>
+    </Text>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

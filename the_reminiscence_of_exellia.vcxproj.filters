@@ -70,14 +70,16 @@
     <None Include=".gitignore">
       <Filter>リソース ファイル</Filter>
     </None>
-    <None Include="Resources\datas\localization\ja_jp.yml">
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\datas\datapacks\pilots.json">
+      <Filter>リソース ファイル\データリスト</Filter>
+    </Text>
+    <Text Include="Resources\datas\datapacks\units.json">
+      <Filter>リソース ファイル\データリスト</Filter>
+    </Text>
+    <Text Include="Resources\datas\localization\ja_jp.yml">
       <Filter>リソース ファイル\ローカライズ</Filter>
-    </None>
-    <None Include="Resources\datas\datapacks\pilots.json">
-      <Filter>リソース ファイル\データリスト</Filter>
-    </None>
-    <None Include="Resources\datas\datapacks\units.json">
-      <Filter>リソース ファイル\データリスト</Filter>
-    </None>
+    </Text>
   </ItemGroup>
 </Project>
