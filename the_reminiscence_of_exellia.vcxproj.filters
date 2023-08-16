@@ -25,6 +25,9 @@
     <Filter Include="リソース ファイル\ローカライズ">
       <UniqueIdentifier>{223571c8-70cf-4187-a081-20da2b1d102d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\データリスト">
+      <UniqueIdentifier>{f7457bae-b71e-41ae-a4e9-10547abe0a37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -67,14 +70,14 @@
     <None Include=".gitignore">
       <Filter>リソース ファイル</Filter>
     </None>
-    <None Include="Resources\datas\units.json">
-      <Filter>リソース ファイル</Filter>
-    </None>
-    <None Include="Resources\datas\pilots.json">
-      <Filter>リソース ファイル</Filter>
-    </None>
     <None Include="Resources\datas\localization\ja_jp.yml">
       <Filter>リソース ファイル\ローカライズ</Filter>
+    </None>
+    <None Include="Resources\datas\datapacks\pilots.json">
+      <Filter>リソース ファイル\データリスト</Filter>
+    </None>
+    <None Include="Resources\datas\datapacks\units.json">
+      <Filter>リソース ファイル\データリスト</Filter>
     </None>
   </ItemGroup>
 </Project>
