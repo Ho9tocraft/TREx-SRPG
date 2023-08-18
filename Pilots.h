@@ -629,6 +629,8 @@ namespace TREx {
 		/// </summary>
 		class DataSpecies {
 		protected:
+			/* -- 変数系 -- */
+
 			/// <summary>
 			/// 種族に関わる大まかな分類です。
 			/// </summary>
@@ -647,11 +649,42 @@ namespace TREx {
 			/// </summary>
 			int64_t speciesDisgrace;
 			/// <summary>
+			/// 種族特徴です。特殊技能としてカウントされます。
+			/// </summary>
+			vector<SpecificSkill*> speciesSpecificSkills;
+
+			/* -- 関数系 -- */
+
+			/// <summary>
 			/// 基礎ステータスを定義します。
 			/// </summary>
 			void setBaselineStatus();
 		public:
+			/// <summary>
+			/// 種族別の基礎ステータスを上位クラスへ返却する関数です。
+			/// </summary>
+			/// <returns>種族別の基礎ステータス</returns>
+			const map<EnumPilotStatusInitials, int64_t> getSpeciesBaselineStatus();
+			/// <summary>
+			/// 種族別の基礎『穢れ』値を上位クラスへ返却する関数です。
+			/// </summary>
+			/// <returns>基礎『穢れ』値</returns>
+			const int64_t getSpeciesDisgrace();
+			/// <summary>
+			/// 種族別の種族特徴（特殊技能）を上位クラスへ返却する関数です。
+			/// </summary>
+			/// <returns></returns>
+			const vector<SpecificSkill*> getSpeciesSpecificSkills();
+			/// <summary>
+			/// 種族クラスのコンストラクタ
+			/// </summary>
+			/// <param name="specJson">JSON形式の種族データ</param>
 			DataSpecies(Json specJson);
+			/// <summary>
+			/// 種族クラスのコピーコンストラクタ
+			/// </summary>
+			/// <param name="from">コピー元</param>
+			DataSpecies(const DataSpecies* from);
 		};
 
 		inline void DataSpecies::setBaselineStatus() {
@@ -659,243 +692,591 @@ namespace TREx {
 			* ステータスの割り振りについて
 			* 合計値が1320になるように割り振る（「星の記録者」まで）。
 			* 穢れ持ちは基本合計値に+（穢れ×90）。
+			* 戦闘用ルーンフォークは穢れ+2相当。
+			* 星の記録者は穢れ値が-1になる。
 			*/
+			this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
+				{ EnumPilotStatusInitials::MEL, 140LL },
+				{ EnumPilotStatusInitials::RNG, 140LL },
+				{ EnumPilotStatusInitials::MGC, 140LL },
+				{ EnumPilotStatusInitials::DEX, 170LL },
+				{ EnumPilotStatusInitials::DEF, 130LL },
+				{ EnumPilotStatusInitials::ACU, 180LL },
+				{ EnumPilotStatusInitials::AVD, 180LL },
+				{ EnumPilotStatusInitials::RIT, 180LL },
+				{ EnumPilotStatusInitials::SPB, 60LL }
+			};
 			switch (this->speciesAbout) {
 			/*
 			* 人間ミドラン: ベース値。つまり「ニューター」。
 			*/
 			case EnumSpecies::HumanMidlander:
-				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
-					{ EnumPilotStatusInitials::MEL, 140LL },
-					{ EnumPilotStatusInitials::RNG, 140LL },
-					{ EnumPilotStatusInitials::MGC, 140LL },
-					{ EnumPilotStatusInitials::DEX, 170LL },
-					{ EnumPilotStatusInitials::DEF, 130LL },
-					{ EnumPilotStatusInitials::ACU, 180LL },
-					{ EnumPilotStatusInitials::AVD, 180LL },
-					{ EnumPilotStatusInitials::RIT, 180LL },
-					{ EnumPilotStatusInitials::SPB, 60LL }
-				};
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 0LL;
+				}
 				break;
 			/*
 			* 人間ハイラン: MEL+10, RNG-20, MGC-20, DEX=DEF, DEF+20, ACU+10, AVD-10, RIT+5, SPB+5
 			*/
 			case EnumSpecies::HumanHighlander:
-				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
-					{ EnumPilotStatusInitials::MEL, 150LL },
-					{ EnumPilotStatusInitials::RNG, 120LL },
-					{ EnumPilotStatusInitials::MGC, 120LL },
-					{ EnumPilotStatusInitials::DEX, 170LL },
-					{ EnumPilotStatusInitials::DEF, 150LL },
-					{ EnumPilotStatusInitials::ACU, 190LL },
-					{ EnumPilotStatusInitials::AVD, 170LL },
-					{ EnumPilotStatusInitials::RIT, 185LL },
-					{ EnumPilotStatusInitials::SPB, 65LL }
-				};
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] +=  0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] +=  5LL;
+				}
 				break;
 			/*
 			* 汎ヴァルミドラン: MEL+5, RNG-10, MGC+10, DEX+5, DEF-10, ACU+5, AVD+5, RIT-20, SPB+10
 			*/
 			case EnumSpecies::HumanValkyrieNormalMidlander:
-				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
-					{ EnumPilotStatusInitials::MEL, 145LL },
-					{ EnumPilotStatusInitials::RNG, 130LL },
-					{ EnumPilotStatusInitials::MGC, 150LL },
-					{ EnumPilotStatusInitials::DEX, 175LL },
-					{ EnumPilotStatusInitials::DEF, 120LL },
-					{ EnumPilotStatusInitials::ACU, 185LL },
-					{ EnumPilotStatusInitials::AVD, 185LL },
-					{ EnumPilotStatusInitials::RIT, 160LL },
-					{ EnumPilotStatusInitials::SPB, 70LL }
-				};
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 10LL;
+				}
 				break;
 			/*
 			* 汎ヴァルハイラン: MEL+15, RNG-30, MGC-10, DEX+5, DEF+10, ACU+15, AVD-5, RIT-15, SPB+15
 			*/
 			case EnumSpecies::HumanValkyrieNormalHighlander:
-				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
-					{ EnumPilotStatusInitials::MEL, 155LL },
-					{ EnumPilotStatusInitials::RNG, 110LL },
-					{ EnumPilotStatusInitials::MGC, 130LL },
-					{ EnumPilotStatusInitials::DEX, 175LL },
-					{ EnumPilotStatusInitials::DEF, 140LL },
-					{ EnumPilotStatusInitials::ACU, 195LL },
-					{ EnumPilotStatusInitials::AVD, 175LL },
-					{ EnumPilotStatusInitials::RIT, 165LL },
-					{ EnumPilotStatusInitials::SPB, 75LL }
-				};
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 15LL;
+				}
 				break;
 			/*
 			* 貴ヴァルモダンブランチ: MEL+5, RNG-20, MGC+10, DEX+5, DEF+10, ACU+5, AVD-15, RIT-15, SPB+15
 			*/
 			case EnumSpecies::HumanValkyrieNobleModern:
-				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
-					{ EnumPilotStatusInitials::MEL, 145LL },
-					{ EnumPilotStatusInitials::RNG, 120LL },
-					{ EnumPilotStatusInitials::MGC, 150LL },
-					{ EnumPilotStatusInitials::DEX, 175LL },
-					{ EnumPilotStatusInitials::DEF, 140LL },
-					{ EnumPilotStatusInitials::ACU, 195LL },
-					{ EnumPilotStatusInitials::AVD, 165LL },
-					{ EnumPilotStatusInitials::RIT, 165LL },
-					{ EnumPilotStatusInitials::SPB, 75LL }
-				};
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 15LL;
+				}
 				break;
 			/*
 			* 貴ヴァルオールドブランチ: MEL-25, RNG+25, MGC+5, DEX-5, DEF-10, ACU+25, AVD-15, RIT-15, SPB+15
 			*/
 			case EnumSpecies::HumanValkyrieNobleAncient:
-				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
-					{ EnumPilotStatusInitials::MEL, 115LL },
-					{ EnumPilotStatusInitials::RNG, 165LL },
-					{ EnumPilotStatusInitials::MGC, 145LL },
-					{ EnumPilotStatusInitials::DEX, 165LL },
-					{ EnumPilotStatusInitials::DEF, 120LL },
-					{ EnumPilotStatusInitials::ACU, 205LL },
-					{ EnumPilotStatusInitials::AVD, 165LL },
-					{ EnumPilotStatusInitials::RIT, 165LL },
-					{ EnumPilotStatusInitials::SPB, 75LL }
-				};
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 15LL;
+				}
 				break;
 			/*
 			* 汎エルフフォレスター: MEL-10, RNG+10, MGC+10, DEX+5, DEF-5, ACU=DEF, AVD-5, RIT-5, SPB=DEF
 			*/
 			case EnumSpecies::ElvesForester:
-				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
-					{ EnumPilotStatusInitials::MEL, 130LL },
-					{ EnumPilotStatusInitials::RNG, 150LL },
-					{ EnumPilotStatusInitials::MGC, 150LL },
-					{ EnumPilotStatusInitials::DEX, 175LL },
-					{ EnumPilotStatusInitials::DEF, 125LL },
-					{ EnumPilotStatusInitials::ACU, 180LL },
-					{ EnumPilotStatusInitials::AVD, 175LL },
-					{ EnumPilotStatusInitials::RIT, 175LL },
-					{ EnumPilotStatusInitials::SPB, 60LL }
-				};
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] +=  0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] +=  0LL;
+				}
 				break;
 			/*
 			* 汎エルフシェーダー: MEL-10, RNG=DEF, MGC+20, DEX+10, DEF-5, ACU=DEF, AVD-5, RIT-10, SPB=DEF
 			*/
 			case EnumSpecies::ElvesShader:
-				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
-					{ EnumPilotStatusInitials::MEL, 130LL },
-					{ EnumPilotStatusInitials::RNG, 140LL },
-					{ EnumPilotStatusInitials::MGC, 160LL },
-					{ EnumPilotStatusInitials::DEX, 180LL },
-					{ EnumPilotStatusInitials::DEF, 125LL },
-					{ EnumPilotStatusInitials::ACU, 180LL },
-					{ EnumPilotStatusInitials::AVD, 175LL },
-					{ EnumPilotStatusInitials::RIT, 170LL },
-					{ EnumPilotStatusInitials::SPB, 60LL }
-				};
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] +=  0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] +=  0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] +=  0LL;
+				}
 				break;
 			/*
 			* 貴エルフフォレスター: MEL-30, RNG-10, MGC+60, DEX+15, DEF-30, ACU=DEF, AVD-5, RIT+5, SPB-5
 			*/
 			case EnumSpecies::ElvesNobleForester:
-				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
-					{ EnumPilotStatusInitials::MEL, 110LL },
-					{ EnumPilotStatusInitials::RNG, 130LL },
-					{ EnumPilotStatusInitials::MGC, 200LL },
-					{ EnumPilotStatusInitials::DEX, 185LL },
-					{ EnumPilotStatusInitials::DEF, 100LL },
-					{ EnumPilotStatusInitials::ACU, 180LL },
-					{ EnumPilotStatusInitials::AVD, 175LL },
-					{ EnumPilotStatusInitials::RIT, 185LL },
-					{ EnumPilotStatusInitials::SPB, 55LL }
-				};
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 60LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] +=  0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -=  5LL;
+				}
 				break;
 			/*
 			* 貴エルフフォレスター: MEL-30, RNG-20, MGC+75, DEX+30, DEF-50, ACU=DEF, AVD-5, RIT+10, SPB-10
 			*/
 			case EnumSpecies::ElvesNobleShader:
-				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
-					{ EnumPilotStatusInitials::MEL, 110LL },
-					{ EnumPilotStatusInitials::RNG, 120LL },
-					{ EnumPilotStatusInitials::MGC, 215LL },
-					{ EnumPilotStatusInitials::DEX, 200LL },
-					{ EnumPilotStatusInitials::DEF, 80LL },
-					{ EnumPilotStatusInitials::ACU, 180LL },
-					{ EnumPilotStatusInitials::AVD, 175LL },
-					{ EnumPilotStatusInitials::RIT, 190LL },
-					{ EnumPilotStatusInitials::SPB, 50LL }
-				};
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 75LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 50LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] +=  0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 10LL;
+				}
 				break;
 			/*
 			* 霧エルフ: MEL-20, RNG+10, MGC+10, DEX+5, DEF=DEF, ACU-5, AVD-5, RIT-5, SPB+10
 			*/
 			case EnumSpecies::ElvesMist:
-				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
-					{ EnumPilotStatusInitials::MEL, 120LL },
-					{ EnumPilotStatusInitials::RNG, 150LL },
-					{ EnumPilotStatusInitials::MGC, 150LL },
-					{ EnumPilotStatusInitials::DEX, 175LL },
-					{ EnumPilotStatusInitials::DEF, 130LL },
-					{ EnumPilotStatusInitials::ACU, 175LL },
-					{ EnumPilotStatusInitials::AVD, 175LL },
-					{ EnumPilotStatusInitials::RIT, 175LL },
-					{ EnumPilotStatusInitials::SPB, 70LL }
-				};
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] +=  0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 10LL;
+				}
 				break;
 			/*
 			* 雪エルフ: MEL-20, RNG=DEF, MGC+20, DEX+10, DEF=DEF, ACU-5, AVD-5, RIT-10, SPB+15
 			*/
 			case EnumSpecies::ElvesSnowed:
-				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
-					{ EnumPilotStatusInitials::MEL, 120LL },
-					{ EnumPilotStatusInitials::RNG, 140LL },
-					{ EnumPilotStatusInitials::MGC, 160LL },
-					{ EnumPilotStatusInitials::DEX, 180LL },
-					{ EnumPilotStatusInitials::DEF, 125LL },
-					{ EnumPilotStatusInitials::ACU, 175LL },
-					{ EnumPilotStatusInitials::AVD, 175LL },
-					{ EnumPilotStatusInitials::RIT, 170LL },
-					{ EnumPilotStatusInitials::SPB, 75LL }
-				};
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] +=  0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] +=  0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 15LL;
+				}
 				break;
 			/*
 			* ドワーフ: MEL+10, RNG-10, MGC-10, DEX-5, DEF+25, ACU-5, AVD-5, RIT+10, SPB-5
 			*/
 			case EnumSpecies::DwarfFire:
-				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
-					{ EnumPilotStatusInitials::MEL, 150LL },
-					{ EnumPilotStatusInitials::RNG, 130LL },
-					{ EnumPilotStatusInitials::MGC, 130LL },
-					{ EnumPilotStatusInitials::DEX, 165LL },
-					{ EnumPilotStatusInitials::DEF, 155LL },
-					{ EnumPilotStatusInitials::ACU, 175LL },
-					{ EnumPilotStatusInitials::AVD, 170LL },
-					{ EnumPilotStatusInitials::RIT, 190LL },
-					{ EnumPilotStatusInitials::SPB, 55LL }
-				};
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -=  5LL;
+				}
 				break;
 			/*
 			* ダークドワーフ: MEL+15, RNG-10, MGC-15, DEX-5, DEF+25, ACU-5, AVD-5, RIT+5, SPB=DEF
 			*/
 			case EnumSpecies::DwarfDark:
-				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
-					{ EnumPilotStatusInitials::MEL, 155LL },
-					{ EnumPilotStatusInitials::RNG, 130LL },
-					{ EnumPilotStatusInitials::MGC, 125LL },
-					{ EnumPilotStatusInitials::DEX, 165LL },
-					{ EnumPilotStatusInitials::DEF, 155LL },
-					{ EnumPilotStatusInitials::ACU, 175LL },
-					{ EnumPilotStatusInitials::AVD, 170LL },
-					{ EnumPilotStatusInitials::RIT, 185LL },
-					{ EnumPilotStatusInitials::SPB, 60LL }
-				};
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] +=  0LL;
+				}
 				break;
-			//TODO: タビット～ルンフォ
 			/*
-			* タビット通常種: MEL-40, RNG-40, MGC+60, DEX-5, DEF+25, ACU-5, AVD-5, RIT+5, SPB=DEF
+			* タビット通常種: MEL-40, RNG-40, MGC+60, DEX-10, DEF-5, ACU-5, AVD+10, RIT+15, SPB+15
 			*/
+			case EnumSpecies::TabbitNormal:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 60LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 15LL;
+				}
+				break;
 			/*
-			* タビットパイカ種: MEL-40, RNG-40, MGC+50, DEX-5, DEF+25, ACU-5, AVD-5, RIT+5, SPB=DEF
+			* タビットパイカ種: MEL-40, RNG-40, MGC+50, DEX+10, DEF-5, ACU-10, AVD+10, RIT+10, SPB+15
 			*/
+			case EnumSpecies::TabbitPica:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 50LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 15LL;
+				}
+				break;
 			/*
-			* タビットリバス種: MEL-40, RNG-40, MGC+40, DEX-5, DEF+25, ACU-5, AVD-5, RIT+5, SPB=DEF
+			* タビットリバス種: MEL-40, RNG-40, MGC+40, DEX-20, DEF-5, ACU+20, AVD+20, RIT+10, SPB+15
 			*/
+			case EnumSpecies::TabbitRivash:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 15LL;
+				}
+				break;
+			/*
+			* ルーンフォーク通常ロット: MEL-5, RNG-5, MGC+5, DEX+5, DEF+10, ACU-10, AVD-10, RIT+5, SPB+5
+			*/
+			case EnumSpecies::RunefolkCommon:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] +=  5LL;
+				}
+				break;
+			/*
+			* 魔動天使: MEL+30, RNG+30, MGC-15, DEX+15, DEF-25, ACU+20, AVD-35, RIT+5, SPB-25
+			*/
+			case EnumSpecies::RunefolkMagitechAngel:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 35LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 25LL;
+				}
+				break;
+			/*
+			* 護衛型ルーンフォーク: MEL-25, RNG-25, MGC-25, DEX+25, DEF+50, ACU-15, AVD-15, RIT+20, SPB+10
+			*/
+			case EnumSpecies::RunefolkDefender:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 50LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 10LL;
+				}
+				break;
+			/*
+			* 戦闘型ルーンフォーク: MEL+40, RNG+40, MGC+30, DEX-30, DEF-50, ACU+30, AVD-20, RIT-20, SPB-20
+			*/
+			case EnumSpecies::RunefolkAttacker:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -= 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 50LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 20LL;
+				}
+				break;
+			/*
+			* ナイトメア: 全小分類共通で「MEL+10, RNG+10, MGC+10, DEX-15, DEF-20, ACU+5, AVD-20, RIT-10, SPB+30」
+			*/
+			case EnumSpecies::NightmareHuman:
+			case EnumSpecies::NightmareElves:
+			case EnumSpecies::NightmareDwarf:
+			case EnumSpecies::NightmareLilidracken:
+			case EnumSpecies::NightmareSunbreaker:
+			case EnumSpecies::NightmareShadow:
+				{
+					this->speciesDisgrace = 1;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 30LL;
+				}
+				break;
+			/*
+			* リカント通常種: MEL+5, RNG+5, MGC-10, DEX+10, DEF+10, ACU+5, AVD-5, RIT-10, SPB-10
+			*/
+			case EnumSpecies::LycanNormal:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 10LL;
+				}
+				break;
+			/*
+			* リカント大型草食種: MEL+15, RNG+15, MGC-30, DEX+30, DEF+30, ACU+15, AVD-45, RIT-15, SPB-15
+			*/
+			case EnumSpecies::LycanLargerHerbivore:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 45LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 15LL;
+				}
+				break;
+			/*
+			* リカント小型草食種: MEL-5, RNG-5, MGC+10, DEX-10, DEF-10, ACU+5, AVD+10, RIT-15, SPB+20
+			*/
+			case EnumSpecies::LycanSmallerHerbivore:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 20LL;
+				}
+				break;
+			/*
+			* リルドラケン通常種: MEL+35, RNG+10, MGC-25, DEX-10, DEF+30, ACU-20, AVD-25, RIT-15, SPB+20
+			*/
+			case EnumSpecies::LilidrackenNormal:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 35LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 20LL;
+				}
+				break;
+			/*
+			* リルドラケン小翼種: MEL+45, RNG+10, MGC-35, DEX-10, DEF+30, ACU-20, AVD-30, RIT-10, SPB+20
+			*/
+			case EnumSpecies::LilidrackenSmallwing:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 45LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 35LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 20LL;
+				}
+				break;
+			/*
+			* リルドラケン有翼種: MEL+20, RNG+15, MGC-5, DEX+10, DEF+50, ACU+10, AVD-75, RIT+5, SPB-30
+			*/
+			case EnumSpecies::LilidrackenHairy:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 50LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 75LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 30LL;
+				}
+				break;
+			/*
+			* グラスランナー通常種: MEL-20, RNG-20, MGC-40, DEX+30, DEF-40, ACU+30, AVD+30, RIT+15, SPB+15
+			*/
+			case EnumSpecies::GrassrunnerNormal:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 15LL;
+				}
+				break;
+			/*
+			* アリーシャグラスランナー: MEL-25, RNG-25, MGC-40, DEX+30, DEF-40, ACU+35, AVD+35, RIT+15, SPB+15
+			*/
+			case EnumSpecies::GrassrunnerAlisha:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 35LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 35LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 15LL;
+				}
+				break;
+			/*
+			* クリメノスグラスランナー: MEL-25, RNG-25, MGC-50, DEX+40, DEF-40, ACU+35, AVD+35, RIT+10, SPB+20
+			*/
+			case EnumSpecies::GrassrunnerClimenos:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 50LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 35LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 35LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 20LL;
+				}
+				break;
+			/*
+			* メリア通常種: MEL-20, RNG-10, MGC+45, DEX+15, DEF-10, ACU+20, AVD+10, RIT-25, SPB-25
+			*/
+			case EnumSpecies::MeriaNormal:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 45LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 25LL;
+				}
+				break;
+			/*
+			* カーニバラスメリア: MEL-15, RNG-15, MGC+40, DEX+20, DEF-20, ACU+15, AVD+15, RIT-25, SPB-15
+			*/
+			case EnumSpecies::MeriaCannibalistic:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 15LL;
+				}
+				break;
+			/*
+			* ファンギーメリア: MEL-25, RNG-5, MGC+35, DEX+25, DEF-30, ACU+10, AVD+30, RIT-35, SPB-5
+			*/
+			case EnumSpecies::MeriaFungy:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 35LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 35LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -=  5LL;
+				}
+				break;
 			}
+
+			for (auto iter = begin(this->speciesBaselineStatus); iter != end(this->speciesBaselineStatus); iter++) {
+				const auto& target = *iter;
+				if (this->speciesAbout == EnumSpecies::Arve) break;
+				this->speciesBaselineStatus[target.first] += this->speciesDisgrace * 10;
+				if (this->speciesAbout == EnumSpecies::RunefolkAttacker) this->speciesBaselineStatus[target.first] += 20;
+			}
+		}
+
+		inline const map<EnumPilotStatusInitials, int64_t> DataSpecies::getSpeciesBaselineStatus() {
+			return this->speciesBaselineStatus;
+		}
+
+		inline const int64_t DataSpecies::getSpeciesDisgrace() {
+			return this->speciesDisgrace;
+		}
+
+		inline const vector<SpecificSkill*> DataSpecies::getSpeciesSpecificSkills() {
+			return this->speciesSpecificSkills;
 		}
 
 		inline DataSpecies::DataSpecies(Json specJson) {
@@ -1088,6 +1469,12 @@ namespace TREx {
 			/* ステータスの決定 */
 			this->setBaselineStatus();
 		}
+
+		inline DataSpecies::DataSpecies(const DataSpecies* from) {
+			this->speciesAbout = from->speciesAbout;
+			this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>(from->speciesBaselineStatus);
+			this->speciesDisgrace = from->speciesDisgrace;
+		}
 		/* -- End class: DataSpecies -- */
 
 		/// <summary>
@@ -1137,12 +1524,68 @@ namespace TREx {
 			string pilotCodename;
 			DataSpecies* pilotSpecies;
 			EnumGender pilotGender;
+			int64_t pilotAdditionalDisgrace;
 			map<EnumPilotStatusInitials, int64_t> pilotDataStatus;
+
+			/* -- 関数 -- */
+
+			/// <summary>
+			/// パイロットの性別データを列挙型に変換します。
+			/// </summary>
+			/// <param name="rawGender">性別データの生データ(string型)</param>
+			void setPilotGender(string rawGender);
+			/// <summary>
+			/// パイロットの性別データを列挙型に変換します。
+			/// </summary>
+			/// <param name="rawGender">性別データの生データ(json型)</param>
+			void setPilotGender(Json rawGender);
+			/// <summary>
+			/// パイロットの実基本ステータスを定義します。
+			/// </summary>
+			/// <param name="addtional_status"></param>
+			void setPilotDataStatus(Json addtional_status);
 		public:
+			/// <summary>
+			/// DataPilotクラスのコンストラクタ
+			/// </summary>
+			/// <param name="jsonDat">JSONデータ。配列データではないので注意</param>
 			DataPilot(Json jsonDat);
 		};
 
+		inline void DataPilot::setPilotGender(string rawGender) {
+			if (compareLineString(rawGender, "Male")) this->pilotGender = EnumGender::Male;
+			else if (compareLineString(rawGender, "Female")) this->pilotGender = EnumGender::Female;
+			else if (compareLineString(rawGender, "Neutral")) this->pilotGender = EnumGender::Neutral;
+			else if (compareLineString(rawGender, "Asexual")) this->pilotGender = EnumGender::Asexual;
+			else if (compareLineString(rawGender, "Machine")) this->pilotGender = EnumGender::Machine;
+			else throw runtime_error("Gender Settings Error");
+		}
+
+		inline void DataPilot::setPilotGender(Json rawGender) {
+			this->setPilotGender(rawGender.is_string() ? rawGender.string_value() : rawGender["gender"].string_value());
+		}
+
+		inline void DataPilot::setPilotDataStatus(Json additional_status) {
+			this->pilotDataStatus = map<EnumPilotStatusInitials, int64_t>(this->pilotSpecies->getSpeciesBaselineStatus());
+			pilotDataStatus[EnumPilotStatusInitials::MEL] += static_cast<int64_t>(additional_status["MEL"].int_value());
+			pilotDataStatus[EnumPilotStatusInitials::RNG] += static_cast<int64_t>(additional_status["RNG"].int_value());
+			pilotDataStatus[EnumPilotStatusInitials::MGC] += static_cast<int64_t>(additional_status["MGC"].int_value());
+			pilotDataStatus[EnumPilotStatusInitials::DEX] += static_cast<int64_t>(additional_status["DEX"].int_value());
+			pilotDataStatus[EnumPilotStatusInitials::DEF] += static_cast<int64_t>(additional_status["DEF"].int_value());
+			pilotDataStatus[EnumPilotStatusInitials::ACU] += static_cast<int64_t>(additional_status["ACU"].int_value());
+			pilotDataStatus[EnumPilotStatusInitials::AVD] += static_cast<int64_t>(additional_status["AVD"].int_value());
+			pilotDataStatus[EnumPilotStatusInitials::RIT] += static_cast<int64_t>(additional_status["RIT"].int_value());
+			pilotDataStatus[EnumPilotStatusInitials::SPB] += static_cast<int64_t>(additional_status["SPB"].int_value());
+		}
+
 		inline DataPilot::DataPilot(Json jsonDat) {
+			this->pilotFullname = jsonDat["fullname"].string_value();
+			this->pilotNickname = jsonDat["nickname"].string_value();
+			this->pilotReadname = jsonDat["readname"].string_value();
+			this->pilotCodename = jsonDat["codename"].string_value();
+			this->pilotSpecies = new DataSpecies(jsonDat["species"]);
+			this->setPilotGender(jsonDat["gender"].string_value());
+			this->setPilotDataStatus(jsonDat["additional_status"]);
 		}
 		/* -- End class: DataPilot -- */
 
