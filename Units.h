@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <exception>
 #include <string>
 #include <locale>
 #include <codecvt>
@@ -66,6 +67,9 @@ namespace TREx {
 		public:
 		};
 
+		/// <summary>
+		/// ゲーム内処理用のUnitクラス
+		/// </summary>
 		class GameUnit {
 		protected:
 		public:

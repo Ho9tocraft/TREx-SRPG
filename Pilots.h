@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <exception>
 #include <string>
 #include <locale>
 #include <codecvt>
@@ -636,8 +637,457 @@ namespace TREx {
 			/// 種族別の基礎ステータスになります。
 			/// </summary>
 			map<EnumPilotStatusInitials, int64_t> speciesBaselineStatus;
+			/// <summary>
+			/// <para>穢れの値です。大まかな目安は以下の通りです。</para>
+			/// <para>人族: 0～1</para>
+			/// <para>蛮族: 1以上5未満</para>
+			/// <para>アンデッド: 5</para>
+			/// <para>星の記録者: -1</para>
+			/// <para>その他: 基本0</para>
+			/// </summary>
+			int64_t speciesDisgrace;
+			/// <summary>
+			/// 基礎ステータスを定義します。
+			/// </summary>
+			void setBaselineStatus();
 		public:
+			DataSpecies(Json specJson);
 		};
+
+		inline void DataSpecies::setBaselineStatus() {
+			/*
+			* ステータスの割り振りについて
+			* 合計値が1320になるように割り振る（「星の記録者」まで）。
+			* 穢れ持ちは基本合計値に+（穢れ×90）。
+			*/
+			switch (this->speciesAbout) {
+			/*
+			* 人間ミドラン: ベース値。つまり「ニューター」。
+			*/
+			case EnumSpecies::HumanMidlander:
+				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
+					{ EnumPilotStatusInitials::MEL, 140LL },
+					{ EnumPilotStatusInitials::RNG, 140LL },
+					{ EnumPilotStatusInitials::MGC, 140LL },
+					{ EnumPilotStatusInitials::DEX, 170LL },
+					{ EnumPilotStatusInitials::DEF, 130LL },
+					{ EnumPilotStatusInitials::ACU, 180LL },
+					{ EnumPilotStatusInitials::AVD, 180LL },
+					{ EnumPilotStatusInitials::RIT, 180LL },
+					{ EnumPilotStatusInitials::SPB, 60LL }
+				};
+				break;
+			/*
+			* 人間ハイラン: MEL+10, RNG-20, MGC-20, DEX=DEF, DEF+20, ACU+10, AVD-10, RIT+5, SPB+5
+			*/
+			case EnumSpecies::HumanHighlander:
+				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
+					{ EnumPilotStatusInitials::MEL, 150LL },
+					{ EnumPilotStatusInitials::RNG, 120LL },
+					{ EnumPilotStatusInitials::MGC, 120LL },
+					{ EnumPilotStatusInitials::DEX, 170LL },
+					{ EnumPilotStatusInitials::DEF, 150LL },
+					{ EnumPilotStatusInitials::ACU, 190LL },
+					{ EnumPilotStatusInitials::AVD, 170LL },
+					{ EnumPilotStatusInitials::RIT, 185LL },
+					{ EnumPilotStatusInitials::SPB, 65LL }
+				};
+				break;
+			/*
+			* 汎ヴァルミドラン: MEL+5, RNG-10, MGC+10, DEX+5, DEF-10, ACU+5, AVD+5, RIT-20, SPB+10
+			*/
+			case EnumSpecies::HumanValkyrieNormalMidlander:
+				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
+					{ EnumPilotStatusInitials::MEL, 145LL },
+					{ EnumPilotStatusInitials::RNG, 130LL },
+					{ EnumPilotStatusInitials::MGC, 150LL },
+					{ EnumPilotStatusInitials::DEX, 175LL },
+					{ EnumPilotStatusInitials::DEF, 120LL },
+					{ EnumPilotStatusInitials::ACU, 185LL },
+					{ EnumPilotStatusInitials::AVD, 185LL },
+					{ EnumPilotStatusInitials::RIT, 160LL },
+					{ EnumPilotStatusInitials::SPB, 70LL }
+				};
+				break;
+			/*
+			* 汎ヴァルハイラン: MEL+15, RNG-30, MGC-10, DEX+5, DEF+10, ACU+15, AVD-5, RIT-15, SPB+15
+			*/
+			case EnumSpecies::HumanValkyrieNormalHighlander:
+				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
+					{ EnumPilotStatusInitials::MEL, 155LL },
+					{ EnumPilotStatusInitials::RNG, 110LL },
+					{ EnumPilotStatusInitials::MGC, 130LL },
+					{ EnumPilotStatusInitials::DEX, 175LL },
+					{ EnumPilotStatusInitials::DEF, 140LL },
+					{ EnumPilotStatusInitials::ACU, 195LL },
+					{ EnumPilotStatusInitials::AVD, 175LL },
+					{ EnumPilotStatusInitials::RIT, 165LL },
+					{ EnumPilotStatusInitials::SPB, 75LL }
+				};
+				break;
+			/*
+			* 貴ヴァルモダンブランチ: MEL+5, RNG-20, MGC+10, DEX+5, DEF+10, ACU+5, AVD-15, RIT-15, SPB+15
+			*/
+			case EnumSpecies::HumanValkyrieNobleModern:
+				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
+					{ EnumPilotStatusInitials::MEL, 145LL },
+					{ EnumPilotStatusInitials::RNG, 120LL },
+					{ EnumPilotStatusInitials::MGC, 150LL },
+					{ EnumPilotStatusInitials::DEX, 175LL },
+					{ EnumPilotStatusInitials::DEF, 140LL },
+					{ EnumPilotStatusInitials::ACU, 195LL },
+					{ EnumPilotStatusInitials::AVD, 165LL },
+					{ EnumPilotStatusInitials::RIT, 165LL },
+					{ EnumPilotStatusInitials::SPB, 75LL }
+				};
+				break;
+			/*
+			* 貴ヴァルオールドブランチ: MEL-25, RNG+25, MGC+5, DEX-5, DEF-10, ACU+25, AVD-15, RIT-15, SPB+15
+			*/
+			case EnumSpecies::HumanValkyrieNobleAncient:
+				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
+					{ EnumPilotStatusInitials::MEL, 115LL },
+					{ EnumPilotStatusInitials::RNG, 165LL },
+					{ EnumPilotStatusInitials::MGC, 145LL },
+					{ EnumPilotStatusInitials::DEX, 165LL },
+					{ EnumPilotStatusInitials::DEF, 120LL },
+					{ EnumPilotStatusInitials::ACU, 205LL },
+					{ EnumPilotStatusInitials::AVD, 165LL },
+					{ EnumPilotStatusInitials::RIT, 165LL },
+					{ EnumPilotStatusInitials::SPB, 75LL }
+				};
+				break;
+			/*
+			* 汎エルフフォレスター: MEL-10, RNG+10, MGC+10, DEX+5, DEF-5, ACU=DEF, AVD-5, RIT-5, SPB=DEF
+			*/
+			case EnumSpecies::ElvesForester:
+				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
+					{ EnumPilotStatusInitials::MEL, 130LL },
+					{ EnumPilotStatusInitials::RNG, 150LL },
+					{ EnumPilotStatusInitials::MGC, 150LL },
+					{ EnumPilotStatusInitials::DEX, 175LL },
+					{ EnumPilotStatusInitials::DEF, 125LL },
+					{ EnumPilotStatusInitials::ACU, 180LL },
+					{ EnumPilotStatusInitials::AVD, 175LL },
+					{ EnumPilotStatusInitials::RIT, 175LL },
+					{ EnumPilotStatusInitials::SPB, 60LL }
+				};
+				break;
+			/*
+			* 汎エルフシェーダー: MEL-10, RNG=DEF, MGC+20, DEX+10, DEF-5, ACU=DEF, AVD-5, RIT-10, SPB=DEF
+			*/
+			case EnumSpecies::ElvesShader:
+				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
+					{ EnumPilotStatusInitials::MEL, 130LL },
+					{ EnumPilotStatusInitials::RNG, 140LL },
+					{ EnumPilotStatusInitials::MGC, 160LL },
+					{ EnumPilotStatusInitials::DEX, 180LL },
+					{ EnumPilotStatusInitials::DEF, 125LL },
+					{ EnumPilotStatusInitials::ACU, 180LL },
+					{ EnumPilotStatusInitials::AVD, 175LL },
+					{ EnumPilotStatusInitials::RIT, 170LL },
+					{ EnumPilotStatusInitials::SPB, 60LL }
+				};
+				break;
+			/*
+			* 貴エルフフォレスター: MEL-30, RNG-10, MGC+60, DEX+15, DEF-30, ACU=DEF, AVD-5, RIT+5, SPB-5
+			*/
+			case EnumSpecies::ElvesNobleForester:
+				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
+					{ EnumPilotStatusInitials::MEL, 110LL },
+					{ EnumPilotStatusInitials::RNG, 130LL },
+					{ EnumPilotStatusInitials::MGC, 200LL },
+					{ EnumPilotStatusInitials::DEX, 185LL },
+					{ EnumPilotStatusInitials::DEF, 100LL },
+					{ EnumPilotStatusInitials::ACU, 180LL },
+					{ EnumPilotStatusInitials::AVD, 175LL },
+					{ EnumPilotStatusInitials::RIT, 185LL },
+					{ EnumPilotStatusInitials::SPB, 55LL }
+				};
+				break;
+			/*
+			* 貴エルフフォレスター: MEL-30, RNG-20, MGC+75, DEX+30, DEF-50, ACU=DEF, AVD-5, RIT+10, SPB-10
+			*/
+			case EnumSpecies::ElvesNobleShader:
+				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
+					{ EnumPilotStatusInitials::MEL, 110LL },
+					{ EnumPilotStatusInitials::RNG, 120LL },
+					{ EnumPilotStatusInitials::MGC, 215LL },
+					{ EnumPilotStatusInitials::DEX, 200LL },
+					{ EnumPilotStatusInitials::DEF, 80LL },
+					{ EnumPilotStatusInitials::ACU, 180LL },
+					{ EnumPilotStatusInitials::AVD, 175LL },
+					{ EnumPilotStatusInitials::RIT, 190LL },
+					{ EnumPilotStatusInitials::SPB, 50LL }
+				};
+				break;
+			/*
+			* 霧エルフ: MEL-20, RNG+10, MGC+10, DEX+5, DEF=DEF, ACU-5, AVD-5, RIT-5, SPB+10
+			*/
+			case EnumSpecies::ElvesMist:
+				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
+					{ EnumPilotStatusInitials::MEL, 120LL },
+					{ EnumPilotStatusInitials::RNG, 150LL },
+					{ EnumPilotStatusInitials::MGC, 150LL },
+					{ EnumPilotStatusInitials::DEX, 175LL },
+					{ EnumPilotStatusInitials::DEF, 130LL },
+					{ EnumPilotStatusInitials::ACU, 175LL },
+					{ EnumPilotStatusInitials::AVD, 175LL },
+					{ EnumPilotStatusInitials::RIT, 175LL },
+					{ EnumPilotStatusInitials::SPB, 70LL }
+				};
+				break;
+			/*
+			* 雪エルフ: MEL-20, RNG=DEF, MGC+20, DEX+10, DEF=DEF, ACU-5, AVD-5, RIT-10, SPB+15
+			*/
+			case EnumSpecies::ElvesSnowed:
+				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
+					{ EnumPilotStatusInitials::MEL, 120LL },
+					{ EnumPilotStatusInitials::RNG, 140LL },
+					{ EnumPilotStatusInitials::MGC, 160LL },
+					{ EnumPilotStatusInitials::DEX, 180LL },
+					{ EnumPilotStatusInitials::DEF, 125LL },
+					{ EnumPilotStatusInitials::ACU, 175LL },
+					{ EnumPilotStatusInitials::AVD, 175LL },
+					{ EnumPilotStatusInitials::RIT, 170LL },
+					{ EnumPilotStatusInitials::SPB, 75LL }
+				};
+				break;
+			/*
+			* ドワーフ: MEL+10, RNG-10, MGC-10, DEX-5, DEF+25, ACU-5, AVD-5, RIT+10, SPB-5
+			*/
+			case EnumSpecies::DwarfFire:
+				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
+					{ EnumPilotStatusInitials::MEL, 150LL },
+					{ EnumPilotStatusInitials::RNG, 130LL },
+					{ EnumPilotStatusInitials::MGC, 130LL },
+					{ EnumPilotStatusInitials::DEX, 165LL },
+					{ EnumPilotStatusInitials::DEF, 155LL },
+					{ EnumPilotStatusInitials::ACU, 175LL },
+					{ EnumPilotStatusInitials::AVD, 170LL },
+					{ EnumPilotStatusInitials::RIT, 190LL },
+					{ EnumPilotStatusInitials::SPB, 55LL }
+				};
+				break;
+			/*
+			* ダークドワーフ: MEL+15, RNG-10, MGC-15, DEX-5, DEF+25, ACU-5, AVD-5, RIT+5, SPB=DEF
+			*/
+			case EnumSpecies::DwarfDark:
+				this->speciesBaselineStatus = map<EnumPilotStatusInitials, int64_t>{
+					{ EnumPilotStatusInitials::MEL, 155LL },
+					{ EnumPilotStatusInitials::RNG, 130LL },
+					{ EnumPilotStatusInitials::MGC, 125LL },
+					{ EnumPilotStatusInitials::DEX, 165LL },
+					{ EnumPilotStatusInitials::DEF, 155LL },
+					{ EnumPilotStatusInitials::ACU, 175LL },
+					{ EnumPilotStatusInitials::AVD, 170LL },
+					{ EnumPilotStatusInitials::RIT, 185LL },
+					{ EnumPilotStatusInitials::SPB, 60LL }
+				};
+				break;
+			//TODO: タビット～ルンフォ
+			/*
+			* タビット通常種: MEL-40, RNG-40, MGC+60, DEX-5, DEF+25, ACU-5, AVD-5, RIT+5, SPB=DEF
+			*/
+			/*
+			* タビットパイカ種: MEL-40, RNG-40, MGC+50, DEX-5, DEF+25, ACU-5, AVD-5, RIT+5, SPB=DEF
+			*/
+			/*
+			* タビットリバス種: MEL-40, RNG-40, MGC+40, DEX-5, DEF+25, ACU-5, AVD-5, RIT+5, SPB=DEF
+			*/
+			}
+		}
+
+		inline DataSpecies::DataSpecies(Json specJson) {
+			string broad = specJson["broad"].is_string() ? specJson["broad"].string_value() : "";
+			string middle = specJson["middle"].is_string() ? specJson["middle"].string_value() : "";
+			string tribe = specJson["tribe"].is_string() ? specJson["tribe"].string_value() : "";
+
+			/* -- 種族の大まかな分類の実行 -- */
+			{
+				/* -- SW2.x種族(一部追加あり) -- */
+				//人間／ヴァルキリー／ノーブルヴァルキリー
+				if (compareLineString(broad, "Human")) {
+					//人間
+					if (compareLineString(middle, "Normal") || middle.empty()) {
+						if (compareLineString(tribe, "Midlander")) this->speciesAbout = EnumSpecies::HumanMidlander;
+						else if (compareLineString(tribe, "Highlander")) this->speciesAbout = EnumSpecies::HumanHighlander;
+						else throw runtime_error("Tribes Selection Error");
+					}
+					//ヴァルキリー
+					else if (compareLineString(middle, "ValkyrieNormal")) {
+						if (compareLineString(tribe, "Midlander")) this->speciesAbout = EnumSpecies::HumanValkyrieNormalMidlander;
+						else if (compareLineString(tribe, "Highlander")) this->speciesAbout = EnumSpecies::HumanValkyrieNormalHighlander;
+						else throw runtime_error("Tribes Selection Error");
+					}
+					//ノーブルヴァルキリー
+					else if (compareLineString(middle, "ValkyrieNoble")) {
+						if (compareLineString(tribe, "Ancient")) this->speciesAbout = EnumSpecies::HumanValkyrieNobleAncient;
+						else if (compareLineString(tribe, "Modern") || compareLineString(tribe, "Current")) this->speciesAbout = EnumSpecies::HumanValkyrieNobleModern;
+						else throw runtime_error("Tribes Selection Error");
+					}
+				}
+				//エルフ／ノーブルエルフ
+				else if (compareLineString(broad, "Elves")) {
+					//エルフ
+					if (compareLineString(middle, "Normal") || middle.empty()) {
+						if (compareLineString(tribe, "Forester")) this->speciesAbout = EnumSpecies::ElvesForester;
+						else if (compareLineString(tribe, "Shader")) this->speciesAbout = EnumSpecies::ElvesShader;
+						else throw runtime_error("Tribes Selection Error");
+					}
+					//スノウエルフ
+					else if (compareLineString(middle, "Snowed")) this->speciesAbout = EnumSpecies::ElvesSnowed;
+					//ミストエルフ
+					else if (compareLineString(middle, "Mist")) this->speciesAbout = EnumSpecies::ElvesMist;
+					//ノーブルエルフ
+					else if (compareLineString(middle, "Noble")) {
+						if (compareLineString(tribe, "Forester")) this->speciesAbout = EnumSpecies::ElvesNobleForester;
+						else if (compareLineString(tribe, "Shader")) this->speciesAbout = EnumSpecies::ElvesNobleShader;
+						else throw runtime_error("Tribes Selection Error");
+					}
+				}
+				//ドワーフ／ダークドワーフ
+				else if (compareLineString(broad, "Dwarf")) {
+					if (compareLineString(middle, "Fire") || middle.empty()) this->speciesAbout = EnumSpecies::DwarfFire;
+					else if (compareLineString(middle, "Dark")) this->speciesAbout = EnumSpecies::DwarfDark;
+				}
+				//タビット
+				else if (compareLineString(broad, "Tabbit")) {
+					if (compareLineString(middle, "Normal") || middle.empty()) this->speciesAbout = EnumSpecies::TabbitNormal;
+					else if (compareLineString(middle, "Pica")) this->speciesAbout = EnumSpecies::TabbitPica;
+					else if (compareLineString(middle, "Rivash")) this->speciesAbout = EnumSpecies::TabbitRivash;
+				}
+				//ルーンフォーク／魔動天使
+				else if (compareLineString(broad, "Runefolk")) {
+					if (compareLineString(middle, "Normal") ||
+							compareLineString(middle, "Common") ||
+							middle.empty()) this->speciesAbout = EnumSpecies::RunefolkCommon;
+					else if (compareLineString(middle, "MagitechAngel")) this->speciesAbout = EnumSpecies::RunefolkMagitechAngel;
+					else if (compareLineString(middle, "Defender")) this->speciesAbout = EnumSpecies::RunefolkDefender;
+					else if (compareLineString(middle, "Attacker")) this->speciesAbout = EnumSpecies::RunefolkAttacker;
+				}
+				//ナイトメア
+				else if (compareLineString(broad, "Nightmare")) {
+					if (compareLineString(middle, "Human")) this->speciesAbout = EnumSpecies::NightmareHuman;
+					else if (compareLineString(middle, "Elves")) this->speciesAbout = EnumSpecies::NightmareElves;
+					else if (compareLineString(middle, "Dwarf")) this->speciesAbout = EnumSpecies::NightmareDwarf;
+					else if (compareLineString(middle, "Lilidracken")) this->speciesAbout = EnumSpecies::NightmareLilidracken;
+					else if (compareLineString(middle, "Sunbreaker")) this->speciesAbout = EnumSpecies::NightmareSunbreaker;
+					else if (compareLineString(middle, "Shadow")) this->speciesAbout = EnumSpecies::NightmareShadow;
+					else throw runtime_error("Sub-Category Selection Error");
+				}
+				//リカント
+				else if (compareLineString(broad, "Lycan")) {
+					if (compareLineString(middle, "Normal") || middle.empty()) this->speciesAbout = EnumSpecies::LycanNormal;
+					else if (compareLineString(middle, "LargerHerbivore")) this->speciesAbout = EnumSpecies::LycanLargerHerbivore;
+					else if (compareLineString(middle, "SmallerHerbivore")) this->speciesAbout = EnumSpecies::LycanSmallerHerbivore;
+				}
+				//リルドラケン
+				else if (compareLineString(broad, "Lilidracken")) {
+					if (compareLineString(middle, "Normal") || middle.empty()) this->speciesAbout = EnumSpecies::LilidrackenNormal;
+					else if (compareLineString(middle, "Smallwing")) this->speciesAbout = EnumSpecies::LilidrackenSmallwing;
+					else if (compareLineString(middle, "Hairy")) this->speciesAbout = EnumSpecies::LilidrackenHairy;
+				}
+				//グラスランナー
+				else if (compareLineString(broad, "Grassrunner")) {
+					if (compareLineString(middle, "Normal") || middle.empty()) this->speciesAbout = EnumSpecies::GrassrunnerNormal;
+					else if (compareLineString(middle, "Alisha")) this->speciesAbout = EnumSpecies::GrassrunnerAlisha;
+					else if (compareLineString(middle, "Climenos")) this->speciesAbout = EnumSpecies::GrassrunnerClimenos;
+				}
+				//メリア
+				else if (compareLineString(broad, "Meria")) {
+					if (compareLineString(middle, "Normal") || middle.empty()) this->speciesAbout = EnumSpecies::MeriaNormal;
+					else if (compareLineString(middle, "Cannibalistic")) this->speciesAbout = EnumSpecies::MeriaCannibalistic;
+					else if (compareLineString(middle, "Fungy")) this->speciesAbout = EnumSpecies::MeriaFungy;
+				}
+				//ティエンス
+				else if (compareLineString(broad, "Tience")) {
+					if (compareLineString(middle, "Normal") || middle.empty()) this->speciesAbout = EnumSpecies::TienceNormal;
+					else if (compareLineString(middle, "TechEasy")) this->speciesAbout = EnumSpecies::TienceTechEasy;
+					else if (compareLineString(middle, "DemonEasy")) this->speciesAbout = EnumSpecies::TienceDemonEasy;
+				}
+				//レプラカーン
+				else if (compareLineString(broad, "Leprechaun")) {
+					if (compareLineString(middle, "Normal") || middle.empty()) this->speciesAbout = EnumSpecies::LeprechaunNormal;
+					else if (compareLineString(middle, "Vagrant")) this->speciesAbout = EnumSpecies::LeprechaunVagrant;
+					else if (compareLineString(middle, "Search")) this->speciesAbout = EnumSpecies::LeprechaunSearch;
+				}
+				//アルヴ
+				else if (compareLineString(broad, "Arve")) this->speciesAbout = EnumSpecies::Arve;
+				//シャドウ
+				else if (compareLineString(broad, "Shadow")) this->speciesAbout = EnumSpecies::Shadow;
+				//ソレイユ
+				else if (compareLineString(broad, "Sunbreaker")) this->speciesAbout = EnumSpecies::Sunbreaker;
+				//スプリガン
+				else if (compareLineString(broad, "Spriggan")) this->speciesAbout = EnumSpecies::Spriggan;
+				//アビスボーン
+				else if (compareLineString(broad, "Abyssborne")) this->speciesAbout = EnumSpecies::Abyssborne;
+				//ハイマン
+				else if (compareLineString(broad, "LittleHighHuman")) {
+					if (compareLineString(tribe, "Midlander")) this->speciesAbout = EnumSpecies::LittleHighHumanMidlander;
+					else if (compareLineString(tribe, "Highlander")) this->speciesAbout = EnumSpecies::LittleHighHumanHighlander;
+				}
+				//フロウライト
+				else if (compareLineString(broad, "Fluorite")) this->speciesAbout = EnumSpecies::Fluorite;
+				/* -- FF14種族(一部のみ) -- */
+				//ララフェル
+				else if (compareLineString(broad, "Lalafell")) {
+					if (compareLineString(tribe, "Plainsfolk")) this->speciesAbout = EnumSpecies::LalafellPlainsfolk;
+					else if (compareLineString(tribe, "Dunefolk")) this->speciesAbout = EnumSpecies::LalafellDunesfolk;
+					else throw runtime_error("Tribes Selection Error");
+				}
+				//ルガディン
+				else if (compareLineString(broad, "Roegadyn")) {
+					if (compareLineString(tribe, "Lohengarde")) this->speciesAbout = EnumSpecies::RoegadynLohengarde;
+					else if (compareLineString(tribe, "Seewolf")) this->speciesAbout = EnumSpecies::RoegadynSeewolf;
+					else throw runtime_error("Tribes Selection Error");
+				}
+				//アウラ
+				else if (compareLineString(broad, "AuRa")) {
+					if (compareLineString(tribe, "Raen")) this->speciesAbout = EnumSpecies::AuRaRaen;
+					else if (compareLineString(tribe, "Xaela")) this->speciesAbout = EnumSpecies::AuRaXaela;
+					else throw runtime_error("Tribes Selection Error");
+				}
+				//ヴィエラ
+				else if (compareLineString(broad, "Viera")) {
+					if (compareLineString(tribe, "Rava")) this->speciesAbout = EnumSpecies::RavaViera;
+					else if (compareLineString(tribe, "Veena")) this->speciesAbout = EnumSpecies::VeenaViera;
+					else throw runtime_error("Tribes Selection Error");
+				}
+				//ロスガル
+				else if (compareLineString(broad, "Hrothgar")) {
+					if (compareLineString(tribe, "Helions")) this->speciesAbout = EnumSpecies::HrothgarHelions;
+					else if (compareLineString(tribe, "TheLost")) this->speciesAbout = EnumSpecies::HrothgarTheLost;
+					else throw runtime_error("Tribes Selection Error");
+				}
+				/* -- 新造 -- */
+				//ドラゴノイド
+				else if (compareLineString(broad, "Dragonoid")) {
+					if (compareLineString(middle, "Midir")) this->speciesAbout = EnumSpecies::DragonoidMidir;
+					else if (compareLineString(middle, "Midgardsormr")) this->speciesAbout = EnumSpecies::DragonoidMidgardsormr;
+				}
+				//星の記録者ほか、小分類ができない種族たち
+				else if (compareLineString(broad, "Starlogger")) this->speciesAbout = EnumSpecies::Starlogger;
+				else if (compareLineString(broad, "Barbaroses")) this->speciesAbout = EnumSpecies::Barbaroses;
+				else if (compareLineString(broad, "NatureBeasts")) this->speciesAbout = EnumSpecies::NatureBeasts;
+				else if (compareLineString(broad, "SoulAlignedPlants")) this->speciesAbout = EnumSpecies::SoulAlignedPlants;
+				else if (compareLineString(broad, "Undeads")) this->speciesAbout = EnumSpecies::Undeads;
+				else if (compareLineString(broad, "MagicalEntities")) this->speciesAbout = EnumSpecies::MagicalEntities;
+				else if (compareLineString(broad, "MagitechMachines")) this->speciesAbout = EnumSpecies::MagitechMachines;
+				else if (compareLineString(broad, "MysticBeasts")) this->speciesAbout = EnumSpecies::MysticBeasts;
+				else if (compareLineString(broad, "Fae")) this->speciesAbout = EnumSpecies::Fae;
+				else if (compareLineString(broad, "BorneFromTheAbyssos")) this->speciesAbout = EnumSpecies::BorneFromTheAbyssos;
+				else if (compareLineString(broad, "MereMortal")) this->speciesAbout = EnumSpecies::MereMortal;
+				else if (compareLineString(broad, "MereDemigod")) this->speciesAbout = EnumSpecies::MereDemigod;
+				else if (compareLineString(broad, "Primals")) this->speciesAbout = EnumSpecies::Primals;
+				else if (compareLineString(broad, "NearestTruth")) this->speciesAbout = EnumSpecies::NearestTruth;
+				else if (broad.empty()) throw runtime_error("Species is Need Select");
+				else this->speciesAbout = EnumSpecies::Other;
+			}
+
+			/* ステータスの決定 */
+			this->setBaselineStatus();
+		}
 		/* -- End class: DataSpecies -- */
 
 		/// <summary>
@@ -685,13 +1135,14 @@ namespace TREx {
 			string pilotNickname;
 			string pilotReadname;
 			string pilotCodename;
-			DataSpecies pilotSpecies;
+			DataSpecies* pilotSpecies;
+			EnumGender pilotGender;
 			map<EnumPilotStatusInitials, int64_t> pilotDataStatus;
 		public:
 			DataPilot(Json jsonDat);
 		};
 
-		DataPilot::DataPilot(Json jsonDat) {
+		inline DataPilot::DataPilot(Json jsonDat) {
 		}
 		/* -- End class: DataPilot -- */
 
@@ -704,6 +1155,22 @@ namespace TREx {
 			/// データ元のパイロットデータ。
 			/// </summary>
 			DataPilot basedPilot;
+			/// <summary>
+			/// ローカライザーによって翻訳されたパイロットのフルネーム
+			/// </summary>
+			string localizedPilotFullname;
+			/// <summary>
+			/// ローカライザーによって翻訳されたパイロットの愛称
+			/// </summary>
+			string localizedPilotNickname;
+			/// <summary>
+			/// ローカライザーによって翻訳されたパイロットの読み仮名
+			/// </summary>
+			string localizedPilotReadname;
+			/// <summary>
+			/// ローカライザーによって翻訳されたパイロットのコードネーム
+			/// </summary>
+			string localizedPilotCodename;
 			/// <summary>
 			/// パイロットのレベル
 			/// </summary>

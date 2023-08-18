@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <exception>
 #include <string>
 #include <locale>
 #include <codecvt>
@@ -54,12 +55,11 @@ using namespace boost::optional_ns;
 using namespace json11;
 
 namespace TREx {
-	namespace Utils {
-		class JSONParser;
-	}
 }
 
 using namespace TREx;
 
 template <typename Of, typename What>
 inline bool instanceof(const What w) { return dynamic_cast<const Of*>(w) != 0; }
+
+inline bool compareLineString(string target, string compare) { return target.compare(compare) == 0; }

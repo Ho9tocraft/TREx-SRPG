@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <exception>
 #include <string>
 #include <locale>
 #include <codecvt>
@@ -57,6 +58,7 @@ namespace TREx {
 	namespace Loaders {
 		class LanguageHandler;
 		class ImageHandler;
+		class SettingHandler;
 
 		/// <summary>
 		/// 言語分類(ローカライズ)の読み込み用クラスです。
@@ -72,6 +74,11 @@ namespace TREx {
 		/// 画像(イメージ)の読み込み用クラスです。
 		/// </summary>
 		class ImageHandler {
+		protected:
+		public:
+		};
+
+		class SettingHandler {
 		protected:
 		public:
 		};
