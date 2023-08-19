@@ -650,6 +650,7 @@ namespace TREx {
 			/// <summary>
 			/// <para>穢れの値です。大まかな目安は以下の通りです。</para>
 			/// <para>人族: 0～1</para>
+			/// <para>FF14種族: 1～2</para>
 			/// <para>蛮族: 1以上5未満</para>
 			/// <para>アンデッド: 5</para>
 			/// <para>星の記録者: -1</para>
@@ -701,6 +702,7 @@ namespace TREx {
 			* 穢れ0の場合に、合計値が1320になるように割り振る。
 			* 穢れ持ちは基本合計値に+（穢れ×90、各ステ+穢れx10）。
 			* 戦闘用ルーンフォークは穢れ+2相当、アルヴは穢れ-2相当。
+			* FF14種族はハイデリンキックのせいで穢れ+1、特にアウラは+2として勘定。
 			* 星の記録者は穢れが-1になる。
 			*/
 			//基本的なステータスの値はこの通りになる。
@@ -1491,16 +1493,94 @@ namespace TREx {
 					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 20LL;
 				}
 				break;
+			/*
+			* ララフェルプレーンフォーク: MEL-40, RNG+30, MGC+20, DEX+20, DEF-20, ACU=DEF, AVD+10, RIT-20, SPB=DEF
+			*/
+			case EnumSpecies::LalafellPlainsfolk:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] +=  0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] +=  0LL;
+				}
+				break;
+			/*
+			* ララフェルデューンフォーク: MEL-40, RNG+10, MGC+20, DEX=DEF, DEF-20, ACU+20, AVD+10, RIT-20, SPB+20
+			*/
+			case EnumSpecies::LalafellDunesfolk:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] +=  0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 20LL;
+				}
+				break;
+			/*
+			* ミコッテサンシーカー: MEL+40, RNG-20, MGC-15, DEX+40, DEF-10, ACU-15, AVD-30, RIT-10, SPB+20
+			*/
+			case EnumSpecies::MiqoteSunseeker:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 20LL;
+				}
+				break;
+			/*
+			* ミコッテムーンキーパー: MEL-15, RNG-20, MGC+40, DEX+40, DEF-10, ACU-30, AVD-15, RIT-10, SPB+20
+			*/
+			case EnumSpecies::MiqoteMoonkeeper:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -= 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 20LL;
+				}
+				break;
 			}
 
 			for (auto iter = begin(this->speciesBaselineStatus); iter != end(this->speciesBaselineStatus); iter++) {
 				const auto& target = *iter;
+				//アルヴは実数値+1に対して穢れ-2相当とする
 				if (this->speciesAbout == EnumSpecies::Arve) {
 					this->speciesBaselineStatus[target.first] -= 20LL;
 					continue;
 				}
 				this->speciesBaselineStatus[target.first] += this->speciesDisgrace * 10LL;
+				//戦闘型ルンフォは穢れ+2相当とする
 				if (this->speciesAbout == EnumSpecies::RunefolkAttacker) this->speciesBaselineStatus[target.first] += 20LL;
+				//FF14種族は穢れ+1～2（アウラ）相当とする
+				if (this->speciesAbout == EnumSpecies::LalafellPlainsfolk || this->speciesAbout == EnumSpecies::LalafellDunesfolk ||
+						this->speciesAbout == EnumSpecies::MiqoteSunseeker || this->speciesAbout == EnumSpecies::MiqoteMoonkeeper ||
+						this->speciesAbout == EnumSpecies::RoegadynLohengarde || this->speciesAbout == EnumSpecies::RoegadynSeewolf ||
+						this->speciesAbout == EnumSpecies::AuRaRaen || this->speciesAbout == EnumSpecies::AuRaXaela ||
+						this->speciesAbout == EnumSpecies::HrothgarHelions || this->speciesAbout == EnumSpecies::HrothgarTheLost ||
+						this->speciesAbout == EnumSpecies::RavaViera || this->speciesAbout == EnumSpecies::VeenaViera) {
+					this->speciesBaselineStatus[target.first] += 10LL;
+					if (this->speciesAbout == EnumSpecies::AuRaRaen || this->speciesAbout == EnumSpecies::AuRaXaela) {
+						this->speciesBaselineStatus[target.first] += 10LL;
+					}
+				}
 			}
 		}
 
@@ -1652,6 +1732,12 @@ namespace TREx {
 				else if (compareLineString(broad, "Lalafell")) {
 					if (compareLineString(tribe, "Plainsfolk")) this->speciesAbout = EnumSpecies::LalafellPlainsfolk;
 					else if (compareLineString(tribe, "Dunefolk")) this->speciesAbout = EnumSpecies::LalafellDunesfolk;
+					else throw runtime_error("Tribes Selection Error");
+				}
+				//ミコッテ
+				else if (compareLineString(broad, "Miqote")) {
+					if (compareLineString(tribe, "Sunseeker")) this->speciesAbout = EnumSpecies::MiqoteSunseeker;
+					else if (compareLineString(tribe, "Moonkeeper")) this->speciesAbout = EnumSpecies::MiqoteMoonkeeper;
 					else throw runtime_error("Tribes Selection Error");
 				}
 				//ルガディン
