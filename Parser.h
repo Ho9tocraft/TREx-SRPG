@@ -57,7 +57,7 @@ using namespace json11;
 
 namespace TREx {
 	namespace Utils {
-		enum class EnumMagicalElement;
+		enum class EnumMagicalElement : uint64_t;
 		class JSONParser;
 
 		/* -- begin class: JSONParser -- */

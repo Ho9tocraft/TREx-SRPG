@@ -230,7 +230,7 @@ language-pack:
                     name: 奇跡
                     desc:
                     - 1度に「加速」「必中」「ひらめき」「魂」「気迫」「努力」「幸運」「狙撃」「突撃」「直撃」「鉄壁」「信念」「集中」が同時にかかり、行動回数を1回増やす。
-            # Specific Skills Data
+            #Specific Skills Data
             specific-skills-data:
                 id-00000000:
                     name: アタッカー
@@ -409,12 +409,43 @@ language-pack:
                     desc:
                     - 個別コマンド「治癒」使用時に、HP回復量が5％増加。
                 id-0000002c:
+                    name: 運命変転
+                    desc:
+                    - 毎ターン開始時、「集中」がかかり、更に低確率で「必中」と「ひらめき」がかかる。
                 id-0000002d:
                 id-0000002e:
                 id-0000002f:
                 id-00000030:
                 id-00000031:
                 id-00000032:
+                id-00000033:
+                id-00000034:
+                id-00000035:
+                id-00000036:
+                id-00000037:
+                id-00000038:
+                id-00000039:
+                id-0000003a:
+                id-0000003b:
+                id-0000003c:
+                id-0000003d:
+                id-0000003e:
+                id-0000003f:
+            #Elements Data
+            elements-data:
+                light: 光
+                water: 水
+                ice: 氷
+                earth: 土
+                dark: 闇
+                wind: 風
+                lightning: 雷
+                fire: 炎
+                toxic: 毒
+                plague: 病気
+                mind: 精神効果
+                curse: 呪い
+                blackflame: 黒炎
         #User Interface
         user-interface:
             common-index-name:

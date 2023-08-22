@@ -56,6 +56,10 @@ using namespace boost::optional_ns;
 using namespace json11;
 
 namespace TREx {
+	namespace Utils {
+		enum class EnumMagicalElement : uint64_t;
+		class JSONParser;
+	}
 	namespace Units {
 		class DataUnit;
 		class GameUnit;

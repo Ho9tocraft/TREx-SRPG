@@ -56,6 +56,10 @@ using namespace boost::optional_ns;
 using namespace json11;
 
 namespace TREx {
+	namespace Utils {
+		enum class EnumMagicalElement : uint64_t;
+		class JSONParser;
+	}
 	namespace Pilots {
 		enum class EnumGender : uint64_t;
 		enum class EnumSpecies : uint64_t;
@@ -65,6 +69,7 @@ namespace TREx {
 		class DataSpecies;
 		class SpecificSkill;
 		class ActiveConditionSS;
+		class DataSpiritualEffect;
 		class DataPilot;
 		class GamePilot;
 
@@ -680,7 +685,7 @@ namespace TREx {
 			/// </summary>
 			SpeciesWhistle,
 			/// <summary>
-			/// 種族特徴:HP変換[汎ルンフォ]
+			/// 種族特徴:HP変換[ルンフォ]
 			/// </summary>
 			SpeciesHPConvert,
 			/// <summary>
@@ -692,13 +697,41 @@ namespace TREx {
 			/// </summary>
 			SpeciesWillToDuty,
 			/// <summary>
-			/// 種族特徴:異貌
+			/// 種族特徴:異貌[ナイトメア]
 			/// </summary>
 			SpeciesAnotherForm,
 			/// <summary>
-			/// 種族特徴:弱点
+			/// 種族特徴:弱点[ナイトメア]
 			/// </summary>
-			SpeciesWeakPoint
+			SpeciesWeakPoint,
+			/// <summary>
+			/// 種族特徴:獣変貌[リカント]
+			/// </summary>
+			SpeciesBeastForm,
+			/// <summary>
+			/// 種族特徴:獣変貌（大型草食獣）[大型草食種リカント]
+			/// </summary>
+			SpeciesLargerHerbivoreBeastForm,
+			/// <summary>
+			/// 種族特徴:獣変貌（小型草食獣）[小型草食種リカント]
+			/// </summary>
+			SpeciesSmallerHerbivoreBeastForm,
+			/// <summary>
+			/// 種族特徴:鱗の皮膚[リルドラケン]
+			/// </summary>
+			SpeciesScaleSkin,
+			/// <summary>
+			/// 種族特徴:風の翼
+			/// </summary>
+			SpeciesWindWing,
+			/// <summary>
+			/// 種族特徴:竜の咆哮
+			/// </summary>
+			SpeciesWyrmRoar,
+			/// <summary>
+			/// 種族特徴:暖かき風
+			/// </summary>
+			SpeciesFriendlyWind,
 		};
 
 		/// <summary>
