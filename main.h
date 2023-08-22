@@ -38,9 +38,10 @@
 #include "all_loaders.h"
 #include "ResourceLoader.h"
 #include "strconv2.h"
-#include "Units.h"
 #include "Pilots.h"
 #include "Parser.h"
+#include "Units.h"
+#include "UtilGameContents.h"
 #include "json11.hpp"
 
 using namespace std;

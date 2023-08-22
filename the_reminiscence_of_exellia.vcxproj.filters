@@ -50,9 +50,6 @@
     <ClInclude Include="all_loaders.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Pilots.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="strconv2.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -61,6 +58,12 @@
     </ClInclude>
     <ClInclude Include="json11.hpp">
       <Filter>ヘッダー ファイル\データ パーシング クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="Pilots.h">
+      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="UtilGameContents.h">
+      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

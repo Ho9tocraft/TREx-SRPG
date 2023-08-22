@@ -41,6 +41,7 @@
 #include "main.h"
 #include "Pilots.h"
 #include "Units.h"
+#include "UtilGameContents.h"
 #include "json11.hpp"
 
 using namespace std;

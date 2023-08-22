@@ -169,6 +169,7 @@
     <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="strconv2.h" />
     <ClInclude Include="Units.h" />
+    <ClInclude Include="UtilGameContents.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

@@ -1,4 +1,5 @@
 ﻿#pragma once
+#pragma once
 #include <exception>
 #include <string>
 #include <locale>
@@ -36,47 +37,11 @@
 #include <DxLib.h>
 
 #include "all_loaders.h"
-#include "ResourceLoader.h"
 #include "strconv2.h"
+#include "ResourceLoader.h"
 #include "main.h"
-#include "Parser.h"
 #include "Pilots.h"
-#include "UtilGameContents.h"
+#include "Parser.h"
+#include "Units.h"
 #include "json11.hpp"
-
-using namespace std;
-/* BOOST C++ LIBRARIES */
-using namespace boost::property_tree;
-using namespace boost::property_tree::json_parser;
-using namespace boost::foreach;
-using namespace boost::optional_config;
-using namespace boost::optional_detail;
-using namespace boost::optional_ns;
-/* DROPBOX/JSON11 LIBRARIES */
-using namespace json11;
-
-namespace TREx {
-	namespace Units {
-		class DataUnit;
-		class GameUnit;
-
-		/// <summary>
-		/// Unitのデータクラスになります。
-		/// </summary>
-		class DataUnit {
-		protected:
-		public:
-		};
-
-		/// <summary>
-		/// ゲーム内処理用のUnitクラス
-		/// </summary>
-		class GameUnit {
-		protected:
-		public:
-		};
-	}
-}
-
-using namespace TREx;
 

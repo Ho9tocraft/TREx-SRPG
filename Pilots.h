@@ -39,8 +39,9 @@
 #include "ResourceLoader.h"
 #include "strconv2.h"
 #include "main.h"
-#include "Units.h"
 #include "Parser.h"
+#include "Units.h"
+#include "UtilGameContents.h"
 #include "json11.hpp"
 
 using namespace std;
@@ -483,6 +484,10 @@ namespace TREx {
 			/// </summary>
 			GunFight,
 			/// <summary>
+			/// 特殊技能:メイジファイト
+			/// </summary>
+			MageFight,
+			/// <summary>
 			/// 特殊技能:強運
 			/// </summary>
 			HigherResult,
@@ -591,6 +596,10 @@ namespace TREx {
 			/// </summary>
 			IncreaseSpiritWhenSuccessAttack,
 			/// <summary>
+			/// 特殊技能:気力+(ALL)
+			/// </summary>
+			IncreaseSpiritWhenAllConditions,
+			/// <summary>
 			/// 特殊技能:戦意高揚
 			/// </summary>
 			IncreaseWill,
@@ -603,7 +612,7 @@ namespace TREx {
 			/// </summary>
 			KeepConcentration,
 			/// <summary>
-			/// 特殊技能:治癒(SRWにおける「修理技能」に相当)
+			/// 特殊技能:治癒技能(SRWにおける「修理技能」に相当)
 			/// </summary>
 			Healing,
 			/// <summary>
@@ -630,6 +639,66 @@ namespace TREx {
 			/// 特殊技能:デュナミスの高揚(特殊技能)
 			/// </summary>
 			QuickeningDynamis,
+			/// <summary>
+			/// 特殊技能:タンクマスタリー
+			/// </summary>
+			TankMastery,
+			/// <summary>
+			/// 特殊技能:ヒーラーマスタリー
+			/// </summary>
+			HealerMastery,
+			/// <summary>
+			/// 種族特徴:運命変転[人間]
+			/// </summary>
+			SpeciesTwistOfFate,
+			/// <summary>
+			/// 種族特徴:暗視[汎用]
+			/// </summary>
+			SpeciesNightVision,
+			/// <summary>
+			/// 種族特徴:優しき水[汎エルフ]
+			/// </summary>
+			SpeciesGentleWater,
+			/// <summary>
+			/// 種族特徴:厳つき氷[雪エルフ]
+			/// </summary>
+			SpeciesSeverityIce,
+			/// <summary>
+			/// 種族特徴:惑いの霧[霧エルフ]
+			/// </summary>
+			SpeciesMistOfConfusion,
+			/// <summary>
+			/// 種族特徴:炎身[ドワーフ]
+			/// </summary>
+			SpeciesBlazingBody,
+			/// <summary>
+			/// 種族特徴:第六感[タビット]
+			/// </summary>
+			SpeciesSixthSence,
+			/// <summary>
+			/// 種族特徴:ホイッスル[パイカタビット]
+			/// </summary>
+			SpeciesWhistle,
+			/// <summary>
+			/// 種族特徴:HP変換[汎ルンフォ]
+			/// </summary>
+			SpeciesHPConvert,
+			/// <summary>
+			/// 種族特徴:仲間との絆[護衛ルンフォ]
+			/// </summary>
+			SpeciesPowerOfFerrows,
+			/// <summary>
+			/// 種族特徴:任務遂行の意志[戦闘ルンフォ]
+			/// </summary>
+			SpeciesWillToDuty,
+			/// <summary>
+			/// 種族特徴:異貌
+			/// </summary>
+			SpeciesAnotherForm,
+			/// <summary>
+			/// 種族特徴:弱点
+			/// </summary>
+			SpeciesWeakPoint
 		};
 
 		/// <summary>
@@ -718,6 +787,7 @@ namespace TREx {
 				{ EnumPilotStatusInitials::RIT, 180LL },
 				{ EnumPilotStatusInitials::SPB, 60LL }
 			};
+
 			switch (this->speciesAbout) {
 			/*
 			* 人間ミドラン: ベース値。つまり「ニューター」。
@@ -1370,6 +1440,7 @@ namespace TREx {
 			*/
 			case EnumSpecies::Arve:
 				{
+					this->speciesDisgrace = 1LL;
 					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 10LL;
 					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 10LL;
 					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 30LL;
@@ -1557,6 +1628,394 @@ namespace TREx {
 					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 20LL;
 				}
 				break;
+			/*
+			* ルガディンローエンガルデ: MEL+15, RNG-10, MGC-10, DEX+15, DEF+25, ACU-15, AVD-15, RIT+25, SPB-30
+			*/
+			case EnumSpecies::RoegadynLohengarde:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 30LL;
+				}
+				break;
+			/*
+			* ルガディンゼーヴォルフ: MEL+25, RNG-10, MGC-10, DEX-5, DEF+25, ACU-5, AVD-15, RIT+25, SPB-30
+			*/
+			case EnumSpecies::RoegadynSeewolf:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 30LL;
+				}
+				break;
+			/*
+			* アウラ・レン: MEL+5, RNG+5, MGC+5, DEX+5, DEF-15, ACU+10, AVD+10, RIT-35, SPB+10
+			*/
+			case EnumSpecies::AuRaRaen:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 35LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 10LL;
+				}
+				break;
+			/*
+			* アウラ・ゼラ: MEL+20, RNG+5, MGC+5, DEX-25, DEF-15, ACU+10, AVD+10, RIT-20, SPB+10
+			*/
+			case EnumSpecies::AuRaXaela:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -= 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 10LL;
+				}
+				break;
+			/*
+			* ラヴァ・ヴィエラ: MEL-15, RNG+30, MGC+15, DEX+30, DEF-30, ACU+15, AVD-15, RIT-20, SPB-10
+			*/
+			case EnumSpecies::RavaViera:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 10LL;
+				}
+				break;
+			/*
+			* ヴィナ・ヴィエラ: MEL-15, RNG+20, MGC+40, DEX+15, DEF-20, ACU-5, AVD-15, RIT-10, SPB-20
+			*/
+			case EnumSpecies::VeenaViera:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 20LL;
+				}
+				break;
+			/*
+			* ロスガル（ヘリオン／ロスト）: MEL+60, RNG+30, MGC-45, DEX-60, DEF+60, ACU-30, AVD-15, RIT+10, SPB-10
+			*/
+			case EnumSpecies::HrothgarHelions:
+			case EnumSpecies::HrothgarTheLost:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 0LL;
+				}
+				break;
+			/*
+			* ミディール・ドラゴノイド: MEL+30, RNG+30, MGC+15, DEX-30, DEF-15, ACU-15, AVD-10, RIT-35, SPB+30
+			*/
+			case EnumSpecies::DragonoidMidir:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -= 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 35LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 0LL;
+				}
+				break;
+			/*
+			* ミドガルズオルム・ドラゴノイド: MEL+30, RNG+15, MGC+30, DEX+15, DEF-60, ACU-15, AVD-10, RIT-35, SPB+30
+			*/
+			case EnumSpecies::DragonoidMidgardsormr:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 60LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 35LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 30LL;
+				}
+				break;
+			/*
+			* 星の記録者: MEL-25, RNG-25, MGC-10, DEX+50, DEF+30, ACU-20, AVD-20, RIT-20, SPB+40
+			*/
+			case EnumSpecies::Starlogger:
+				{
+					this->speciesDisgrace = -1LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 25LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 50LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 40LL;
+				}
+				break;
+			/*
+			* 蛮族（敵）
+			*/
+			case EnumSpecies::Barbaroses:
+				{
+					this->speciesDisgrace = 2LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -= 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 10LL;
+				}
+				break;
+			/*
+			* 動物（敵）
+			*/
+			case EnumSpecies::NatureBeasts:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 90LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 30LL;
+				}
+				break;
+			/*
+			* 植物（敵）
+			*/
+			case EnumSpecies::SoulAlignedPlants:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] -= 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 20LL;
+				}
+				break;
+			/*
+			* アンデッド（敵）: 基本的なステータスは人間ミッドランダーと相違ない
+			*/
+			case EnumSpecies::Undeads:
+				{
+					this->speciesDisgrace = 5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 0LL;
+				}
+				break;
+			/*
+			* 魔法生物（敵）
+			*/
+			case EnumSpecies::MagicalEntities:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 60LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -= 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 45LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 45LL;
+				}
+				break;
+			/*
+			* 魔動機（敵）
+			*/
+			case EnumSpecies::MagitechMachines:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -= 10LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] +=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -=  5LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -=  5LL;
+				}
+				break;
+			/*
+			* 幻獣（敵）
+			*/
+			case EnumSpecies::MysticBeasts:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -= 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] -= 15LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] -= 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -=  5LL;
+				}
+				break;
+			/*
+			* 妖精（敵）: 変化なし
+			*/
+			case EnumSpecies::Fae:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 0LL;
+				}
+				break;
+			/*
+			* 魔神（敵）: 全面的プラス補正
+			*/
+			case EnumSpecies::BorneFromTheAbyssos:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -= 60LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 60LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 30LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 60LL;
+				}
+				break;
+			/*
+			* 人族（敵）: 基本的にはPCの「人間ミッドランダー」と同じ
+			*/
+			case EnumSpecies::MereMortal:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] += 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 0LL;
+				}
+				break;
+			/*
+			* 神族（敵）
+			*/
+			case EnumSpecies::MereDemigod:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -= 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 40LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 80LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] += 0LL;
+				}
+				break;
+			/*
+			* 蛮神（敵）
+			*/
+			case EnumSpecies::Primals:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 45LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 45LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 45LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -= 45LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 45LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 45LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 40LL;
+				}
+				break;
+			/*
+			* 真実に近付いた者（敵）
+			*/
+			case EnumSpecies::NearestTruth:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] += 90LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] += 90LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] += 90LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] -= 90LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] -= 90LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] += 20LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] -= 90LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] -= 40LL;
+				}
+				break;
+			/*
+			* その他（敵）: ゼロ初期化
+			*/
+			case EnumSpecies::Other:
+				{
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MEL] = 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RNG] = 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::MGC] = 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEX] = 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::DEF] = 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::ACU] = 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::AVD] = 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::RIT] = 0LL;
+					this->speciesBaselineStatus[EnumPilotStatusInitials::SPB] = 0LL;
+				}
+				break;
 			}
 
 			for (auto iter = begin(this->speciesBaselineStatus); iter != end(this->speciesBaselineStatus); iter++) {
@@ -1580,6 +2039,10 @@ namespace TREx {
 					if (this->speciesAbout == EnumSpecies::AuRaRaen || this->speciesAbout == EnumSpecies::AuRaXaela) {
 						this->speciesBaselineStatus[target.first] += 10LL;
 					}
+				}
+				//ドラゴノイドは穢れ+3相当とする。
+				if (this->speciesAbout == EnumSpecies::DragonoidMidir || this->speciesAbout == EnumSpecies::DragonoidMidgardsormr) {
+					this->speciesBaselineStatus[target.first] += 30LL;
 				}
 			}
 		}
