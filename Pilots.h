@@ -721,17 +721,145 @@ namespace TREx {
 			/// </summary>
 			SpeciesScaleSkin,
 			/// <summary>
-			/// 種族特徴:風の翼
+			/// 種族特徴:風の翼[リルドラケン]
 			/// </summary>
-			SpeciesWindWing,
+			SpeciesWindWings,
 			/// <summary>
-			/// 種族特徴:竜の咆哮
+			/// 種族特徴:竜の咆哮[小翼種リルドラケン]
 			/// </summary>
 			SpeciesWyrmRoar,
 			/// <summary>
-			/// 種族特徴:暖かき風
+			/// 種族特徴:暖かき風[有毛種リルドラケン]
 			/// </summary>
 			SpeciesFriendlyWind,
+			/// <summary>
+			/// 種族特徴:マナ不干渉[グラスランナー]
+			/// </summary>
+			SpeciesNoninterfaceAether,
+			/// <summary>
+			/// 種族特徴:虫や植物との意思疎通[グラスランナー]
+			/// </summary>
+			SpeciesForeboding,
+			/// <summary>
+			/// 種族特徴:繁茂する生命[メリア]
+			/// </summary>
+			SpeciesLifeThriving,
+			/// <summary>
+			/// 種族特徴:捕食する生命[カーニバラスメリア]
+			/// </summary>
+			SpeciesPredatoryLife,
+			/// <summary>
+			/// 種族特徴:胞子散布[ファンギーメリア]
+			/// </summary>
+			SpeciesSporulation,
+			/// <summary>
+			/// 種族特徴:通じ合う意識[ティエンス]
+			/// </summary>
+			SpeciesCommunicationSense,
+			/// <summary>
+			/// 種族特徴:無生物と通じ合う意識[ティエンス機解種]
+			/// </summary>
+			SpeciesCommunicationSenseInanimationMatter,
+			/// <summary>
+			/// 種族特徴:魔神と通じ合う意識[ティエンス魔解種]
+			/// </summary>
+			SpeciesCommunicationSenseBorneFromTheAbyssos,
+			/// <summary>
+			/// 種族特徴:姿なき職人[レプラカーン]
+			/// </summary>
+			SpeciesInvisibleArtisan,
+			/// <summary>
+			/// 種族特徴:姿消す職人[放浪種レプラカーン]
+			/// </summary>
+			SpeciesDisappearingArtisan,
+			/// <summary>
+			/// 種族特徴:群れなす職人[探索種レプラカーン]
+			/// </summary>
+			SpeciesSwarmingArtisan,
+			/// <summary>
+			/// 種族特徴:吸精[アルヴ]
+			/// </summary>
+			SpeciesAbsorption,
+			/// <summary>
+			/// 種族特徴:月光の守り[シャドウ]
+			/// </summary>
+			SpeciesDedicatedToMoonlight, //意味は「月満ちる夜 ～喜びの神域 エウプロシュネ～」
+			/// <summary>
+			/// 種族特徴:輝く肉体[ソレイユ]
+			/// </summary>
+			SpeciesRadiantBody,
+			/// <summary>
+			/// 種族特徴:太陽の再生[ソレイユ]
+			/// </summary>
+			SpeciesSunRegeneration,
+			/// <summary>
+			/// 種族特徴:太陽の子[ソレイユ]
+			/// </summary>
+			SpeciesInTheBalance, //意味は「命の天秤 ～輝ける神域 アグライア～」
+			/// <summary>
+			/// 種族特徴:巨人化[スプリガン]
+			/// </summary>
+			SpeciesMegalomania,
+			/// <summary>
+			/// 種族特徴:奈落の落とし子／アビストランク[アビスボーン]
+			/// </summary>
+			SpeciesAbyssalBastardAbyssTrunk,
+			/// <summary>
+			/// 種族特徴:奈落の落とし子／アビスアーム[アビスボーン]
+			/// </summary>
+			SpeciesAbyssalBastardAbyssArm,
+			/// <summary>
+			/// 種族特徴:奈落の落とし子／アビスアイ[アビスボーン]
+			/// </summary>
+			SpeciesAbyssalBastardAbyssEye,
+			/// <summary>
+			/// 種族特徴:魔法の申し子[ハイマン]
+			/// </summary>
+			SpeciesMagicChildren,
+			/// <summary>
+			/// 種族特徴:デジャヴ[ハイマン]
+			/// </summary>
+			SpeciesPseudoEcho, //「超える力もどき」の意
+			/// <summary>
+			/// 種族特徴:魂の輝き[フロウライト]
+			/// </summary>
+			SpeciesSoulLight,
+			/// <summary>
+			/// 種族特徴:鉱石の生命[フロウライト]
+			/// </summary>
+			SpeciesOreLife,
+			/// <summary>
+			/// 種族特徴:黒炎の遣い手[ダークドワーフ]
+			/// </summary>
+			SpeciesBlackflameMastery,
+			/// <summary>
+			/// 種族特徴:戦乙女の光羽[汎ヴァルキリー／貴ヴァルキリー共通]
+			/// </summary>
+			SpeciesValkyrieLightWings,
+			/// <summary>
+			/// 種族特徴:戦乙女の祝福[汎ヴァルキリー／貴ヴァルキリー共通]
+			/// </summary>
+			SpeciesValkyrieBlessing,
+			/// <summary>
+			/// 種族特徴:重力の祝福[貴ヴァルキリー]
+			/// </summary>
+			SpeciesGravitationalBlessing,
+			/// <summary>
+			/// 種族特徴:血の刃[貴ヴァルキリー]
+			/// </summary>
+			SpeciesBladeOfBlood,
+			/// <summary>
+			/// 種族特徴:水の申し子[貴エルフ]
+			/// </summary>
+			SpeciesWaterDependents,
+			/// <summary>
+			/// 種族特徴:カリスマ[貴エルフ]
+			/// </summary>
+			SpeciesCharism,
+			/// <summary>
+			/// 専用スキル:皮膚装甲[エクセリア]
+			/// </summary>
+			SpeciesArmorySkin,
 		};
 
 		/// <summary>
@@ -771,6 +899,11 @@ namespace TREx {
 			/// </summary>
 			void setBaselineStatus();
 		public:
+			/// <summary>
+			/// 種族の概要を上位クラスへ返却する関数です。
+			/// </summary>
+			/// <returns>種族概要(列挙型)</returns>
+			const EnumSpecies getSpeciesAbout();
 			/// <summary>
 			/// 種族別の基礎ステータスを上位クラスへ返却する関数です。
 			/// </summary>
@@ -2080,6 +2213,10 @@ namespace TREx {
 			}
 		}
 
+		inline const EnumSpecies DataSpecies::getSpeciesAbout() {
+			return this->speciesAbout;
+		}
+
 		inline const map<EnumPilotStatusInitials, int64_t> DataSpecies::getSpeciesBaselineStatus() {
 			return this->speciesBaselineStatus;
 		}
@@ -2338,6 +2475,10 @@ namespace TREx {
 		class DataPilot {
 		protected:
 			/// <summary>
+			/// 識別用のデータIDです。
+			/// </summary>
+			uint32_t pilotDataId;
+			/// <summary>
 			/// [Unlocalized] 本名
 			/// </summary>
 			string pilotFullname;
@@ -2386,11 +2527,67 @@ namespace TREx {
 			/// <param name="rawGender">性別データの生データ(json型)</param>
 			void setPilotGender(Json rawGender);
 			/// <summary>
-			/// パイロットの実基本ステータスを定義します。
+			/// パイロットの初期ステータスを定義します。
 			/// </summary>
 			/// <param name="addtional_status"></param>
 			void setPilotDataStatus(Json addtional_status);
 		public:
+			/// <summary>
+			/// 識別用のデータIDを返却する関数です。
+			/// </summary>
+			/// <returns>識別用のデータID</returns>
+			const uint32_t getPilotDataId();
+			/// <summary>
+			/// パイロットの本名に関わる翻訳前文字列を返却する関数です。
+			/// </summary>
+			/// <returns>[Unlocalized] 本名</returns>
+			const string getPilotFullname();
+			/// <summary>
+			/// パイロットの愛称に関わる翻訳前文字列を返却する関数です。
+			/// </summary>
+			/// <returns>[Unlocalized] 愛称</returns>
+			const string getPilotNickname();
+			/// <summary>
+			/// パイロットの読みに関わる翻訳前文字列を返却する関数です。
+			/// </summary>
+			/// <returns>[Unlocalized] 読み仮名</returns>
+			const string getPilotReadname();
+			/// <summary>
+			/// パイロットの通称に関わる翻訳前文字列を返却する関数です。
+			/// </summary>
+			/// <returns>[Unlocalized] 通称</returns>
+			const string getPilotCodename();
+			/// <summary>
+			/// パイロットの種族インスタンス・ポインタを返却する関数です。
+			/// </summary>
+			/// <returns>種族データ</returns>
+			const DataSpecies* getPilotSpecies();
+			/// <summary>
+			/// パイロットの性別データを返却する関数です。
+			/// </summary>
+			/// <returns>性別。必ずしも設定した通りに返却されるわけではなく、ヴァルキリー系とロスガルのみ特殊処理が走っている。</returns>
+			const EnumGender getPilotGender();
+			/// <summary>
+			/// パイロットの合計穢れ値を返却する関数です。
+			/// </summary>
+			/// <returns>穢れ値の合計</returns>
+			const int64_t getPilotAdditionalDisgrace();
+			/// <summary>
+			/// パイロットの初期ステータスを返却する関数です。
+			/// </summary>
+			/// <returns>パイロットの初期ステータス(MAP型)</returns>
+			const map<EnumPilotStatusInitials, int64_t> getPilotDataStatus();
+			/// <summary>
+			/// パイロットの初期ステータスを各項目ごとに返却する関数です。
+			/// </summary>
+			/// <param name="index">項目の列挙型</param>
+			/// <returns>パイロットの初期ステータス(int64_t型)</returns>
+			const int64_t getPilotDataStatus(EnumPilotStatusInitials index);
+			/// <summary>
+			/// パイロットの初期精神ポイントを返却する関数です。
+			/// </summary>
+			/// <returns>パイロットの初期精神ポイント</returns>
+			const int64_t getPilotSpiritualPoint();
 			/// <summary>
 			/// DataPilotクラスのコンストラクタ
 			/// </summary>
@@ -2404,7 +2601,21 @@ namespace TREx {
 			else if (compareLineString(rawGender, "Neutral")) this->pilotGender = EnumGender::Neutral;
 			else if (compareLineString(rawGender, "Asexual")) this->pilotGender = EnumGender::Asexual;
 			else if (compareLineString(rawGender, "Machine")) this->pilotGender = EnumGender::Machine;
-			else throw runtime_error("Gender Settings Error");
+			else {
+				if (this->pilotSpecies->getSpeciesAbout() == EnumSpecies::HumanValkyrieNormalMidlander ||
+						this->pilotSpecies->getSpeciesAbout() == EnumSpecies::HumanValkyrieNormalHighlander ||
+						this->pilotSpecies->getSpeciesAbout() == EnumSpecies::HumanValkyrieNobleModern ||
+						this->pilotSpecies->getSpeciesAbout() == EnumSpecies::HumanValkyrieNobleAncient) this->pilotGender = EnumGender::Female;
+				else if (this->pilotSpecies->getSpeciesAbout() == EnumSpecies::HrothgarHelions ||
+						this->pilotSpecies->getSpeciesAbout() == EnumSpecies::HrothgarTheLost) this->pilotGender = EnumGender::Male;
+				else throw runtime_error("Gender Settings Error");
+			}
+			if (this->pilotSpecies->getSpeciesAbout() == EnumSpecies::HumanValkyrieNormalMidlander ||
+					this->pilotSpecies->getSpeciesAbout() == EnumSpecies::HumanValkyrieNormalHighlander ||
+					this->pilotSpecies->getSpeciesAbout() == EnumSpecies::HumanValkyrieNobleModern ||
+					this->pilotSpecies->getSpeciesAbout() == EnumSpecies::HumanValkyrieNobleAncient) this->pilotGender = EnumGender::Female;
+			else if (this->pilotSpecies->getSpeciesAbout() == EnumSpecies::HrothgarHelions ||
+					this->pilotSpecies->getSpeciesAbout() == EnumSpecies::HrothgarTheLost) this->pilotGender = EnumGender::Male;
 		}
 
 		inline void DataPilot::setPilotGender(Json rawGender) {
@@ -2424,7 +2635,52 @@ namespace TREx {
 			this->pilotDataStatus[EnumPilotStatusInitials::SPB] += static_cast<int64_t>(additional_status["SPB"].int_value());
 		}
 
+		inline const uint32_t DataPilot::getPilotDataId() {
+			return this->pilotDataId;
+		}
+
+		inline const string DataPilot::getPilotFullname() {
+			return this->pilotFullname;
+		}
+
+		inline const string DataPilot::getPilotNickname() {
+			return this->pilotNickname;
+		}
+
+		inline const string DataPilot::getPilotReadname() {
+			return this->pilotReadname;
+		}
+
+		inline const string DataPilot::getPilotCodename() {
+			return this->pilotCodename;
+		}
+
+		inline const DataSpecies* DataPilot::getPilotSpecies() {
+			return this->pilotSpecies;
+		}
+
+		inline const EnumGender DataPilot::getPilotGender() {
+			return this->pilotGender;
+		}
+
+		inline const int64_t DataPilot::getPilotAdditionalDisgrace() {
+			return this->pilotAdditionalDisgrace;
+		}
+
+		inline const map<EnumPilotStatusInitials, int64_t> DataPilot::getPilotDataStatus() {
+			return this->pilotDataStatus;
+		}
+
+		inline const int64_t DataPilot::getPilotDataStatus(EnumPilotStatusInitials index) {
+			return this->pilotDataStatus[index];
+		}
+
+		inline const int64_t DataPilot::getPilotSpiritualPoint() {
+			return this->pilotSpiritualPoint;
+		}
+
 		inline DataPilot::DataPilot(Json jsonDat) {
+			this->pilotDataId = static_cast<uint32_t>(jsonDat["data_id"].number_value());
 			this->pilotFullname = jsonDat["fullname"].string_value();
 			this->pilotNickname = jsonDat["nickname"].string_value();
 			this->pilotReadname = jsonDat["readname"].string_value();
@@ -2432,6 +2688,7 @@ namespace TREx {
 			this->pilotSpecies = new DataSpecies(jsonDat["species"]);
 			this->setPilotGender(jsonDat["gender"].string_value());
 			this->setPilotDataStatus(jsonDat["additional_status"]);
+			this->pilotAdditionalDisgrace = this->pilotSpecies->getSpeciesDisgrace() + static_cast<int64_t>(jsonDat["additional_disgrace"].int_value());
 			this->pilotSpiritualPoint = this->pilotDataStatus[EnumPilotStatusInitials::SPB] + 20;
 		}
 		/* -- End class: DataPilot -- */
@@ -2444,7 +2701,7 @@ namespace TREx {
 			/// <summary>
 			/// データ元のパイロットデータ。
 			/// </summary>
-			DataPilot basedPilot;
+			DataPilot* basedPilot;
 			/// <summary>
 			/// ローカライザーによって翻訳されたパイロットのフルネーム
 			/// </summary>
