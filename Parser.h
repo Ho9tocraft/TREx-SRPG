@@ -58,6 +58,8 @@ using namespace json11;
 namespace TREx {
 	namespace Utils {
 		enum class EnumMagicalElement : uint64_t;
+		enum class EnumTerrainAdaptionType : uint64_t;
+		enum class EnumTerrainAdaptionRank : uint64_t;
 		class JSONParser;
 
 		/* -- begin class: JSONParser -- */

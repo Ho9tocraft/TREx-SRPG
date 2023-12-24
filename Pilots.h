@@ -58,6 +58,8 @@ using namespace json11;
 namespace TREx {
 	namespace Utils {
 		enum class EnumMagicalElement : uint64_t;
+		enum class EnumTerrainAdaptionType : uint64_t;
+		enum class EnumTerrainAdaptionRank : uint64_t;
 		class JSONParser;
 	}
 	namespace Pilots {
@@ -857,9 +859,13 @@ namespace TREx {
 			/// </summary>
 			SpeciesCharism,
 			/// <summary>
-			/// 専用スキル:皮膚装甲[エクセリア]
+			/// 種族特徴:皮膚装甲[オプション]
 			/// </summary>
 			SpeciesArmorySkin,
+			/// <summary>
+			/// 種族特徴:濃いエーテル[オプション]
+			/// </summary>
+			DenseAether,
 		};
 
 		/// <summary>
@@ -898,6 +904,10 @@ namespace TREx {
 			/// 基礎ステータスを定義します。
 			/// </summary>
 			void setBaselineStatus();
+			/// <summary>
+			/// 種族特徴を定義します。
+			/// </summary>
+			void setSpecificSkills();
 		public:
 			/// <summary>
 			/// 種族の概要を上位クラスへ返却する関数です。
@@ -2213,6 +2223,10 @@ namespace TREx {
 			}
 		}
 
+		inline void DataSpecies::setSpecificSkills() {
+			this->speciesSpecificSkills = vector<SpecificSkill*>();
+		}
+
 		inline const EnumSpecies DataSpecies::getSpeciesAbout() {
 			return this->speciesAbout;
 		}
@@ -2438,9 +2452,34 @@ namespace TREx {
 		/// </summary>
 		class SpecificSkill {
 		protected:
+			/// <summary>
+			/// 特殊技能の種類
+			/// </summary>
 			EnumSpecificSkills skillType;
+			/// <summary>
+			/// 効果発揮条件
+			/// </summary>
+			ActiveConditionSS* skillActiveCondition;
 		public:
+			/// <summary>
+			/// 特殊技能の種類を返却します。
+			/// </summary>
+			/// <returns>特殊技能の種類</returns>
+			const EnumSpecificSkills getSkillType();
+			/// <summary>
+			/// 効果発揮条件を返却します。
+			/// </summary>
+			/// <returns>効果発揮条件</returns>
+			const ActiveConditionSS* getSkillActiveCondition();
 		};
+
+		inline const EnumSpecificSkills SpecificSkill::getSkillType() {
+			return this->skillType;
+		}
+
+		inline const ActiveConditionSS* SpecificSkill::getSkillActiveCondition() {
+			return this->skillActiveCondition;
+		}
 		/* -- End class: SpecificSkill -- */
 
 		/// <summary>
@@ -2723,7 +2762,41 @@ namespace TREx {
 			/// </summary>
 			int64_t pilotLevel;
 		public:
+			/// <summary>
+			/// データ元のパイロットデータを返却します。
+			/// </summary>
+			/// <returns>データ元のパイロットデータ</returns>
+			const DataPilot* getBasedPilot();
+			const string getLocalizedPilotFullname();
+			const string getLocalizedPilotNickname();
+			const string getLocalizedPilotReadname();
+			const string getLocalizedPilotCodename();
+			const int64_t getPilotLevel();
 		};
+
+		inline const DataPilot* GamePilot::getBasedPilot() {
+			return this->basedPilot;
+		}
+
+		inline const string GamePilot::getLocalizedPilotFullname() {
+			return this->localizedPilotFullname;
+		}
+
+		inline const string GamePilot::getLocalizedPilotNickname() {
+			return this->localizedPilotNickname;
+		}
+
+		inline const string GamePilot::getLocalizedPilotReadname() {
+			return this->localizedPilotReadname;
+		}
+
+		inline const string GamePilot::getLocalizedPilotCodename() {
+			return this->localizedPilotCodename;
+		}
+
+		inline const int64_t GamePilot::getPilotLevel() {
+			return this->pilotLevel;
+		}
 		/* -- End class: GamePilot -- */
 	}
 }

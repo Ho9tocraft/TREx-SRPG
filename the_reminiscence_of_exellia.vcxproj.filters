@@ -65,6 +65,9 @@
     <ClInclude Include="UtilGameContents.h">
       <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
@@ -81,8 +84,13 @@
     <Text Include="Resources\datas\datapacks\units.json">
       <Filter>リソース ファイル\データリスト</Filter>
     </Text>
-    <Text Include="Resources\datas\localization\ja_jp.yml">
+    <Text Include="Resources\datas\localization\ja_jp.json">
       <Filter>リソース ファイル\ローカライズ</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="the_reminiscence_of_exellia.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

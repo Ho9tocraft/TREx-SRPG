@@ -58,7 +58,18 @@ using namespace json11;
 
 namespace TREx {
 	namespace Utils {
+		/// <summary>
+		/// 武器に付与される元素的属性。
+		/// </summary>
 		enum class EnumMagicalElement : uint64_t;
+		/// <summary>
+		/// 地形適応のヘッダとなる種類。
+		/// </summary>
+		enum class EnumTerrainAdaptionType : uint64_t;
+		/// <summary>
+		/// 地形適応の中身。
+		/// </summary>
+		enum class EnumTerrainAdaptionRank : uint64_t;
 		class JSONParser;
 
 		enum class EnumMagicalElement : uint64_t {
@@ -114,6 +125,52 @@ namespace TREx {
 			/// 剣極性:黒炎
 			/// </summary>
 			GenSwordBlackflame
+		};
+
+		enum class EnumTerrainAdaptionType : uint64_t {
+			/// <summary>
+			/// 空
+			/// </summary>
+			Air,
+			/// <summary>
+			/// 陸
+			/// </summary>
+			Ground,
+			/// <summary>
+			/// 海
+			/// </summary>
+			Underwater,
+			/// <summary>
+			/// 宇
+			/// </summary>
+			Outerworld
+		};
+
+		enum class EnumTerrainAdaptionRank : uint64_t {
+			/// <summary>
+			/// -（行動・攻撃不能）
+			/// </summary>
+			E,
+			/// <summary>
+			/// D（40％）
+			/// </summary>
+			D,
+			/// <summary>
+			/// C（80％）
+			/// </summary>
+			C,
+			/// <summary>
+			/// B（90％）
+			/// </summary>
+			B,
+			/// <summary>
+			/// A（等倍）
+			/// </summary>
+			A,
+			/// <summary>
+			/// S（110％）
+			/// </summary>
+			S
 		};
 	}
 }
