@@ -44,6 +44,7 @@ using namespace std;
 using namespace json11;
 
 namespace TREx {
+	struct DictDataEnviroment;
 	/// <summary>
 	/// 武器に付与される元素的属性。
 	/// </summary>
@@ -57,6 +58,26 @@ namespace TREx {
 	/// </summary>
 	enum class EnumTerrainAdaptionRank : uint64_t;
 	class JSONParser;
+
+	enum class EnumGender : uint64_t;
+	enum class EnumPilotPersonality : uint64_t;
+	enum class EnumSpecies : uint64_t;
+	enum class EnumPilotStatusInitials : uint64_t;
+	enum class EnumSpecificSkills : int64_t;
+
+	class DataSpecies;
+	class SpecificSkill;
+	class SpiritualPower;
+	class SpiritualPowerEffect;
+	class ActiveConditionSS;
+	class DataSpiritualEffect;
+	class DataPilot;
+	class GamePilot;
+
+	class DataUnit;
+	class GameUnit;
+
+
 
 	enum class EnumMagicalElement : uint64_t {
 		/// <summary>

@@ -44,10 +44,29 @@ using namespace std;
 using namespace json11;
 
 namespace TREx {
+	struct DictDataEnviroment;
 	enum class EnumMagicalElement : uint64_t;
 	enum class EnumTerrainAdaptionType : uint64_t;
 	enum class EnumTerrainAdaptionRank : uint64_t;
 	class JSONParser;
+
+	enum class EnumGender : uint64_t;
+	enum class EnumPilotPersonality : uint64_t;
+	enum class EnumSpecies : uint64_t;
+	enum class EnumPilotStatusInitials : uint64_t;
+	enum class EnumSpecificSkills : int64_t;
+
+	class DataSpecies;
+	class SpecificSkill;
+	class SpiritualPower;
+	class SpiritualPowerEffect;
+	class ActiveConditionSS;
+	class DataSpiritualEffect;
+	class DataPilot;
+	class GamePilot;
+
+	class DataUnit;
+	class GameUnit;
 
 	/* -- begin class: JSONParser -- */
 
@@ -67,6 +86,7 @@ namespace TREx {
 	public:
 		Json ParseJson(string langUrl) const {
 			ifstream ifs(langUrl);
+			if (!ifs) throw exception("File not exist.");
 			string err, ifsstr((istreambuf_iterator<char>(ifs)), istreambuf_iterator<char>());
 			Json TempJson = Json::parse(ifsstr, err, COMMENTS);
 			if (!err.empty()) throw exception("Illegal JSON");
@@ -78,6 +98,8 @@ namespace TREx {
 	JSONParser::JSONParser() {
 		this->jaJPLangUrl = R"(.\Resources\datas\localization\ja_jp.json)";
 		this->enUSLangUrl = R"(.\Resources\datas\localization\en_us.json)";
+		this->pilotDatUrl = R"(.\Resources\datas\datapacks\pilot.json)";
+		this->unitDatUrl = R"(.\Resources\datas\datapacks\unit.json)";
 	}
 	/* -- end class: JSONParser -- */
 }

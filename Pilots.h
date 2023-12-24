@@ -44,6 +44,7 @@ using namespace std;
 using namespace json11;
 
 namespace TREx {
+	struct DictDataEnviroment;
 	enum class EnumMagicalElement : uint64_t;
 	enum class EnumTerrainAdaptionType : uint64_t;
 	enum class EnumTerrainAdaptionRank : uint64_t;
@@ -57,10 +58,15 @@ namespace TREx {
 
 	class DataSpecies;
 	class SpecificSkill;
+	class SpiritualPower;
+	class SpiritualPowerEffect;
 	class ActiveConditionSS;
 	class DataSpiritualEffect;
 	class DataPilot;
 	class GamePilot;
+
+	class DataUnit;
+	class GameUnit;
 
 	enum class EnumGender : uint64_t {
 		/// <summary>
@@ -2508,6 +2514,17 @@ namespace TREx {
 	};
 	/* -- End class: SpecificSkill -- */
 
+	class SpiritualPower {
+	protected:
+		int64_t defaultUseSP;
+	public:
+	};
+
+	class SpiritualPowerEffect {
+	protected:
+	public:
+	};
+
 	/// <summary>
 	/// ベースとなる設定
 	/// </summary>
@@ -2583,12 +2600,24 @@ namespace TREx {
 		/// パイロットの初期精神ポイント
 		/// </summary>
 		int64_t pilotSpiritualPoint;
+		/// <summary>
+		/// パイロットのグラフィックハンドラーです。
+		/// </summary>
+		int pilotGraphHandler;
+		/// <summary>
+		/// そのパイロットがモブかどうかを判定します。
+		/// </summary>
+		bool pilotIsMob;
+		/// <summary>
+		/// そのパイロットが精神コマンドをAIモードで使用するかどうか判定します。
+		/// </summary>
+		bool pilotCanUseSP;
 		/* -- 関数 -- */
 
 		/// <summary>
-	/// パイロットの性別データを列挙型に変換します。
-	/// </summary>
-	/// <param name="rawGender">性別データの生データ(string型)</param>
+		/// パイロットの性別データを列挙型に変換します。
+		/// </summary>
+		/// <param name="rawGender">性別データの生データ(string型)</param>
 		void setPilotGender(string rawGender);
 		/// <summary>
 		/// パイロットの性別データを列挙型に変換します。

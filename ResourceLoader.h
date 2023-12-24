@@ -44,9 +44,33 @@ using namespace std;
 using namespace json11;
 
 namespace TREx {
-	class LanguageHandler;
-	class ImageHandler;
-	class SettingHandler;
+	struct DictDataEnviroment;
+	enum class EnumMagicalElement : uint64_t;
+	enum class EnumTerrainAdaptionType : uint64_t;
+	enum class EnumTerrainAdaptionRank : uint64_t;
+	class JSONParser;
+
+	enum class EnumGender : uint64_t;
+	enum class EnumPilotPersonality : uint64_t;
+	enum class EnumSpecies : uint64_t;
+	enum class EnumPilotStatusInitials : uint64_t;
+	enum class EnumSpecificSkills : int64_t;
+
+	class DataSpecies;
+	class SpecificSkill;
+	class SpiritualPower;
+	class SpiritualPowerEffect;
+	class ActiveConditionSS;
+	class DataSpiritualEffect;
+	class DataPilot;
+	class GamePilot;
+
+	class DataUnit;
+	class GameUnit;
+
+	struct DictDataEnviroment {
+		map<uint64_t, DataPilot*> dictDataPilot;
+	};
 
 	/// <summary>
 	/// 言語分類(ローカライズ)の読み込み用クラスです。
