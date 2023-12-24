@@ -1,6 +1,7 @@
 ﻿#include "all_loaders.h"
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_ HINSTANCE hInstancePrev, _In_ LPSTR lpCmdLine, _In_ int nShowCmd) {
+	SetUseCharCodeFormat(DX_CHARCODEFORMAT_UTF8);
 	//ウィンドウモードにする
 	ChangeWindowMode(TRUE);
 	//DXライブラリ初期化

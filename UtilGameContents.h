@@ -19,12 +19,6 @@
 #include <iomanip>
 #include <filesystem>
 
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
-#include <boost/foreach.hpp>
-#include <boost/optional.hpp>
-
-#include <openssl/evp.h>
 #include <openssl/aes.h>
 
 #pragma warning(push)
@@ -46,131 +40,122 @@
 #include "json11.hpp"
 
 using namespace std;
-/* BOOST C++ LIBRARIES */
-using namespace boost::property_tree;
-using namespace boost::property_tree::json_parser;
-using namespace boost::foreach;
-using namespace boost::optional_config;
-using namespace boost::optional_detail;
-using namespace boost::optional_ns;
 /* DROPBOX/JSON11 LIBRARIES */
 using namespace json11;
 
 namespace TREx {
-	namespace Utils {
-		/// <summary>
-		/// 武器に付与される元素的属性。
-		/// </summary>
-		enum class EnumMagicalElement : uint64_t;
-		/// <summary>
-		/// 地形適応のヘッダとなる種類。
-		/// </summary>
-		enum class EnumTerrainAdaptionType : uint64_t;
-		/// <summary>
-		/// 地形適応の中身。
-		/// </summary>
-		enum class EnumTerrainAdaptionRank : uint64_t;
-		class JSONParser;
+	/// <summary>
+	/// 武器に付与される元素的属性。
+	/// </summary>
+	enum class EnumMagicalElement : uint64_t;
+	/// <summary>
+	/// 地形適応のヘッダとなる種類。
+	/// </summary>
+	enum class EnumTerrainAdaptionType : uint64_t;
+	/// <summary>
+	/// 地形適応の中身。
+	/// </summary>
+	enum class EnumTerrainAdaptionRank : uint64_t;
+	class JSONParser;
 
-		enum class EnumMagicalElement : uint64_t {
-			/// <summary>
-			/// 霊極性:光属性
-			/// </summary>
-			UmbralLight,
-			/// <summary>
-			/// 霊極性:水属性
-			/// </summary>
-			UmbralWater,
-			/// <summary>
-			/// 霊極性:氷属性
-			/// </summary>
-			UmbralIce,
-			/// <summary>
-			/// 霊極性:土属性
-			/// </summary>
-			UmbralEarth,
-			/// <summary>
-			/// 星極性:闇
-			/// </summary>
-			AstralDark,
-			/// <summary>
-			/// 星極性:風
-			/// </summary>
-			AstralWind,
-			/// <summary>
-			/// 星極性:雷
-			/// </summary>
-			AstralLightning,
-			/// <summary>
-			/// 星極性:炎
-			/// </summary>
-			AstralFire,
-			/// <summary>
-			/// 剣極性:毒
-			/// </summary>
-			GenSwordToxic,
-			/// <summary>
-			/// 剣極性:病気
-			/// </summary>
-			GenSwordPlague,
-			/// <summary>
-			/// 剣極性:精神効果
-			/// </summary>
-			GenSwordMindConfuse,
-			/// <summary>
-			/// 剣極性:呪い
-			/// </summary>
-			GenSwordAccursed,
-			/// <summary>
-			/// 剣極性:黒炎
-			/// </summary>
-			GenSwordBlackflame
-		};
+	enum class EnumMagicalElement : uint64_t {
+		/// <summary>
+		/// 霊極性:光属性
+		/// </summary>
+		UmbralLight,
+		/// <summary>
+		/// 霊極性:水属性
+		/// </summary>
+		UmbralWater,
+		/// <summary>
+		/// 霊極性:氷属性
+		/// </summary>
+		UmbralIce,
+		/// <summary>
+		/// 霊極性:土属性
+		/// </summary>
+		UmbralEarth,
+		/// <summary>
+		/// 星極性:闇
+		/// </summary>
+		AstralDark,
+		/// <summary>
+		/// 星極性:風
+		/// </summary>
+		AstralWind,
+		/// <summary>
+		/// 星極性:雷
+		/// </summary>
+		AstralLightning,
+		/// <summary>
+		/// 星極性:炎
+		/// </summary>
+		AstralFire,
+		/// <summary>
+		/// 剣極性:毒
+		/// </summary>
+		GenSwordToxic,
+		/// <summary>
+		/// 剣極性:病気
+		/// </summary>
+		GenSwordPlague,
+		/// <summary>
+		/// 剣極性:精神効果
+		/// </summary>
+		GenSwordMindConfuse,
+		/// <summary>
+		/// 剣極性:呪い
+		/// </summary>
+		GenSwordAccursed,
+		/// <summary>
+		/// 剣極性:黒炎
+		/// </summary>
+		GenSwordBlackflame
+	};
 
-		enum class EnumTerrainAdaptionType : uint64_t {
-			/// <summary>
-			/// 空
-			/// </summary>
-			Air,
-			/// <summary>
-			/// 陸
-			/// </summary>
-			Ground,
-			/// <summary>
-			/// 海
-			/// </summary>
-			Underwater,
-			/// <summary>
-			/// 宇
-			/// </summary>
-			Outerworld
-		};
+	enum class EnumTerrainAdaptionType : uint64_t {
+		/// <summary>
+		/// 空
+		/// </summary>
+		Air,
+		/// <summary>
+		/// 陸
+		/// </summary>
+		Ground,
+		/// <summary>
+		/// 海
+		/// </summary>
+		Underwater,
+		/// <summary>
+		/// 宇
+		/// </summary>
+		Outerworld
+	};
 
-		enum class EnumTerrainAdaptionRank : uint64_t {
-			/// <summary>
-			/// -（行動・攻撃不能）
-			/// </summary>
-			E,
-			/// <summary>
-			/// D（40％）
-			/// </summary>
-			D,
-			/// <summary>
-			/// C（80％）
-			/// </summary>
-			C,
-			/// <summary>
-			/// B（90％）
-			/// </summary>
-			B,
-			/// <summary>
-			/// A（等倍）
-			/// </summary>
-			A,
-			/// <summary>
-			/// S（110％）
-			/// </summary>
-			S
-		};
-	}
+	enum class EnumTerrainAdaptionRank : uint64_t {
+		/// <summary>
+		/// -（行動・攻撃不能）
+		/// </summary>
+		E,
+		/// <summary>
+		/// D（40％）
+		/// </summary>
+		D,
+		/// <summary>
+		/// C（80％）
+		/// </summary>
+		C,
+		/// <summary>
+		/// B（90％）
+		/// </summary>
+		B,
+		/// <summary>
+		/// A（等倍）
+		/// </summary>
+		A,
+		/// <summary>
+		/// S（110％）
+		/// </summary>
+		S
+	};
 }

@@ -166,7 +166,6 @@
     <ClInclude Include="all_loaders.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Pilots.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="strconv2.h" />
     <ClInclude Include="Units.h" />
@@ -187,9 +186,6 @@
       <FileType>Document</FileType>
       <DeploymentContent>true</DeploymentContent>
     </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="the_reminiscence_of_exellia.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

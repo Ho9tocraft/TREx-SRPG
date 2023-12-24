@@ -18,11 +18,6 @@
 #include <iomanip>
 #include <filesystem>
 
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
-#include <boost/foreach.hpp>
-#include <boost/optional.hpp>
-
 #include <openssl/evp.h>
 #include <openssl/aes.h>
 
@@ -45,43 +40,32 @@
 #include "json11.hpp"
 
 using namespace std;
-/* BOOST C++ LIBRARIES */
-using namespace boost::property_tree;
-using namespace boost::property_tree::json_parser;
-using namespace boost::foreach;
-using namespace boost::optional_config;
-using namespace boost::optional_detail;
-using namespace boost::optional_ns;
 /* DROPBOX/JSON11 LIBRARIES */
 using namespace json11;
 
 namespace TREx {
-	namespace Utils {
-		enum class EnumMagicalElement : uint64_t;
-		enum class EnumTerrainAdaptionType : uint64_t;
-		enum class EnumTerrainAdaptionRank : uint64_t;
-		class JSONParser;
-	}
-	namespace Units {
-		class DataUnit;
-		class GameUnit;
+	enum class EnumMagicalElement : uint64_t;
+	enum class EnumTerrainAdaptionType : uint64_t;
+	enum class EnumTerrainAdaptionRank : uint64_t;
+	class JSONParser;
+	class DataUnit;
+	class GameUnit;
 
-		/// <summary>
-		/// Unitのデータクラスになります。
-		/// </summary>
-		class DataUnit {
-		protected:
-		public:
-		};
+	/// <summary>
+	/// Unitのデータクラスになります。
+	/// </summary>
+	class DataUnit {
+	protected:
+	public:
+	};
 
-		/// <summary>
-		/// ゲーム内処理用のUnitクラス
-		/// </summary>
-		class GameUnit {
-		protected:
-		public:
-		};
-	}
+	/// <summary>
+	/// ゲーム内処理用のUnitクラス
+	/// </summary>
+	class GameUnit {
+	protected:
+	public:
+	};
 }
 
 using namespace TREx;

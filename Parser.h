@@ -18,11 +18,6 @@
 #include <iomanip>
 #include <filesystem>
 
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
-#include <boost/foreach.hpp>
-#include <boost/optional.hpp>
-
 #include <openssl/evp.h>
 #include <openssl/aes.h>
 
@@ -45,35 +40,46 @@
 #include "json11.hpp"
 
 using namespace std;
-/* BOOST C++ LIBRARIES */
-using namespace boost::property_tree;
-using namespace boost::property_tree::json_parser;
-using namespace boost::foreach;
-using namespace boost::optional_config;
-using namespace boost::optional_detail;
-using namespace boost::optional_ns;
 /* DROPBOX/JSON11 LIBRARIES */
 using namespace json11;
 
 namespace TREx {
-	namespace Utils {
-		enum class EnumMagicalElement : uint64_t;
-		enum class EnumTerrainAdaptionType : uint64_t;
-		enum class EnumTerrainAdaptionRank : uint64_t;
-		class JSONParser;
+	enum class EnumMagicalElement : uint64_t;
+	enum class EnumTerrainAdaptionType : uint64_t;
+	enum class EnumTerrainAdaptionRank : uint64_t;
+	class JSONParser;
 
-		/* -- begin class: JSONParser -- */
+	/* -- begin class: JSONParser -- */
 
-		/// <summary>
-		/// JSONをパーシングするためのクラスです。
-		/// </summary>
-		class JSONParser {
-		protected:
-		public:
-		};
+	/// <summary>
+	/// JSONをパーシングするためのクラスです。
+	/// </summary>
+	class JSONParser {
+	protected:
+		string jaJPLangUrl;
+		string enUSLangUrl;
+		string pilotDatUrl;
+		string unitDatUrl;
+		Json parsedJaJPLangJSON;
+		Json parsedEnUSLangJSON;
+		Json parsedPilotDatJSON;
+		Json parsedUnitDatJSON;
+	public:
+		Json ParseJson(string langUrl) const {
+			ifstream ifs(langUrl);
+			string err, ifsstr((istreambuf_iterator<char>(ifs)), istreambuf_iterator<char>());
+			Json TempJson = Json::parse(ifsstr, err, COMMENTS);
+			if (!err.empty()) throw exception("Illegal JSON");
+			return TempJson;
+		}
+		JSONParser();
+	};
 
-		/* -- end class: JSONParser -- */
+	JSONParser::JSONParser() {
+		this->jaJPLangUrl = R"(.\Resources\datas\localization\ja_jp.json)";
+		this->enUSLangUrl = R"(.\Resources\datas\localization\en_us.json)";
 	}
+	/* -- end class: JSONParser -- */
 }
 
 using namespace TREx;
