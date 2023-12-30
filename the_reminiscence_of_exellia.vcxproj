@@ -174,6 +174,7 @@
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="README.md" />
+    <None Include="Resources\datas\datapacks\species.json" />
     <Text Include="Resources\datas\datapacks\pilots.json">
       <FileType>Document</FileType>
       <DeploymentContent>true</DeploymentContent>

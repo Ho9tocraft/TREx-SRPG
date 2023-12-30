@@ -914,6 +914,10 @@ namespace TREx {
 		/// 種族特徴:濃いエーテル[オプション]
 		/// </summary>
 		DenseAether,
+		/// <summary>
+		/// その他ダミー[オプション]
+		/// </summary>
+		Other,
 	};
 	/// <summary>
 	/// 種族データの定義です。
@@ -2495,7 +2499,32 @@ namespace TREx {
 		/// <summary>
 		/// 効果発揮条件
 		/// </summary>
-		ActiveConditionSS* skillActiveCondition;
+		vector<ActiveConditionSS*> activeConditionSSList;
+		/// <summary>
+		/// [Unlocalized]翻訳前のカスタムスキル名
+		/// </summary>
+		string customSkillNameUnlocalized;
+		/// <summary>
+		/// [Unlocalized]翻訳前のカスタムスキル説明文
+		/// </summary>
+		vector<string> customSkillDescUnlocalized;
+		/// <summary>
+		/// 翻訳後のカスタムスキル名
+		/// </summary>
+		string customSkillNameLocalized;
+		/// <summary>
+		/// 翻訳後のカスタムスキル説明文
+		/// </summary>
+		vector<string> customSkillDescLocalized;
+		/// <summary>
+		/// スキル習得レベル
+		/// </summary>
+		vector<int64_t> skillLearnLevel;
+		/// <summary>
+		/// JSON（specificSkills配列内）を基準にデータを構築する変数です。
+		/// </summary>
+		/// <param name="raw_data">JSONデータ（specificSkills配列内）</param>
+		void setSpecificSkill(Json raw_data);
 	public:
 		/// <summary>
 		/// 特殊技能の種類を返却します。
@@ -2504,14 +2533,194 @@ namespace TREx {
 		EnumSpecificSkills getSkillType() const {
 			return this->skillType;
 		}
+
+		bool activateSkill(GamePilot* pilot);
+
 		/// <summary>
-		/// 効果発揮条件を返却します。
+		/// コンストラクタ
 		/// </summary>
-		/// <returns>効果発揮条件</returns>
-		ActiveConditionSS* getSkillActiveCondition() const {
-			return this->skillActiveCondition;
-		}
+		/// <param name="raw_data">JSONデータ</param>
+		SpecificSkill(Json raw_data);
+		/// <summary>
+		/// コピーコンストラクタ
+		/// </summary>
+		/// <param name="from">コピー元</param>
+		SpecificSkill(const SpecificSkill* from);
 	};
+
+	inline void SpecificSkill::setSpecificSkill(Json raw_data) {
+		string SSName = raw_data["SS_name"].string_value();
+		int64_t skillCondMorale = -1LL;
+		if (!SSName.empty()) {
+			if (compareLineString(SSName, "ActionInSuccession") || compareLineString(SSName, "連続行動")) this->skillType = EnumSpecificSkills::ActionInSuccession;
+			else if (compareLineString(SSName, "ActivatableMaximumBreak") || compareLineString(SSName, "MB発動")) this->skillType = EnumSpecificSkills::ActivatableMaximumBreak;
+			else if (compareLineString(SSName, "AdvancedExperience") || compareLineString(SSName, "EXPアップ")) this->skillType = EnumSpecificSkills::AdvancedExperience;
+			else if (compareLineString(SSName, "Attacker") || compareLineString(SSName, "アタッカー")) this->skillType = EnumSpecificSkills::Attacker;
+			else if (compareLineString(SSName, "AttackInSuccession") || compareLineString(SSName, "連続攻撃")) this->skillType = EnumSpecificSkills::AttackInSuccession;
+			else if (compareLineString(SSName, "Belligerence") || compareLineString(SSName, "闘争心")) this->skillType = EnumSpecificSkills::Belligerence;
+			else if (compareLineString(SSName, "BulletSave") || compareLineString(SSName, "Bセーブ")) this->skillType = EnumSpecificSkills::BulletSave;
+			else if (compareLineString(SSName, "Commander") || compareLineString(SSName, "指揮官")) this->skillType = EnumSpecificSkills::Commander;
+			else if (compareLineString(SSName, "CoordinatedAttack") || compareLineString(SSName, "連携攻撃")) this->skillType = EnumSpecificSkills::CoordinatedAttack;
+			else if (compareLineString(SSName, "Counterattack") || compareLineString(SSName, "カウンター")) this->skillType = EnumSpecificSkills::Counterattack;
+			else if (compareLineString(SSName, "CoveringGuard") || compareLineString(SSName, "援護防御")) this->skillType = EnumSpecificSkills::CoveringGuard;
+			else if (compareLineString(SSName, "DenseAether") || compareLineString(SSName, "濃いエーテル")) this->skillType = EnumSpecificSkills::DenseAether;
+			else if (compareLineString(SSName, "EnergySave") || compareLineString(SSName, "Eセーブ")) this->skillType = EnumSpecificSkills::EnergySave;
+			else if (compareLineString(SSName, "FocusedAttack") || compareLineString(SSName, "集束攻撃")) this->skillType = EnumSpecificSkills::FocusedAttack;
+			else if (compareLineString(SSName, "Forsaken") || compareLineString(SSName, "見切り")) this->skillType = EnumSpecificSkills::Forsaken;
+			else if (compareLineString(SSName, "Genius") || compareLineString(SSName, "天才")) this->skillType = EnumSpecificSkills::Genius;
+			else if (compareLineString(SSName, "Guard") || compareLineString(SSName, "ガード")) this->skillType = EnumSpecificSkills::Guard;
+			else if (compareLineString(SSName, "GunFight") || compareLineString(SSName, "ガンファイト")) this->skillType = EnumSpecificSkills::GunFight;
+			else if (compareLineString(SSName, "HealerMastery") || compareLineString(SSName, "ヒーラーマスタリー")) this->skillType = EnumSpecificSkills::HealerMastery;
+			else if (compareLineString(SSName, "Healing") ||
+				compareLineString(SSName, "治癒技能") || compareLineString(SSName, "修理技能")) this->skillType = EnumSpecificSkills::Healing;
+			else if (compareLineString(SSName, "HigherResult") || compareLineString(SSName, "強運")) this->skillType = EnumSpecificSkills::HigherResult;
+			else if (compareLineString(SSName, "HitAndAway") || compareLineString(SSName, "ヒットアンドアウェイ")) this->skillType = EnumSpecificSkills::HitAndAway;
+			else if (compareLineString(SSName, "IncreaseSpiritWhenAllConditions") ||
+				compareLineString(SSName, "気力+(ALL)") || compareLineString(SSName, "気力+（ALL）")) this->skillType = EnumSpecificSkills::IncreaseSpiritWhenAllConditions;
+			else if (compareLineString(SSName, "IncreaseSpiritWhenDestruction") ||
+				compareLineString(SSName, "気力+(撃破)") || compareLineString(SSName, "気力+（撃破）")) this->skillType = EnumSpecificSkills::IncreaseSpiritWhenDestruction;
+			else if (compareLineString(SSName, "IncreaseSpiritWhenEvasion") ||
+				compareLineString(SSName, "気力+(回避)") || compareLineString(SSName, "気力+（回避）")) this->skillType = EnumSpecificSkills::IncreaseSpiritWhenEvasion;
+			else if (compareLineString(SSName, "IncreaseSpiritWhenInjured") ||
+				compareLineString(SSName, "気力+(ダメージ)") || compareLineString(SSName, "気力+（ダメージ）")) this->skillType = EnumSpecificSkills::IncreaseSpiritWhenInjured;
+			else if (compareLineString(SSName, "IncreaseSpiritWhenSuccessAttack") ||
+				compareLineString(SSName, "気力+(命中)") || compareLineString(SSName, "気力+（命中）")) this->skillType = EnumSpecificSkills::IncreaseSpiritWhenSuccessAttack;
+			else if (compareLineString(SSName, "IncreaseWill") || compareLineString(SSName, "戦意高揚")) this->skillType = EnumSpecificSkills::IncreaseWill;
+			else if (compareLineString(SSName, "InFight") || compareLineString(SSName, "インファイト")) this->skillType = EnumSpecificSkills::InFight;
+			else if (compareLineString(SSName, "KeepConcentration") || compareLineString(SSName, "集中力")) this->skillType = EnumSpecificSkills::KeepConcentration;
+			else if (compareLineString(SSName, "Learning") || compareLineString(SSName, "ラーニング")) this->skillType = EnumSpecificSkills::Learning;
+			else if (compareLineString(SSName, "Lucky") || compareLineString(SSName, "ラッキー")) this->skillType = EnumSpecificSkills::Lucky;
+			else if (compareLineString(SSName, "MageFight") || compareLineString(SSName, "メイジファイト")) this->skillType = EnumSpecificSkills::MageFight;
+			else if (compareLineString(SSName, "Potentiality") || compareLineString(SSName, "底力")) this->skillType = EnumSpecificSkills::Potentiality;
+			else if (compareLineString(SSName, "Psychokinesis") || compareLineString(SSName, "念動力")) this->skillType = EnumSpecificSkills::Psychokinesis;
+			else if (compareLineString(SSName, "QuickeningDynamis") || compareLineString(SSName, "デュナミスの高揚")) this->skillType = EnumSpecificSkills::QuickeningDynamis;
+			else if (compareLineString(SSName, "ReAttack") || compareLineString(SSName, "再攻撃")) this->skillType = EnumSpecificSkills::ReAttack;
+			else if (compareLineString(SSName, "Revenge") || compareLineString(SSName, "リベンジ")) this->skillType = EnumSpecificSkills::Revenge;
+			else if (compareLineString(SSName, "SPCapacityUP") || compareLineString(SSName, "SPUP") ||
+				compareLineString(SSName, "SPアップ")) this->skillType = EnumSpecificSkills::SPCapacityUp;
+			else if (compareLineString(SSName, "SpiritualLimitBreakthrough") ||
+				compareLineString(SSName, "気力限界突破")) this->skillType = EnumSpecificSkills::SpiritualLimitBreakthrough;
+			else if (compareLineString(SSName, "SPRegeneration") || compareLineString(SSName, "SPRegen") ||
+				compareLineString(SSName, "SP回復")) this->skillType = EnumSpecificSkills::SPRegeneration;
+			else if (compareLineString(SSName, "Supplying") || compareLineString(SSName, "補給技能")) this->skillType = EnumSpecificSkills::Supplying;
+			else if (compareLineString(SSName, "SupportAttack") || compareLineString(SSName, "援護攻撃")) this->skillType = EnumSpecificSkills::SupportAttack;
+			else if (compareLineString(SSName, "TankMastery") || compareLineString(SSName, "タンクマスタリー")) this->skillType = EnumSpecificSkills::TankMastery;
+			/* 種族特徴ここから */
+			else if (compareLineString(SSName, "SpeciesAbsorption") || compareLineString(SSName, "吸精")) this->skillType = EnumSpecificSkills::SpeciesAbsorption;
+			else if (compareLineString(SSName, "SpeciesAbyssalBastardAbyssArm") ||
+				compareLineString(SSName, "奈落の落とし子／アビスアーム")) this->skillType = EnumSpecificSkills::SpeciesAbyssalBastardAbyssArm;
+			else if (compareLineString(SSName, "SpeciesAbyssalBastardAbyssEye") ||
+				compareLineString(SSName, "奈落の落とし子／アビスアイ")) this->skillType = EnumSpecificSkills::SpeciesAbyssalBastardAbyssEye;
+			else if (compareLineString(SSName, "SpeciesAbyssalBastardAbyssTrunk") ||
+				compareLineString(SSName, "奈落の落とし子／アビストランク")) this->skillType = EnumSpecificSkills::SpeciesAbyssalBastardAbyssTrunk;
+			else if (compareLineString(SSName, "SpeciesAnotherForm") || compareLineString(SSName, "異貌")) this->skillType = EnumSpecificSkills::SpeciesAnotherForm;
+			else if (compareLineString(SSName, "SpeciesArmorySkin") || compareLineString(SSName, "皮膚装甲")) this->skillType = EnumSpecificSkills::SpeciesArmorySkin;
+			else if (compareLineString(SSName, "SpeciesBeastForm") || compareLineString(SSName, "獣変貌")) this->skillType = EnumSpecificSkills::SpeciesBeastForm;
+			else if (compareLineString(SSName, "BlackflameMastery") || compareLineString(SSName, "黒炎の遣い手")) this->skillType = EnumSpecificSkills::SpeciesBlackflameMastery;
+			else if (compareLineString(SSName, "BladeOfBlood") || compareLineString(SSName, "血の刃")) this->skillType = EnumSpecificSkills::SpeciesBladeOfBlood;
+			else if (compareLineString(SSName, "BlazingBody") || compareLineString(SSName, "炎身")) this->skillType = EnumSpecificSkills::SpeciesBlazingBody;
+			else if (compareLineString(SSName, "Charism") || compareLineString(SSName, "カリスマ")) this->skillType = EnumSpecificSkills::SpeciesCharism;
+			else if (compareLineString(SSName, "CommunicationSense") || compareLineString(SSName, "通じ合う意識")) this->skillType = EnumSpecificSkills::SpeciesCommunicationSense;
+			else if (compareLineString(SSName, "CommunicationSenseBorneFromTheAbyssos") ||
+				compareLineString(SSName, "魔神と通じ合う意識")) this->skillType = EnumSpecificSkills::SpeciesCommunicationSenseBorneFromTheAbyssos;
+			else if (compareLineString(SSName, "CommunicationSenseInanimationMatter") ||
+				compareLineString(SSName, "無生物と通じ合う意識")) this->skillType = EnumSpecificSkills::SpeciesCommunicationSenseInanimationMatter;
+			else if (compareLineString(SSName, "SpeciesDedicatedToMoonlight") ||
+				compareLineString(SSName, "月光の守り")) this->skillType = EnumSpecificSkills::SpeciesDedicatedToMoonlight;
+			else if (compareLineString(SSName, "SpeciesDisappearingArtisan") ||
+				compareLineString(SSName, "姿消す職人")) this->skillType = EnumSpecificSkills::SpeciesDisappearingArtisan;
+			else if (compareLineString(SSName, "SpeciesForeboding") ||
+				compareLineString(SSName, "虫や植物との意思疎通")) this->skillType = EnumSpecificSkills::SpeciesForeboding;
+			else if (compareLineString(SSName, "SpeciesFriendlyWind") || compareLineString(SSName, "暖かき風")) this->skillType = EnumSpecificSkills::SpeciesFriendlyWind;
+			else if (compareLineString(SSName, "SpeciesGentleWater") || compareLineString(SSName, "優しき水")) this->skillType = EnumSpecificSkills::SpeciesGentleWater;
+			else if (compareLineString(SSName, "SpeciesGravitationBlessing") ||
+				compareLineString(SSName, "重力の祝福")) this->skillType = EnumSpecificSkills::SpeciesGravitationalBlessing;
+			else if (compareLineString(SSName, "SpeciesHPConvert") || compareLineString(SSName, "HP変換")) this->skillType = EnumSpecificSkills::SpeciesHPConvert;
+			else if (compareLineString(SSName, "SpeciesInTheBalance") || compareLineString(SSName, "太陽の子")) this->skillType = EnumSpecificSkills::SpeciesInTheBalance;
+			else if (compareLineString(SSName, "SpeciesInvisibleArtisan") ||
+				compareLineString(SSName, "姿なき職人")) this->skillType = EnumSpecificSkills::SpeciesInvisibleArtisan;
+			else if (compareLineString(SSName, "SpeciesLargerHerbivoreBeastForm") ||
+				compareLineString(SSName, "獣変貌(大型草食獣)") ||
+				compareLineString(SSName, "獣変貌（大型草食獣）")) this->skillType = EnumSpecificSkills::SpeciesLargerHerbivoreBeastForm;
+			else if (compareLineString(SSName, "SpeciesLifeThriving") || compareLineString(SSName, "繁茂する生命")) this->skillType = EnumSpecificSkills::SpeciesLifeThriving;
+			else if (compareLineString(SSName, "SpeciesMistOfConfusion") || compareLineString(SSName, "惑いの霧")) this->skillType = EnumSpecificSkills::SpeciesMistOfConfusion;
+			else if (compareLineString(SSName, "SpeciesNightVision") || compareLineString(SSName, "暗視")) this->skillType = EnumSpecificSkills::SpeciesNightVision;
+			else if (compareLineString(SSName, "SpeciesNoninterfaceAether") ||
+				compareLineString(SSName, "マナ不干渉")) this->skillType = EnumSpecificSkills::SpeciesNoninterfaceAether;
+			else if (compareLineString(SSName, "SpeciesOreLife") || compareLineString(SSName, "鉱石の生命")) this->skillType = EnumSpecificSkills::SpeciesOreLife;
+			else if (compareLineString(SSName, "SpeciesPowerOfFerrows") || compareLineString(SSName, "仲間との絆")) this->skillType = EnumSpecificSkills::SpeciesPowerOfFerrows;
+			else if (compareLineString(SSName, "SpeciesPredatoryLife") || compareLineString(SSName, "捕食する生命")) this->skillType = EnumSpecificSkills::SpeciesPredatoryLife;
+			else if (compareLineString(SSName, "SpeciesPseudoEcho") || compareLineString(SSName, "デジャヴ")) this->skillType = EnumSpecificSkills::SpeciesPseudoEcho;
+			else if (compareLineString(SSName, "RadiantBody") || compareLineString(SSName, "輝く肉体")) this->skillType = EnumSpecificSkills::SpeciesRadiantBody;
+			else if (compareLineString(SSName, "SpeciesScaleSkin") || compareLineString(SSName, "鱗の皮膚")) this->skillType = EnumSpecificSkills::SpeciesScaleSkin;
+			else if (compareLineString(SSName, "SpeciesSeverityIce") || compareLineString(SSName, "厳つき氷")) this->skillType = EnumSpecificSkills::SpeciesSeverityIce;
+			else if (compareLineString(SSName, "SpeciesSixthSence") || compareLineString(SSName, "第六感")) this->skillType = EnumSpecificSkills::SpeciesSixthSence;
+			else if (compareLineString(SSName, "SpeciesSmallerHerbivoreBeastForm") ||
+				compareLineString(SSName, "獣変貌(小型草食獣)") ||
+				compareLineString(SSName, "獣変貌（小型草食獣）")) this->skillType = EnumSpecificSkills::SpeciesSmallerHerbivoreBeastForm;
+			else if (compareLineString(SSName, "SpeciesSoulLight") || compareLineString(SSName, "魂の輝き")) this->skillType = EnumSpecificSkills::SpeciesSoulLight;
+			else if (compareLineString(SSName, "SpeciesSporulation") || compareLineString(SSName, "胞子散布")) this->skillType = EnumSpecificSkills::SpeciesSporulation;
+			else if (compareLineString(SSName, "SpeciesSunRegeneration") || compareLineString(SSName, "太陽の再生")) this->skillType = EnumSpecificSkills::SpeciesSunRegeneration;
+			else if (compareLineString(SSName, "SpeciesSwarmingArtisan") ||
+				compareLineString(SSName, "群れなす職人")) this->skillType = EnumSpecificSkills::SpeciesSwarmingArtisan;
+			else if (compareLineString(SSName, "SpeciesTwistOfFate") || compareLineString(SSName, "運命変転")) this->skillType = EnumSpecificSkills::SpeciesTwistOfFate;
+			else if (compareLineString(SSName, "SpeciesValkyrieBlessing") ||
+				compareLineString(SSName, "戦乙女の祝福")) this->skillType = EnumSpecificSkills::SpeciesValkyrieBlessing;
+			else if (compareLineString(SSName, "SpeciesValkyrieLightWings") ||
+				compareLineString(SSName, "戦乙女の光羽")) this->skillType = EnumSpecificSkills::SpeciesValkyrieLightWings;
+			else if (compareLineString(SSName, "SpeciesWaterDependents") || compareLineString(SSName, "水の申し子")) this->skillType = EnumSpecificSkills::SpeciesWaterDependents;
+			else if (compareLineString(SSName, "SpeciesWeakPoint") || compareLineString(SSName, "弱点")) this->skillType = EnumSpecificSkills::SpeciesWeakPoint;
+			else if (compareLineString(SSName, "SpeciesWhistle") || compareLineString(SSName, "ホイッスル")) this->skillType = EnumSpecificSkills::SpeciesWhistle;
+			else if (compareLineString(SSName, "SpeciesWillToDuty") || compareLineString(SSName, "任務遂行の意志")) this->skillType = EnumSpecificSkills::SpeciesWillToDuty;
+			else if (compareLineString(SSName, "SpeciesWindWings") || compareLineString(SSName, "風の翼")) this->skillType = EnumSpecificSkills::SpeciesWindWings;
+			else if (compareLineString(SSName, "SpeciesWyrmRoar") || compareLineString(SSName, "竜の咆哮")) this->skillType = EnumSpecificSkills::SpeciesWyrmRoar;
+			/* 種族特徴ここまで */
+		}
+		else this->skillType = EnumSpecificSkills::Other;
+		switch (this->skillType) {
+		case EnumSpecificSkills::ActionInSuccession:
+			skillCondMorale = 120LL;
+			break;
+		case EnumSpecificSkills::Attacker:
+		case EnumSpecificSkills::Prediction:
+		case EnumSpecificSkills::Forsaken:
+			skillCondMorale = 130LL;
+			break;
+		case EnumSpecificSkills::SpeciesAnotherForm:
+			skillCondMorale = 150LL;
+			break;
+		default:
+			break;
+		}
+		this->customSkillNameUnlocalized = raw_data["SS_customname"].is_null() ? "" : raw_data["SS_customname"].string_value();
+		if (raw_data["SS_customdesc"].is_array()) {
+			for (Json SS_customdesc : raw_data["SS_customdesc"].array_items()) {
+				this->customSkillDescUnlocalized.push_back(SS_customdesc.string_value());
+			}
+		}
+		vector<int64_t> learnLevels;
+		for (Json raw_learnlevel : raw_data["SS_learnlevel"].array_items()) {
+			learnLevels.push_back(static_cast<int64_t>(raw_learnlevel.int_value()));
+			this->activeConditionSSList.push_back(new ActiveConditionSS(skillCondMorale, static_cast<int64_t>(raw_learnlevel.int_value())));
+		}
+		this->skillLearnLevel = vector<int64_t>(learnLevels);
+	}
+
+	inline bool SpecificSkill::activateSkill(GamePilot* pilot) {
+		//保留
+	}
+
+	inline SpecificSkill::SpecificSkill(Json raw_data) {
+		this->setSpecificSkill(raw_data);
+	}
+
+	inline SpecificSkill::SpecificSkill(const SpecificSkill* from) {
+		this->customSkillNameLocalized = from->customSkillNameLocalized;
+		this->customSkillNameUnlocalized = from->customSkillNameUnlocalized;
+		this->customSkillDescLocalized = vector<string>(from->customSkillDescLocalized);
+		this->customSkillDescUnlocalized = vector<string>(from->customSkillDescUnlocalized);
+		this->skillType = from->skillType;
+	}
 	/* -- End class: SpecificSkill -- */
 
 	class SpiritualPower {
@@ -2539,7 +2748,13 @@ namespace TREx {
 		/// <param name="pilot">ゲーム上での処理対象</param>
 		/// <returns>評価に基づく成否</returns>
 		bool AvailableConditions(GamePilot* pilot);
+		/// <summary>
+		/// 習得の評価を行います。
+		/// </summary>
+		/// <param name="pilot">ゲーム上での処理対象</param>
+		/// <returns>評価に基づく成否</returns>
 		bool LearnConditions(GamePilot* pilot);
+		ActiveConditionSS(int32_t _acMorale, int64_t _acLLevel);
 	};
 
 	inline bool ActiveConditionSS::AvailableConditions(GamePilot* pilot) {
@@ -2547,7 +2762,13 @@ namespace TREx {
 	}
 
 	inline bool ActiveConditionSS::LearnConditions(GamePilot* pilot) {
-		//
+		if (pilot->getPilotLevel() < this->acLLevel) return false;
+		return true;
+	}
+
+	inline ActiveConditionSS::ActiveConditionSS(int32_t _acMorale, int64_t _acLLevel) {
+		this->acMorale = _acMorale;
+		this->acLLevel = _acLLevel;
 	}
 	/* -- End class: ActiveConditionSS -- */
 
@@ -2597,9 +2818,21 @@ namespace TREx {
 		/// </summary>
 		map<EnumPilotStatusInitials, int64_t> pilotDataStatus;
 		/// <summary>
+		/// パイロットの特殊技能リスト
+		/// </summary>
+		vector<SpecificSkill*> pilotSkillList;
+		/// <summary>
+		/// パイロットの精神コマンドリスト
+		/// </summary>
+		vector<SpiritualPower*> pilotSPList;
+		/// <summary>
 		/// パイロットの初期精神ポイント
 		/// </summary>
 		int64_t pilotSpiritualPoint;
+		/// <summary>
+		/// パイロットのグラフィックURLです。
+		/// </summary>
+		string pilotGraphUrl;
 		/// <summary>
 		/// パイロットのグラフィックハンドラーです。
 		/// </summary>
@@ -2637,8 +2870,18 @@ namespace TREx {
 		/// <summary>
 		/// パイロットの初期ステータスを定義します。
 		/// </summary>
-		/// <param name="addtional_status"></param>
+		/// <param name="addtional_status">追加補正ぶん</param>
 		void setPilotDataStatus(Json addtional_status);
+		/// <summary>
+		/// パイロットの特殊技能を追加します。
+		/// </summary>
+		/// <param name="specific_skills">特殊技能の一覧</param>
+		void setPilotSkillList(Json specific_skills);
+		/// <summary>
+		/// パイロットの精神コマンドを追加します。
+		/// </summary>
+		/// <param name="spList">精神コマンドのリスト</param>
+		void setPilotSpiritualPower(Json spList);
 	public:
 		/// <summary>
 		/// 識別用のデータIDを返却する関数です。
@@ -2725,11 +2968,19 @@ namespace TREx {
 		int64_t getPilotSpiritualPoint() const {
 			return this->pilotSpiritualPoint;
 		}
+		vector<SpecificSkill*> getPilotSkillList() const {
+			return this->pilotSkillList;
+		}
 		/// <summary>
 		/// DataPilotクラスのコンストラクタ
 		/// </summary>
 		/// <param name="jsonDat">JSONデータ。配列データではないので注意</param>
 		DataPilot(Json jsonDat);
+		/// <summary>
+		/// コピーコンストラクタ
+		/// </summary>
+		/// <param name="from">コピー元</param>
+		DataPilot(DataPilot* from);
 	};
 
 	inline void DataPilot::setPilotGender(string rawGender) {
@@ -2808,6 +3059,17 @@ namespace TREx {
 		this->pilotDataStatus[EnumPilotStatusInitials::SPB] += static_cast<int64_t>(additional_status["SPB"].int_value());
 	}
 
+	inline void DataPilot::setPilotSkillList(Json specific_skills) {
+		this->pilotSkillList = this->pilotSpecies->getSpeciesSpecificSkills();
+		for (Json specific_skill_json : specific_skills.array_items()) {
+			this->pilotSkillList.push_back(new SpecificSkill(specific_skill_json));
+		}
+	}
+
+	inline void DataPilot::setPilotSpiritualPower(Json splist) {
+		//保留
+	}
+
 	inline DataPilot::DataPilot(Json jsonDat) {
 		this->pilotDataId = static_cast<uint32_t>(jsonDat["data_id"].number_value());
 		this->pilotFullname = jsonDat["fullname"].string_value();
@@ -2820,6 +3082,24 @@ namespace TREx {
 		this->setPilotDataStatus(jsonDat["additional_status"]);
 		this->pilotAdditionalDisgrace = this->pilotSpecies->getSpeciesDisgrace() + static_cast<int64_t>(jsonDat["additional_disgrace"].int_value());
 		this->pilotSpiritualPoint = this->pilotDataStatus[EnumPilotStatusInitials::SPB] + 20;
+		this->pilotIsMob = jsonDat["IsPilotMob"].bool_value();
+		this->pilotCanUseSP = jsonDat["CanPilotUseSPInAIMode"].bool_value();
+	}
+
+	inline DataPilot::DataPilot(DataPilot* from) {
+		this->pilotDataId = from->pilotDataId;
+		this->pilotFullname = from->pilotFullname;
+		this->pilotNickname = from->pilotNickname;
+		this->pilotReadname = from->pilotReadname;
+		this->pilotCodename = from->pilotCodename;
+		this->pilotSpecies = new DataSpecies(from->pilotSpecies);
+		this->pilotGender = from->pilotGender;
+		this->pilotPersonality = from->pilotPersonality;
+		this->pilotDataStatus = map<EnumPilotStatusInitials, int64_t>(from->pilotDataStatus);
+		this->pilotAdditionalDisgrace = from->pilotAdditionalDisgrace;
+		this->pilotSpiritualPoint = from->pilotSpiritualPoint;
+		this->pilotIsMob = from->pilotIsMob;
+		this->pilotCanUseSP = from->pilotCanUseSP;
 	}
 	/* -- End class: DataPilot -- */
 
@@ -2852,6 +3132,18 @@ namespace TREx {
 		/// パイロットのレベル
 		/// </summary>
 		int64_t pilotLevel;
+		/// <summary>
+		/// パイロットの気力
+		/// </summary>
+		int64_t pilotMorale;
+		/// <summary>
+		/// パイロットの最大気力
+		/// </summary>
+		int64_t pilotMaxMorale;
+		/// <summary>
+		/// パイロットの最低気力
+		/// </summary>
+		int64_t pilotMinMorale;
 	public:
 		/// <summary>
 		/// データ元のパイロットデータを返却します。
@@ -2895,16 +3187,55 @@ namespace TREx {
 		int64_t getPilotLevel() const {
 			return this->pilotLevel;
 		}
+		/// <summary>
+		/// パイロットの現在の気力を返却します。パイロットの最大気力は基本的に150です。
+		/// </summary>
+		/// <returns>パイロットの現在気力</returns>
+		int64_t getPilotMorale() const {
+			return this->pilotMorale;
+		}
+		/// <summary>
+		/// パイロットの最大気力を返却します。パイロットの最大気力は基本的に150です。
+		/// </summary>
+		/// <returns>パイロットの最大気力</returns>
+		int64_t getPilotMaxMorale() const {
+			return this->pilotMaxMorale;
+		}
+		/// <summary>
+		/// パイロットの最低気力を返却します。パイロットの最低気力は基本的に50です。
+		/// </summary>
+		/// <returns>パイロットの最低気力</returns>
+		int64_t getPilotMinMorale() const {
+			return this->pilotMinMorale;
+		}
 		GamePilot(DataPilot* pilotDat);
 		GamePilot(DataPilot* pilotDat, int64_t pLevel);
+		GamePilot(DataPilot* pilotDat, int64_t pLevel, int64_t pMorale);
 	};
 
-	GamePilot::GamePilot(DataPilot* pilotDat) {
+	inline GamePilot::GamePilot(DataPilot* pilotDat) {
 		this->basedPilot = pilotDat;
 		this->pilotLevel = 1LL;
+		this->pilotMorale = 100LL;
+		this->pilotMaxMorale = 150LL;
+		this->pilotMinMorale = 50LL;
+		for (SpecificSkill* specSkill : this->basedPilot->getPilotSkillList()) {
+			if (specSkill->getSkillType() == EnumSpecificSkills::SpiritualLimitBreakthrough) {
+				this->pilotMaxMorale += 20LL;
+				break;
+			}
+		}
 	}
-	GamePilot::GamePilot(DataPilot* pilotDat, int64_t pLevel) : GamePilot(pilotDat) {
-		this->pilotLevel = pLevel;
+	inline GamePilot::GamePilot(DataPilot* pilotDat, int64_t pLevel) : GamePilot(pilotDat) {
+		if (pLevel < 1LL) throw exception("Invalid Arguments");
+		else if (pLevel > 100LL) this->pilotLevel = 100LL;
+		else this->pilotLevel = pLevel;
+	}
+
+	inline GamePilot::GamePilot(DataPilot* pilotDat, int64_t pLevel, int64_t pMorale) : GamePilot(pilotDat, pLevel) {
+		if (pMorale < 50) this->pilotMorale = 50LL;
+		else if (pMorale > this->pilotMaxMorale) this->pilotMorale = this->pilotMaxMorale;
+		else this->pilotMorale = pMorale;
 	}
 	/* -- End class: GamePilot -- */
 }

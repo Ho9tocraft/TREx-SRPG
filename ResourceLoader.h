@@ -68,9 +68,19 @@ namespace TREx {
 	class DataUnit;
 	class GameUnit;
 
+	/// <summary>
+	/// データ系の構造体です。
+	/// </summary>
 	struct DictDataEnviroment {
-		map<uint64_t, DataPilot*> dictDataPilot;
+		JSONParser* jsonParser;
+		map<string, DataPilot*> dictDataPilot;
+
+		DictDataEnviroment();
 	};
+
+	inline DictDataEnviroment::DictDataEnviroment() {
+		this->jsonParser = new JSONParser();
+	}
 
 	/// <summary>
 	/// 言語分類(ローカライズ)の読み込み用クラスです。

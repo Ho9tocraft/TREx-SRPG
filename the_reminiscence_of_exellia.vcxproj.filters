@@ -73,6 +73,9 @@
     <None Include=".gitignore">
       <Filter>リソース ファイル</Filter>
     </None>
+    <None Include="Resources\datas\datapacks\species.json">
+      <Filter>リソース ファイル\データリスト</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\datas\datapacks\pilots.json">
