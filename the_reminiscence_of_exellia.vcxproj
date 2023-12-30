@@ -162,14 +162,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="json11.hpp" />
-    <ClInclude Include="Parser.h" />
     <ClInclude Include="all_loaders.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="Pilots.h" />
-    <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="strconv2.h" />
-    <ClInclude Include="Units.h" />
-    <ClInclude Include="UtilGameContents.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
