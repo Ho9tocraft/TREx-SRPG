@@ -32,6 +32,10 @@
 
 #include "strconv2.h"
 #include "json11.hpp"
+/* 独自ライブラリ */
+#include "all_loaders.h"
+#include "DataPilot.h"
+#include "DataSpecificSkills.h"
 
 using namespace std;
 /* DROPBOX/JSON11 LIBRARIES */

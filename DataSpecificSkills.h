@@ -33,10 +33,13 @@
 #include "strconv2.h"
 #include "json11.hpp"
 /* 独自ライブラリ */
+#include "all_loaders.h"
 #include "main.h"
 #include "DataPilot.h"
-#include "DataSpecificSkills.h"
 
-using namespace std;
-/* DROPBOX/JSON11 LIBRARIES */
-using namespace json11;
+class DataSpecificSkills
+{
+protected:
+public:
+};
+

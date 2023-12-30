@@ -28,6 +28,9 @@
     <Filter Include="リソース ファイル\データリスト">
       <UniqueIdentifier>{f7457bae-b71e-41ae-a4e9-10547abe0a37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\キャラクター クラス">
+      <UniqueIdentifier>{dfe414fa-028a-4901-a417-7ab0f4fb5481}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -35,6 +38,12 @@
     </ClCompile>
     <ClCompile Include="json11.cpp">
       <Filter>ソース ファイル\データ パーシング クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="DataPilot.cpp">
+      <Filter>ソース ファイル\キャラクター クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="DataSpecificSkills.cpp">
+      <Filter>ソース ファイル\キャラクター クラス</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +58,12 @@
     </ClInclude>
     <ClInclude Include="json11.hpp">
       <Filter>ヘッダー ファイル\データ パーシング クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="DataPilot.h">
+      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="DataSpecificSkills.h">
+      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

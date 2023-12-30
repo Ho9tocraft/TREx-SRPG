@@ -157,10 +157,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DataPilot.cpp" />
+    <ClCompile Include="DataSpecificSkills.cpp" />
     <ClCompile Include="json11.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DataPilot.h" />
+    <ClInclude Include="DataSpecificSkills.h" />
     <ClInclude Include="json11.hpp" />
     <ClInclude Include="all_loaders.h" />
     <ClInclude Include="main.h" />
