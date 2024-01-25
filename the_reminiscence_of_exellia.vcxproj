@@ -159,12 +159,14 @@
   <ItemGroup>
     <ClCompile Include="DataPilot.cpp" />
     <ClCompile Include="DataSpecificSkills.cpp" />
+    <ClCompile Include="GamePilot.cpp" />
     <ClCompile Include="json11.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataPilot.h" />
     <ClInclude Include="DataSpecificSkills.h" />
+    <ClInclude Include="GamePilot.h" />
     <ClInclude Include="json11.hpp" />
     <ClInclude Include="all_loaders.h" />
     <ClInclude Include="main.h" />
@@ -173,7 +175,6 @@
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="README.md" />
-    <None Include="Resources\datas\datapacks\species.json" />
     <Text Include="Resources\datas\datapacks\pilots.json">
       <FileType>Document</FileType>
       <DeploymentContent>true</DeploymentContent>

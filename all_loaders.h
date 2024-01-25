@@ -36,7 +36,19 @@
 #include "main.h"
 #include "DataPilot.h"
 #include "DataSpecificSkills.h"
+#include "GamePilot.h"
 
 using namespace std;
 /* DROPBOX/JSON11 LIBRARIES */
 using namespace json11;
+
+enum class EnumPilotGender : uint64_t;
+enum class EnumPilotPersonality : uint64_t;
+enum class EnumPilotStatusCategory : uint64_t;
+enum class EnumTerrainAdaption : uint64_t;
+enum class EnumTerrainType : uint64_t;
+
+class DataSpecificSkills;
+class DataPilot;
+
+class GamePilot;

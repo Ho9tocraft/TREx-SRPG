@@ -45,6 +45,9 @@
     <ClCompile Include="DataSpecificSkills.cpp">
       <Filter>ソース ファイル\キャラクター クラス</Filter>
     </ClCompile>
+    <ClCompile Include="GamePilot.cpp">
+      <Filter>ソース ファイル\キャラクター クラス</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -65,6 +68,9 @@
     <ClInclude Include="DataSpecificSkills.h">
       <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
     </ClInclude>
+    <ClInclude Include="GamePilot.h">
+      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
@@ -72,9 +78,6 @@
     </None>
     <None Include=".gitignore">
       <Filter>リソース ファイル</Filter>
-    </None>
-    <None Include="Resources\datas\datapacks\species.json">
-      <Filter>リソース ファイル\データリスト</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

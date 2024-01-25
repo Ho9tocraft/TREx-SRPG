@@ -36,6 +36,7 @@
 #include "all_loaders.h"
 #include "main.h"
 #include "DataPilot.h"
+#include "DataSpecificSkills.h"
 
 using namespace std;
 /* DROPBOX/JSON11 LIBRARIES */
@@ -50,17 +51,9 @@ enum class EnumTerrainType : uint64_t;
 class DataSpecificSkills;
 class DataPilot;
 
-class DataSpecificSkills
+class GamePilot;
+
+class GamePilot
 {
-protected:
-	string skillName;
-	string skillDesc;
-	string skillCustomName;
-	string skillCustomDesc;
-public:
-	string getSkillName() const;
-	string getSkillDesc() const;
-	string getSkillCustomName() const;
-	string getSkillCustomDesc() const;
 };
 
