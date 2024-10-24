@@ -19,6 +19,6 @@
 #include <filesystem>
 #include <DxLib.h>
 
-#include "trex_wrapper.h"
+#include "Main.h"
 #include "DataPilot.h"
 #include "strconv2.h"

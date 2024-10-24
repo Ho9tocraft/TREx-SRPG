@@ -31,33 +31,19 @@
     <Filter Include="ソース ファイル\キャラクター クラス">
       <UniqueIdentifier>{dfe414fa-028a-4901-a417-7ab0f4fb5481}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\メインプロセス クラス">
+      <UniqueIdentifier>{2e168d98-0022-4656-961c-129aad3ed45a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\メインプロセス クラス">
+      <UniqueIdentifier>{9b508895-a4d3-47d6-98ca-aa5e2587a762}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="json11.cpp">
-      <Filter>ソース ファイル\データ パーシング クラス</Filter>
-    </ClCompile>
-    <ClCompile Include="DataPilot.cpp">
-      <Filter>ソース ファイル\キャラクター クラス</Filter>
-    </ClCompile>
-    <ClCompile Include="DataSpecificSkills.cpp">
-      <Filter>ソース ファイル\キャラクター クラス</Filter>
-    </ClCompile>
-    <ClCompile Include="GamePilot.cpp">
-      <Filter>ソース ファイル\キャラクター クラス</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="main.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="all_loaders.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="strconv2.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Main.h">
+      <Filter>ヘッダー ファイル\メインプロセス クラス</Filter>
     </ClInclude>
     <ClInclude Include="json11.hpp">
       <Filter>ヘッダー ファイル\データ パーシング クラス</Filter>
@@ -65,11 +51,8 @@
     <ClInclude Include="DataPilot.h">
       <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
     </ClInclude>
-    <ClInclude Include="DataSpecificSkills.h">
-      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePilot.h">
-      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
+    <ClInclude Include="trex_wrapper.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +61,9 @@
     </None>
     <None Include=".gitignore">
       <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Resources\datas\datapacks\sp.json">
+      <Filter>リソース ファイル\データリスト</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -90,5 +76,13 @@
     <Text Include="Resources\datas\localization\ja_jp.json">
       <Filter>リソース ファイル\ローカライズ</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="json11.cpp">
+      <Filter>ソース ファイル\データ パーシング クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="DataPilot.cpp">
+      <Filter>ソース ファイル\キャラクター クラス</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
