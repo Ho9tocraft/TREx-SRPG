@@ -1,0 +1,22 @@
+DirectXInput 入力反応キー (FOCUS: DUALSHOCK 4)
+X: Lスティック左右(負数が左、正数が右)
+Y: Lスティック上下(負数が上、正数が下)
+Z: Rスティック左右(負数が左、正数が右)
+RZ: Rスティック上下(負数が上、正数が下)
+RX: L2押し込み
+RY: R2押し込み
+POVの0: 十字キー(0が上、9000が右、18000が下、27000が左)
+Button 0: □キー (X)
+Button 1: ×キー (A)
+Button 2: ○キー (B)
+Button 3: △キー (Y)
+Button 4: L1
+Button 5: R1
+Button 6: L2
+Button 7: R2
+Button 8: SHARE
+Button 9: OPTIONS
+Button 10: L3
+Button 11: R3
+Button 12: PSボタン
+Button 13: タッチパッド

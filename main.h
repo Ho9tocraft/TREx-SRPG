@@ -22,3 +22,5 @@
 #include "trex_wrapper.h"
 #include "DataPilot.h"
 #include "strconv2.h"
+
+extern DINPUT_JOYSTATE input;

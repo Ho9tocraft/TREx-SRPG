@@ -76,6 +76,9 @@
     <Text Include="Resources\datas\localization\ja_jp.json">
       <Filter>リソース ファイル\ローカライズ</Filter>
     </Text>
+    <Text Include="Resources\memo.txt">
+      <Filter>リソース ファイル\データリスト</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="json11.cpp">
@@ -83,6 +86,9 @@
     </ClCompile>
     <ClCompile Include="DataPilot.cpp">
       <Filter>ソース ファイル\キャラクター クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>ソース ファイル\メインプロセス クラス</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
