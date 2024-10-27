@@ -21,6 +21,7 @@
 
 #include "trex_wrapper.h"
 #include "Main.h"
+#include "GameMain.h"
 #include "strconv2.h"
 
 class DataPilot

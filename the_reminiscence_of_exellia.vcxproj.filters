@@ -54,6 +54,9 @@
     <ClInclude Include="trex_wrapper.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="GameMain.h">
+      <Filter>ヘッダー ファイル\メインプロセス クラス</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
@@ -88,6 +91,9 @@
       <Filter>ソース ファイル\キャラクター クラス</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
+      <Filter>ソース ファイル\メインプロセス クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMain.cpp">
       <Filter>ソース ファイル\メインプロセス クラス</Filter>
     </ClCompile>
   </ItemGroup>

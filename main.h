@@ -20,6 +20,7 @@
 #include <DxLib.h>
 
 #include "trex_wrapper.h"
+#include "GameMain.h"
 #include "DataPilot.h"
 #include "strconv2.h"
 

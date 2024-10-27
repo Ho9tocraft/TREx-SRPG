@@ -20,5 +20,6 @@
 #include <DxLib.h>
 
 #include "Main.h"
+#include "GameMain.h"
 #include "DataPilot.h"
 #include "strconv2.h"
