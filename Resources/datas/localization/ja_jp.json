@@ -4,850 +4,229 @@
 		"language": "ja_JP",
 		"localize":
 		{
-			"contents":
-			{
-				"pilots-data":
-				{
-					"fullname":
-					{
-						"id-00000000": "エクセリア・シャルロッテ・クレア・ゼーゲブレヒト・アウェア",
-						"id-00000001": "リーン・R・ウォータース"
-					},
-					"nickname":
-					{
-						"id-00000000": "聖王エクセリア",
-						"id-00000001": "リーン"
-					},
-					"readname":
-					{
-						"id-00000000": "エクセリア・シャルロッテ・クレア・ゼーゲブレヒト・アウェア",
-						"id-00000001": "リーン・ランジート・ウォータース"
-					},
-					"codename":
-					{
-						"id-00000000": "宙準星の巫女",
-						"id-00000001": "氷珖の戦乙女"
-					}
-				},
-				"units-data":
-				{
-					"fullname":
-					{
-						"id-00000000": "エクセリア・シャルロッテ・クレア・ゼーゲブレヒト・アウェア",
-						"id-00000001": "疑似氷神シヴァ・セイヴァー"
-					},
-					"nickname":
-					{
-						"id-00000000": "聖王エクセリア",
-						"id-00000001": "疑似氷神シヴァ・セイヴァー"
-					},
-					"readname":
-					{
-						"id-00000000": "エクセリア・シャルロッテ・クレア・ゼーゲブレヒト・アウェア",
-						"id-00000001": "ぎじひょうじんシヴァ・セイヴァー"
-					},
-					"codename":
-					{
-						"id-00000000": "宙準星の巫女",
-						"id-00000001": "氷珖の戦乙女"
-					}
-				},
-				"spirituals-data":
-				{
-					"id-00000000":
-					{
-						"name": "偵察",
-						"desc":
-						[
-							"指定した敵ユニット部隊のステータスを調べることができる。"
-						]
-					},
-					"id-00000001":
-					{
-						"name": "集中",
-						"desc":
-						[
-							"1ターンの間、命中率と回避率が30％だけ上昇する。"
-						]
-					},
-					"id-00000002":
-					{
-						"name": "必中",
-						"desc":
-						[
-							"1ターンの間、攻撃の命中率が100％になる。",
-							"ただし「ひらめき」は優先される。"
-						]
-					},
-					"id-00000003":
-					{
-						"name": "感応",
-						"desc":
-						[
-							"指定した味方ユニットに「必中」の効果を与える。"
-						]
-					},
-					"id-00000004":
-					{
-						"name": "ひらめき",
-						"desc":
-						[
-							"1度だけ、戦闘での敵の攻撃を完全回避する。"
-						]
-					},
-					"id-00000005":
-					{
-						"name": "直感",
-						"desc":
-						[
-							"1度に「ひらめき」「必中」の効果を得ることができる。"
-						]
-					},
-					"id-00000006":
-					{
-						"name": "かく乱",
-						"desc":
-						[
-							"1ターンの間、全敵の命中率が半分になる。",
-							"ただし「必中」は優先される。"
-						]
-					},
-					"id-00000007":
-					{
-						"name": "加速",
-						"desc":
-						[
-							"1度だけ、移動力に+3される。"
-						]
-					},
-					"id-00000008":
-					{
-						"name": "狙撃",
-						"desc":
-						[
-							"1度だけ、射程1の武器とマップ兵器以外の武器の射程に対して+2される。"
-						]
-					},
-					"id-00000009":
-					{
-						"name": "突撃",
-						"desc":
-						[
-							"1ターンの間、マップ兵器以外のすべての武器が移動後に使用できるようになる。"
-						]
-					},
-					"id-0000000a":
-					{
-						"name": "同調",
-						"desc":
-						[
-							"ツインユニットの、パイロットの能力(格闘・射撃・魔力・技量・防御・命中・回避・抵抗)を両メインパイロットの数値の高い方へ合わせる。"
-						]
-					},
-					"id-0000000b":
-					{
-						"name": "熱血",
-						"desc":
-						[
-							"1度だけ与えるダメージが2倍になる。",
-							"クリティカルは発生しない。"
-						]
-					},
-					"id-0000000c":
-					{
-						"name": "魂",
-						"desc":
-						[
-							"1度だけ与えるダメージが2.5倍になる。",
-							"クリティカルは発生しない。"
-						]
-					},
-					"id-0000000d":
-					{
-						"name": "闘志",
-						"desc":
-						[
-							"1ターンの間、攻撃が必ずクリティカルになる。",
-							"「熱血」「魂」付与時にはクリティカルの発生効果が無効化されるが、代わりに与ダメージが更に1.2倍になる。"
-						]
-					},
-					"id-0000000e":
-					{
-						"name": "幸運",
-						"desc":
-						[
-							"次の戦闘で得られる資金が2倍になる。"
-						]
-					},
-					"id-0000000f":
-					{
-						"name": "祝福",
-						"desc":
-						[
-							"指定した機体に「幸運」の効果を与えることができる。"
-						]
-					},
-					"id-00000010":
-					{
-						"name": "努力",
-						"desc":
-						[
-							"次の戦闘で得られる経験値が2倍になる。"
-						]
-					},
-					"id-00000011":
-					{
-						"name": "応援",
-						"desc":
-						[
-							"指定した機体に「努力」の効果を与えることができる。"
-						]
-					},
-					"id-00000012":
-					{
-						"name": "修行",
-						"desc":
-						[
-							"次の戦闘で得られるパイロットポイント（PP）が2倍になる。"
-						]
-					},
-					"id-00000013":
-					{
-						"name": "強襲",
-						"desc":
-						[
-							"1度に「加速」「突撃」「直撃」の効果を得ることができる。"
-						]
-					},
-					"id-00000014":
-					{
-						"name": "愛",
-						"desc":
-						[
-							"1度に「加速」「ひらめき」「必中」「熱血」「気合」「幸運」「努力」の効果を得ることができる。"
-						]
-					},
-					"id-00000015":
-					{
-						"name": "直撃",
-						"desc":
-						[
-							"一度だけ、敵の援護防御と、防御系の特殊能力(バリア系、分身系、ジャマー、盾装備、ブロック系)を無効にする。 - 「オールキャンセラー」や「デュナミスの高揚」などの効果には適用されない。"
-						]
-					},
-					"id-00000016":
-					{
-						"name": "鉄壁",
-						"desc":
-						[
-							"1ターンの間、戦闘で受ける「物理」属性ダメージを1/4にする。"
-						]
-					},
-					"id-00000017":
-					{
-						"name": "信念",
-						"desc":
-						[
-							"1ターンの間、戦闘で受ける「魔法」属性ダメージを1/4にする。"
-						]
-					},
-					"id-00000018":
-					{
-						"name": "不屈",
-						"desc":
-						[
-							"1度だけ、戦闘で受けるすべてのダメージを1/8にする。"
-						]
-					},
-					"id-00000019":
-					{
-						"name": "連撃",
-						"desc":
-						[
-							"次の戦闘で攻撃した敵ユニット部隊1つを壊滅させた場合、もう1度行動できる。"
-						]
-					},
-					"id-0000001a":
-					{
-						"name": "覚醒",
-						"desc":
-						[
-							"行動回数が1回増える。"
-						]
-					},
-					"id-0000001b":
-					{
-						"name": "再動",
-						"desc":
-						[
-							"行動終了した味方部隊を1つ指定し、その部隊の行動終了を解除する。"
-						]
-					},
-					"id-0000001c":
-					{
-						"name": "信頼",
-						"desc":
-						[
-							"指定したユニットのHPを2000回復する。"
-						]
-					},
-					"id-0000001d":
-					{
-						"name": "友情",
-						"desc":
-						[
-							"指定したユニットのHPを全回復する。"
-						]
-					},
-					"id-0000001e":
-					{
-						"name": "絆",
-						"desc":
-						[
-							"全味方のユニットのHPを最大値の40％分だけ回復する。"
-						]
-					},
-					"id-0000001f":
-					{
-						"name": "根性",
-						"desc":
-						[
-							"自分のユニットのHPを最大値の30％(最大9000)分だけ回復する。"
-						]
-					},
-					"id-00000020":
-					{
-						"name": "ド根性",
-						"desc":
-						[
-							"自分のユニットのHPを最大値まで回復する。"
-						]
-					},
-					"id-00000021":
-					{
-						"name": "祈り",
-						"desc":
-						[
-							"指定した部隊のステータス異常を解除する(一部を除く)"
-						]
-					},
-					"id-00000022":
-					{
-						"name": "てかげん",
-						"desc":
-						[
-							"次の戦闘で敵ユニットを倒さずに、HPを10だけ残す。",
-							"相手より技量が上回っていなければ無効となる。"
-						]
-					},
-					"id-00000023":
-					{
-						"name": "気合",
-						"desc":
-						[
-							"気力を10上昇させる。"
-						]
-					},
-					"id-00000024":
-					{
-						"name": "気迫",
-						"desc":
-						[
-							"気力を30上昇させる。"
-						]
-					},
-					"id-00000025":
-					{
-						"name": "激励",
-						"desc":
-						[
-							"指定したユニットの全パイロットの気力を10上げる。"
-						]
-					},
-					"id-00000026":
-					{
-						"name": "大激励",
-						"desc":
-						[
-							"全味方のパイロットの気力を5上げる。"
-						]
-					},
-					"id-00000027":
-					{
-						"name": "脱力",
-						"desc":
-						[
-							"指定した敵ユニットの気力を10下げる。"
-						]
-					},
-					"id-00000028":
-					{
-						"name": "期待",
-						"desc":
-						[
-							"指定したパイロットの精神ポイント(SP)を50回復する。"
-						]
-					},
-					"id-00000029":
-					{
-						"name": "補給",
-						"desc":
-						[
-							"指定したユニットのMPと弾数を全回復する。"
-						]
-					},
-					"id-0000002a":
-					{
-						"name": "決意",
-						"desc":
-						[
-							"自分のLBゲージを5上昇させる。"
-						]
-					},
-					"id-0000002b":
-					{
-						"name": "希望",
-						"desc":
-						[
-							"指定した味方ユニットのHPを最大値の50％まで回復、一部を除くすべての状態異常を解除し、「努力」「幸運」が同時にかかる。"
-						]
-					},
-					"id-0000002c":
-					{
-						"name": "分析",
-						"desc":
-						[
-							"1ターンの間、指定した敵ユニットへのダメージを1.1倍にし、その敵ユニットからのダメージを属性に応じて最大0.925倍にする。"
-						]
-					},
-					"id-0000002d":
-					{
-						"name": "先見",
-						"desc":
-						[
-							"指定した味方ユニットが1戦闘中、敵ユニットの攻撃を完全回避する。"
-						]
-					},
-					"id-0000002e":
-					{
-						"name": "勇気",
-						"desc":
-						[
-							"1度に「加速」「不屈」「必中」「熱血」「気合」「闘志」がかかる。"
-						]
-					},
-					"id-0000002f":
-					{
-						"name": "流星",
-						"desc":
-						[
-							"1ターンに1度だけ発動でき、自部隊の行動回数を0～5回のランダムな回数に変更する。"
-						]
-					},
-					"id-00000030":
-					{
-						"name": "奇跡",
-						"desc":
-						[
-							"1度に「加速」「必中」「ひらめき」「魂」「気迫」「努力」「幸運」「狙撃」「突撃」「直撃」「鉄壁」「信念」「集中」が同時にかかり、行動回数を1回増やす。"
-						]
-					}
-				},
-				"specific-skills-data":
-				{
-					"id-00000000":
-					{
-						"name": "アタッカー",
-						"desc":
-						[
-							"気力130以上のとき、与えるダメージが20％増加。"
-						]
-					},
-					"id-00000001":
-					{
-						"name": "インファイト",
-						"desc":
-						[
-							"技能レベルに応じて格闘武器の攻撃力とユニットの移動力が上昇する。"
-						]
-					},
-					"id-00000002":
-					{
-						"name": "ガンファイト",
-						"desc":
-						[
-							"技能レベルに応じて射撃武器の攻撃力と射程が上昇する。"
-						]
-					},
-					"id-00000003":
-					{
-						"name": "メイジファイト",
-						"desc":
-						[
-							"技能レベルに応じて魔法武器の攻撃力が上昇し、消費MPが減少する。"
-						]
-					},
-					"id-00000004":
-					{
-						"name": "強運",
-						"desc":
-						[
-							"獲得資金が20％増加する。"
-						]
-					},
-					"id-00000005":
-					{
-						"name": "指揮官",
-						"desc":
-						[
-							"指揮範囲内にいる味方の命中・回避率上昇。"
-						]
-					},
-					"id-00000006":
-					{
-						"name": "天才",
-						"desc":
-						[
-							"命中・回避・クリティカル率20％増加。"
-						]
-					},
-					"id-00000007":
-					{
-						"name": "念動力",
-						"desc":
-						[
-							"技能レベルに応じて命中率・回避率が上昇。"
-						]
-					},
-					"id-00000008":
-					{
-						"name": "予知",
-						"desc":
-						[
-							"気力130以上の時、敵フェイズ中の最終回避率30％上昇。"
-						]
-					},
-					"id-00000009":
-					{
-						"name": "ラッキー",
-						"desc":
-						[
-							"まれに命中・回避・クリティカル率が100％になる。"
-						]
-					},
-					"id-0000000a":
-					{
-						"name": "SP回復",
-						"desc":
-						[
-							"毎ターン精神ポイントが10回復する。"
-						]
-					},
-					"id-0000000b":
-					{
-						"name": "援護攻撃",
-						"desc":
-						[
-							"隣接する味方部隊の援護攻撃に入る。"
-						]
-					},
-					"id-0000000c":
-					{
-						"name": "援護防御",
-						"desc":
-						[
-							"隣接する味方部隊の援護防御に入る。"
-						]
-					},
-					"id-0000000d":
-					{
-						"name": "カウンター",
-						"desc":
-						[
-							"敵の攻撃前に反撃を行う。技能レベルと技量差に応じた確率で発動する。"
-						]
-					},
-					"id-0000000e":
-					{
-						"name": "底力",
-						"desc":
-						[
-							"残りHPと技能レベルに応じて命中・回避・クリティカル率、および装甲値が上昇。"
-						]
-					},
-					"id-0000000f":
-					{
-						"name": "連続攻撃",
-						"desc":
-						[
-							"スキルレベルに応じてコンビネーション攻撃が可能になる。"
-						]
-					},
-					"id-00000010":
-					{
-						"name": "SPアップ",
-						"desc":
-						[
-							"最大SPを上昇させる。"
-						]
-					},
-					"id-00000011":
-					{
-						"name": "ガード",
-						"desc":
-						[
-							"被ダメージを20％軽減する。"
-						]
-					},
-					"id-00000012":
-					{
-						"name": "見切り",
-						"desc":
-						[
-							"気力130以上の時、最終命中・最終回避が10上昇。"
-						]
-					},
-					"id-00000013":
-					{
-						"name": "気力限界突破",
-						"desc":
-						[
-							"気力最大値が170になる。"
-						]
-					},
-					"id-00000014":
-					{
-						"name": "再攻撃",
-						"desc":
-						[
-							"相手より技量が20以上高い場合、相手の反撃後、自分に対して援護攻撃を行う。"
-						]
-					},
-					"id-00000015":
-					{
-						"name": "集束攻撃",
-						"desc":
-						[
-							"メインユニットがサブユニットを、サブユニットがメインユニットを攻撃した場合のダメージ低下を20％減少。"
-						]
-					},
-					"id-00000016":
-					{
-						"name": "ヒット＆アウェイ",
-						"desc":
-						[
-							"移動せずに攻撃した場合、敵フェイズ中の最終回避率が20％上昇。"
-						]
-					},
-					"id-00000017":
-					{
-						"name": "リベンジ",
-						"desc":
-						[
-							"反撃時に与えるダメージが20％増加する。"
-						]
-					},
-					"id-00000018":
-					{
-						"name": "連携攻撃",
-						"desc":
-						[
-							"援護攻撃で与えるダメージが減衰しなくなる。"
-						]
-					},
-					"id-00000019":
-					{
-						"name": "連続行動",
-						"desc":
-						[
-							"気力120以上で攻撃して敵部隊を撃破した場合、行動終了にならずもう一度行動できる。"
-						]
-					},
-					"id-0000001a":
-					{
-						"name": "MB発動",
-						"desc":
-						[
-							"「マキシマムブレイク」が使用可能になる。"
-						]
-					},
-					"id-0000001b":
-					{
-						"name": "気力+(回避)",
-						"desc":
-						[
-							"攻撃を回避した場合、気力が本来の増減に加えて更に1上昇。"
-						]
-					},
-					"id-0000001c":
-					{
-						"name": "気力+(撃破)",
-						"desc":
-						[
-							"自分が所属する部隊が敵を撃墜した場合、気力が本来の増減に加えて更に1上昇。"
-						]
-					},
-					"id-0000001d":
-					{
-						"name": "気力+(ダメージ)",
-						"desc":
-						[
-							"敵対陣営からの攻撃でダメージを受けた場合、気力が本来の増減に加えて更に2上昇。"
-						]
-					},
-					"id-0000001e":
-					{
-						"name": "気力+(命中)",
-						"desc":
-						[
-							"敵対陣営への攻撃が命中した場合、気力が本来の増減に加えて更に1上昇。"
-						]
-					},
-					"id-0000001f":
-					{
-						"name": "気力+(ALL)",
-						"desc":
-						[
-							"「回避」「撃破」「ダメージ」「命中」のすべての「気力+」技能と同じ技能を得る。"
-						]
-					},
-					"id-00000020":
-					{
-						"name": "戦意高揚",
-						"desc":
-						[
-							"2ターン目以降、味方ターン開始時に気力が2上昇"
-						]
-					},
-					"id-00000021":
-					{
-						"name": "闘争心",
-						"desc":
-						[
-							"マップ開始時の気力+5"
-						]
-					},
-					"id-00000022":
-					{
-						"name": "集中力",
-						"desc":
-						[
-							"消費SPが20％減少する。"
-						]
-					},
-					"id-00000023":
-					{
-						"name": "治癒技能",
-						"desc":
-						[
-							"個別コマンド「治癒」使用時に、HP回復量が20％増加。"
-						]
-					},
-					"id-00000024":
-					{
-						"name": "補給技能",
-						"desc":
-						[
-							"移動後に個別コマンド「補給」を使用可能になる。"
-						]
-					},
-					"id-00000025":
-					{
-						"name": "ラーニング",
-						"desc":
-						[
-							"ツインユニットのサブ側で戦った際の取得経験値とPPがメインユニット時と等値になる。"
-						]
-					},
-					"id-00000026":
-					{
-						"name": "Bセーブ",
-						"desc":
-						[
-							"武器の弾数消費が中確率で起こらなくなる。"
-						]
-					},
-					"id-00000027":
-					{
-						"name": "Eセーブ",
-						"desc":
-						[
-							"武器の消費MPが25％減少する。"
-						]
-					},
-					"id-00000028":
-					{
-						"name": "EXPアップ",
-						"desc":
-						[
-							"戦闘でもらえる経験値が20％増加。"
-						]
-					},
-					"id-00000029":
-					{
-						"name": "デュナミスの高揚",
-						"desc":
-						[
-							"毎ターン、リミットゲージが本来の増加に加えて更に1増加。「マキシマムブレイク」使用時、ダメージが20％増加する。"
-						]
-					},
-					"id-0000002a":
-					{
-						"name": "タンクマスタリー",
-						"desc":
-						[
-							"被ダメージが5％減少し、防御値の5％ぶんの値が基本攻撃力の計算に追加される。"
-						]
-					},
-					"id-0000002b":
-					{
-						"name": "ヒーラーマスタリー",
-						"desc":
-						[
-							"個別コマンド「治癒」使用時に、HP回復量が5％増加。"
-						]
-					}
-				},
-				"elements-data":
-				{
-					"light": "光",
-					"water": "水",
-					"ice": "氷",
-					"earth": "土",
-					"dark": "闇",
-					"wind": "風",
-					"lightning": "雷",
-					"fire": "炎",
-					"toxic": "毒",
-					"plague": "病気",
-					"mind": "精神効果",
-					"curse": "呪い",
-					"blackflame": "黒炎"
-				}
-			},
-			"user-interface":
-			{
-				"common-index-name":
-				{
-					"pilot": "パイロット",
-					"unit": "ユニット",
-					"weapon": "武器",
-					"ability": "アビリティ",
-					"positive-effect": "バフ",
-					"negative-effect": "デバフ",
-					"uncategorized-effect": "ギミックエフェクト"
-				},
-				"status-index-name":
-				{
-					"pilot-status":
-					{
-						"fullname": "本名",
-						"nickname": "愛称",
-						"readname": "読み",
-						"codename": "通り名"
-					}
-				}
-			}
+			/* Pilots Data */
+			"contents.pilots-data.fullname.id-00000000": "エクセリア・シャルロッテ・クレア・ゼーゲブレヒト・アウェア",
+			"contents.pilots-data.nickname.id-00000000": "聖王エクセリア",
+			"contents.pilots-data.readname.id-00000000": "エクセリア・シャルロッテ・クレア・ゼーゲブレヒト・アウェア",
+			"contents.pilots-data.codename.id-00000000": "宙準星の巫女",
+			"contents.pilots-data.fullname.id-00000001": "リーン・ウォータース",
+			"contents.pilots-data.nickname.id-00000001": "リーン",
+			"contents.pilots-data.readname.id-00000001": "リーン・ウォータース",
+			"contents.pilots-data.codename.id-00000001": "氷珖の戦乙女",
+			/* Units Data */
+			"contents.units-data.fullname.id-00000000": "エクセリア・シャルロッテ・クレア・ゼーゲブレヒト・アウェア",
+			"contents.units-data.nickname.id-00000000": "聖王エクセリア",
+			"contents.units-data.readname.id-00000000": "エクセリア・シャルロッテ・クレア・ゼーゲブレヒト・アウェア",
+			"contents.units-data.codename.id-00000000": "宙準星の巫女",
+			"contents.units-data.fullname.id-00000001": "疑似氷神シヴァ／セイヴァー",
+			"contents.units-data.nickname.id-00000001": "疑似氷神シヴァ",
+			"contents.units-data.readname.id-00000001": "ぎじひょうじんシヴァ・セイヴァー",
+			"contents.units-data.codename.id-00000001": "氷珖の戦乙女",
+			/* Spiritual Power Data */
+			"contents.spirituals-data.id-00000000.name": "偵察",
+			"contents.spirituals-data.id-00000000.desc": [ "指定した敵ユニット部隊のステータスを調べることができる。" ],
+			"contents.spirituals-data.id-00000001.name": "集中",
+			"contents.spirituals-data.id-00000001.desc": [ "1ターンの間、命中率と回避率が30％だけ上昇する。" ],
+			"contents.spirituals-data.id-00000002.name": "必中",
+			"contents.spirituals-data.id-00000002.desc": [ "1ターンの間、攻撃の命中率が100％になる。", "ただし「ひらめき」は優先される。" ],
+			"contents.spirituals-data.id-00000003.name": "感応",
+			"contents.spirituals-data.id-00000003.desc": [ "指定した味方ユニットに「必中」の効果を与える。" ],
+			"contents.spirituals-data.id-00000004.name": "ひらめき",
+			"contents.spirituals-data.id-00000004.desc": [ "1度だけ、戦闘での敵の攻撃を完全回避する。" ],
+			"contents.spirituals-data.id-00000005.name": "直感",
+			"contents.spirituals-data.id-00000005.desc": [ "1度に「ひらめき」「必中」の効果を得ることができる。" ],
+			"contents.spirituals-data.id-00000006.name": "かく乱",
+			"contents.spirituals-data.id-00000006.desc": [ "1ターンの間、全敵の命中率が半分になる。", "ただし「必中」は優先される。" ],
+			"contents.spirituals-data.id-00000007.name": "加速",
+			"contents.spirituals-data.id-00000007.desc": [ "1度だけ、移動力に+3される。", "移動するまで効果が適用される。" ],
+			"contents.spirituals-data.id-00000008.name": "狙撃",
+			"contents.spirituals-data.id-00000008.desc": [ "1度だけ、射程1の武器とマップ兵器以外の武器の射程に対して+2される。" ],
+			"contents.spirituals-data.id-00000009.name": "突撃",
+			"contents.spirituals-data.id-00000009.desc": [ "1ターンの間、マップ兵器以外のすべての武器が移動後に使用できるようになる。" ],
+			"contents.spirituals-data.id-0000000a.name": "同調",
+			"contents.spirituals-data.id-0000000a.desc": [ "ツインユニットの、パイロットの各能力を両メインパイロットの数値の高い方へ合わせる。" ],
+			"contents.spirituals-data.id-0000000b.name": "熱血",
+			"contents.spirituals-data.id-0000000b.desc": [ "1度だけ与えるダメージが2倍になる。", "ただし、クリティカルの発生率が半減する。" ],
+			"contents.spirituals-data.id-0000000c.name": "魂",
+			"contents.spirituals-data.id-0000000c.desc": [ "1度だけ与えるダメージが2.5倍になる。", "ただし、クリティカルの発生率が半減する。" ],
+			"contents.spirituals-data.id-0000000d.name": "闘志",
+			"contents.spirituals-data.id-0000000d.desc": [ "1ターンの間、攻撃が必ずクリティカルになる。" ],
+			"contents.spirituals-data.id-0000000e.name": "幸運",
+			"contents.spirituals-data.id-0000000e.desc": [ "次の戦闘で得られる資金が2倍になる。" ],
+			"contents.spirituals-data.id-0000000f.name": "祝福",
+			"contents.spirituals-data.id-0000000f.desc": [ "指定した味方ユニットに「幸運」の効果を与える。" ],
+			"contents.spirituals-data.id-00000010.name": "努力",
+			"contents.spirituals-data.id-00000010.desc": [ "次の戦闘で得られる経験値が2倍になる。" ],
+			"contents.spirituals-data.id-00000011.name": "応援",
+			"contents.spirituals-data.id-00000011.desc": [ "指定した味方ユニットに「努力」の効果を与える。" ],
+			"contents.spirituals-data.id-00000012.name": "修行",
+			"contents.spirituals-data.id-00000012.desc": [ "次の戦闘で得られるパイロットポイント(PP)が2倍になる。" ],
+			"contents.spirituals-data.id-00000013.name": "強襲",
+			"contents.spirituals-data.id-00000013.desc": [ "1度に「加速」「突撃」「直撃」の効果を得ることができる。" ],
+			"contents.spirituals-data.id-00000014.name": "愛",
+			"contents.spirituals-data.id-00000014.desc": [ "1度に「加速」「ひらめき」「必中」「熱血」「気合」「幸運」「努力」の効果を得ることができる。" ],
+			"contents.spirituals-data.id-00000015.name": "直撃",
+			"contents.spirituals-data.id-00000015.desc": [ "一度だけ、敵の援護防御と、防御系の特殊能力(バリア系、分身系、ジャマー、盾装備、ブロック系)を無効にする。", "ただし「オールキャンセラー」や「デュナミスの高揚」などの効果には適用されない。" ],
+			"contents.spirituals-data.id-00000016.name": "鉄壁",
+			"contents.spirituals-data.id-00000016.desc": [ "1ターンの間、戦闘で受ける「物理」属性ダメージを1/4にする。" ],
+			"contents.spirituals-data.id-00000017.name": "信念",
+			"contents.spirituals-data.id-00000017.desc": [ "1ターンの間、戦闘で受ける「魔法」属性ダメージを1/4にする。" ],
+			"contents.spirituals-data.id-00000018.name": "不屈",
+			"contents.spirituals-data.id-00000018.desc": [ "1度だけ、戦闘で受けるすべてのダメージを1/8にする。" ],
+			"contents.spirituals-data.id-00000019.name": "連撃",
+			"contents.spirituals-data.id-00000019.desc": [ "次の戦闘で攻撃した敵ユニット部隊1つを壊滅させた場合、もう1度行動できる。" ],
+			"contents.spirituals-data.id-0000001a.name": "覚醒",
+			"contents.spirituals-data.id-0000001a.desc": [ "行動回数が1回増える。" ],
+			"contents.spirituals-data.id-0000001b.name": "再動",
+			"contents.spirituals-data.id-0000001b.desc": [ "行動終了した味方部隊を1つ指定し、その部隊の行動終了を解除する。" ],
+			"contents.spirituals-data.id-0000001c.name": "信頼",
+			"contents.spirituals-data.id-0000001c.desc": [ "指定したユニットのHPを2000回復する。" ],
+			"contents.spirituals-data.id-0000001d.name": "友情",
+			"contents.spirituals-data.id-0000001d.desc": [ "指定したユニットのHPを6000回復する。" ],
+			"contents.spirituals-data.id-0000001e.name": "絆",
+			"contents.spirituals-data.id-0000001e.desc": [ "全味方のユニットのHPを最大値の40％分だけ回復する。" ],
+			"contents.spirituals-data.id-0000001f.name": "根性",
+			"contents.spirituals-data.id-0000001f.desc": [ "自分のユニットのHPを最大値の30％(最大9000)分だけ回復する。" ],
+			"contents.spirituals-data.id-00000020.name": "ド根性",
+			"contents.spirituals-data.id-00000020.desc": [ "自分のユニットのHPを最大値まで回復する。" ],
+			"contents.spirituals-data.id-00000021.name": "祈り",
+			"contents.spirituals-data.id-00000021.desc": [ "全味方ユニット部隊のステータス異常を解除する(一部を除く)" ],
+			"contents.spirituals-data.id-00000022.name": "てかげん",
+			"contents.spirituals-data.id-00000022.desc": [ "次の戦闘で敵ユニットを倒さずに、HPを10だけ残す。", "相手より技量が上回っていなければ無効となる。" ],
+			"contents.spirituals-data.id-00000023.name": "気合",
+			"contents.spirituals-data.id-00000023.desc": [ "気力を10上昇させる。" ],
+			"contents.spirituals-data.id-00000024.name": "気迫",
+			"contents.spirituals-data.id-00000024.desc": [ "気力を30上昇させる。" ],
+			"contents.spirituals-data.id-00000025.name": "激励",
+			"contents.spirituals-data.id-00000025.desc": [ "指定したユニットの気力を10上げる。" ],
+			"contents.spirituals-data.id-00000026.name": "大激励",
+			"contents.spirituals-data.id-00000026.desc": [ "全味方ユニットの気力を5上げる。" ],
+			"contents.spirituals-data.id-00000027.name": "脱力",
+			"contents.spirituals-data.id-00000027.desc": [ "指定した敵ユニットの気力を10下げる。" ],
+			"contents.spirituals-data.id-00000028.name": "期待",
+			"contents.spirituals-data.id-00000028.desc": [ "指定したパイロットの精神ポイント(SP)を50回復する。" ],
+			"contents.spirituals-data.id-00000029.name": "補給",
+			"contents.spirituals-data.id-00000029.desc": [ "指定した味方ユニットのMPと弾数を全回復する。" ],
+			"contents.spirituals-data.id-0000002a.name": "決意",
+			"contents.spirituals-data.id-0000002a.desc": [ "タッグテンションを5上昇させる。" ],
+			"contents.spirituals-data.id-0000002b.name": "希望",
+			"contents.spirituals-data.id-0000002b.desc": [ "指定した味方ユニットのHPを最大値の50％まで回復、一部を除くすべての状態異常を解除し、「努力」「幸運」が同時にかかる。" ],
+			"contents.spirituals-data.id-0000002c.name": "分析",
+			"contents.spirituals-data.id-0000002c.desc": [ "1ターンの間、指定した敵ユニットへのダメージを1.1倍にし、その敵ユニットからのダメージを属性に応じて最大0.925倍にする。" ],
+			"contents.spirituals-data.id-0000002d.name": "先見",
+			"contents.spirituals-data.id-0000002d.desc": [ "指定した味方ユニットに「ひらめき」の効果を与える。" ],
+			"contents.spirituals-data.id-0000002e.name": "勇気",
+			"contents.spirituals-data.id-0000002e.desc": [ "1度に「加速」「不屈」「必中」「熱血」「気合」「闘志」がかかる。" ],
+			"contents.spirituals-data.id-0000002f.name": "流星",
+			"contents.spirituals-data.id-0000002f.desc": [ "敵ユニットへの攻撃時、1度だけ敵の装甲値を半減しているものと見做して攻撃する。", "ただし、クリティカルの発生率が半減する。" ],
+			"contents.spirituals-data.id-00000030.name": "奇跡",
+			"contents.spirituals-data.id-00000030.desc": [ "1度に「加速」「必中」「ひらめき」「魂」「気迫」「努力」「幸運」「狙撃」「突撃」「直撃」「鉄壁」「信念」「集中」が同時にかかり、行動回数を1回増やす。" ],
+			/* Specific Skills Data */
+			"contents.specific-skills-data.id-00000000.name": "アタッカー",
+			"contents.specific-skills-data.id-00000000.desc": [ "気力130以上のとき、与えるダメージが20％増加。" ],
+			"contents.specific-skills-data.id-00000001.name": "インファイト",
+			"contents.specific-skills-data.id-00000001.desc": [ "技能レベルに応じて格闘武器の攻撃力とユニットの移動力が上昇する。" ],
+			"contents.specific-skills-data.id-00000002.name": "ガンファイト",
+			"contents.specific-skills-data.id-00000002.desc": [ "技能レベルに応じて射撃武器の攻撃力と射程が上昇する。" ],
+			"contents.specific-skills-data.id-00000003.name": "マジックバースト",
+			"contents.specific-skills-data.id-00000003.desc": [ "技能レベルに応じて魔法武器の攻撃力が上昇し、消費ENが減少する。" ],
+			"contents.specific-skills-data.id-00000004.name": "強運",
+			"contents.specific-skills-data.id-00000004.desc": [ "獲得資金が20％増加する。" ],
+			"contents.specific-skills-data.id-00000005.name": "指揮官",
+			"contents.specific-skills-data.id-00000005.desc": [ "技能レベルに応じて指揮範囲内にいる味方の命中・回避率上昇。" ],
+			"contents.specific-skills-data.id-00000006.name": "天才",
+			"contents.specific-skills-data.id-00000006.desc": [ "命中・回避・クリティカル率20％増加。" ],
+			"contents.specific-skills-data.id-00000007.name": "念動力",
+			"contents.specific-skills-data.id-00000007.desc": [ "技能レベルに応じて命中率・回避率が上昇。" ],
+			"contents.specific-skills-data.id-00000008.name": "予知",
+			"contents.specific-skills-data.id-00000008.desc": [ "気力130以上の時、敵フェイズ中の最終回避率30％上昇。" ],
+			"contents.specific-skills-data.id-00000009.name": "ラッキー",
+			"contents.specific-skills-data.id-00000009.desc": [ "まれに命中・回避・クリティカル率が100％になる。", "命中は「ひらめき」より優先される。" ],
+			"contents.specific-skills-data.id-0000000a.name": "SP回復",
+			"contents.specific-skills-data.id-0000000a.desc": [ "毎ターンSPが10回復する。" ],
+			"contents.specific-skills-data.id-0000000b.name": "援護攻撃",
+			"contents.specific-skills-data.id-0000000b.desc": [ "隣接する味方部隊の援護攻撃に入る。" ],
+			"contents.specific-skills-data.id-0000000c.name": "援護防御",
+			"contents.specific-skills-data.id-0000000c.desc": [ "隣接する味方部隊の援護防御に入る。" ],
+			"contents.specific-skills-data.id-0000000d.name": "カウンター",
+			"contents.specific-skills-data.id-0000000d.desc": [ "敵の攻撃前に反撃を行う。技能レベルと技量差に応じた確率で発動する。" ],
+			"contents.specific-skills-data.id-0000000e.name": "底力",
+			"contents.specific-skills-data.id-0000000e.desc": [ "残りHPと技能レベルに応じて命中・回避・クリティカル率、および装甲値が上昇。" ],
+			"contents.specific-skills-data.id-0000000f.name": "連続攻撃",
+			"contents.specific-skills-data.id-0000000f.desc": [ "技能レベルに応じてコンビネーション攻撃が可能になる。" ],
+			"contents.specific-skills-data.id-00000010.name": "SPアップ",
+			"contents.specific-skills-data.id-00000010.desc": [ "レベルごとに最大SPを5上昇させる。" ],
+			"contents.specific-skills-data.id-00000011.name": "ガード",
+			"contents.specific-skills-data.id-00000011.desc": [ "被ダメージを20％軽減する。" ],
+			"contents.specific-skills-data.id-00000012.name": "見切り",
+			"contents.specific-skills-data.id-00000012.desc": [ "気力130以上の時、最終命中・最終回避が10上昇。" ],
+			"contents.specific-skills-data.id-00000013.name": "気力限界突破",
+			"contents.specific-skills-data.id-00000013.desc": [ "気力最大値が170になる。" ],
+			"contents.specific-skills-data.id-00000014.name": "再攻撃",
+			"contents.specific-skills-data.id-00000014.desc": [ "敵ユニットより技量が20以上高い場合、敵の反撃後、自分に対して援護攻撃を行う。" ],
+			"contents.specific-skills-data.id-00000015.name": "集束攻撃",
+			"contents.specific-skills-data.id-00000015.desc": [ "メインユニットがサブユニットを、サブユニットがメインユニットを攻撃した場合のダメージ低下を80％にする。" ],
+			"contents.specific-skills-data.id-00000016.name": "ヒット＆アウェイ",
+			"contents.specific-skills-data.id-00000016.desc": [ "移動せずに攻撃した場合、移動を行うことができ、敵フェイズ中の最終回避率が20％上昇。" ],
+			"contents.specific-skills-data.id-00000017.name": "リベンジ",
+			"contents.specific-skills-data.id-00000017.desc": [ "反撃時に与えるダメージが20％増加する。" ],
+			"contents.specific-skills-data.id-00000018.name": "連携攻撃",
+			"contents.specific-skills-data.id-00000018.desc": [ "援護攻撃で与えるダメージが減衰しなくなる。", "再攻撃には無効。" ],
+			"contents.specific-skills-data.id-00000019.name": "連続行動",
+			"contents.specific-skills-data.id-00000019.desc": [ "気力120以上で攻撃して敵部隊を撃破した場合、行動終了にならずもう一度行動できる。" ],
+			"contents.specific-skills-data.id-0000001a.name": "MB発動",
+			"contents.specific-skills-data.id-0000001a.desc": [ "「マキシマムブレイク」が使用可能になる。" ],
+			"contents.specific-skills-data.id-0000001b.name": "気力+(DEF)",
+			"contents.specific-skills-data.id-0000001b.desc": [ "「敵ユニットからのダメージ」「回避成功」「援護防御」のとき、気力が本来の増減に加えて1上昇。" ],
+			"contents.specific-skills-data.id-0000001c.name": "気力+(ATK)",
+			"contents.specific-skills-data.id-0000001c.desc": [ "「敵ユニットへの攻撃命中」「敵ユニットの撃破」「援護攻撃」のとき、気力が本来の増減に加えて1上昇。" ],
+			"contents.specific-skills-data.id-0000001d.name": "気力+(ALL)",
+			"contents.specific-skills-data.id-0000001d.desc": [ "「気力+(DEF)」「気力+(ATK)」と同じ技能を得る。" ],
+			"contents.specific-skills-data.id-0000001e.name": "戦意高揚",
+			"contents.specific-skills-data.id-0000001e.desc": [ "2ターン目以降、味方ターン開始時に気力が2上昇" ],
+			"contents.specific-skills-data.id-0000001f.name": "闘争心",
+			"contents.specific-skills-data.id-0000001f.desc": [ "出撃時、気力+5" ],
+			"contents.specific-skills-data.id-00000020.name": "修理技能",
+			"contents.specific-skills-data.id-00000020.desc": [ "個別コマンド「修理」使用時に、HP回復量が20％増加。" ],
+			"contents.specific-skills-data.id-00000021.name": "補給技能",
+			"contents.specific-skills-data.id-00000021.desc": [ "個別コマンド「補給」が移動後に使用可能になる。" ],
+			"contents.specific-skills-data.id-00000022.name": "Bセーブ",
+			"contents.specific-skills-data.id-00000022.desc": [ "武器の弾数消費が75％の確率で起こらなくなる。" ],
+			"contents.specific-skills-data.id-00000023.name": "Eセーブ",
+			"contents.specific-skills-data.id-00000023.desc": [ "武器の消費ENが20％減少する。" ],
+			"contents.specific-skills-data.id-00000024.name": "デュナミスの高揚",
+			"contents.specific-skills-data.id-00000024.desc": [ "タッグテンションが本来の増加に加えて1増加。「マキシマムブレイク」使用時、ダメージが1.5倍になる。" ],
+			"contents.specific-abilities-data.id-00000000.name": "ABフィールド",
+			"contents.specific-abilities-data.id-00000000.desc": [ "必要気力なし、消費EN10", "ビーム属性の攻撃によるダメージを1200軽減" ],
+			"contents.specific-abilities-data.id-00000001.name": "Eフィールド",
+			"contents.specific-abilities-data.id-00000001.desc": [ "必要気力120、消費EN15", "すべての攻撃によるダメージを1500軽減" ],
+			"contents.specific-abilities-data.id-00000002.name": "残火再燃",
+			"contents.specific-abilities-data.id-00000002.desc": [ "必要気力130、消費EN1なし", "精神効果を除くすべての攻撃によるダメージを1600軽減" ],
+			"contents.elements-data.light":      "光",
+			"contents.elements-data.water":      "水",
+			"contents.elements-data.ice":        "氷",
+			"contents.elements-data.earth":      "土",
+			"contents.elements-data.dark":       "闇",
+			"contents.elements-data.wind":       "風",
+			"contents.elements-data.lightning":  "雷",
+			"contents.elements-data.fire":       "炎",
+			"contents.elements-data.toxic":      "毒",
+			"contents.elements-data.plague":     "病気",
+			"contents.elements-data.mind":       "精神効果",
+			"contents.elements-data.curse":      "呪い",
+			"contents.elements-data.blackflame": "黒炎",
+			"contents.elements-data.scaret-rot": "朱き腐敗",
+			"user-interface.common-index-name.pilot":   "パイロット",
+			"user-interface.common-index-name.unit":    "ユニット",
+			"user-interface.common-index-name.weapon":  "武器",
+			"user-interface.common-index-name.ability": "アビリティ",
+			"user-interface.common-index-name.pos-eff": "バフ",
+			"user-interface.common-index-name.neg-eff": "デバフ",
+			"user-interface.common-index-name.gim-eff": "ギミックエフェクト",
+			"user-interface.status-index-name.pilot-status.fullname": "本名",
+			"user-interface.status-index-name.pilot-status.nickname": "愛称",
+			"user-interface.status-index-name.pilot-status.readname": "読み仮名",
+			"user-interface.status-index-name.pilot-status.codename": "通り名"
 		}
 	}
 }

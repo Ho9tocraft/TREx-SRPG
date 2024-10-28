@@ -21,5 +21,22 @@
 
 #include "Main.h"
 #include "GameMain.h"
+#include "json11.hpp"
+#include "DataSkill.h"
 #include "DataPilot.h"
+#include "GameUnit.h"
 #include "strconv2.h"
+
+enum class GameState : uint64_t;
+enum class GameUIState : uint64_t;
+class Game_TheReminiscenceOfExellia;
+
+struct DataPilotStats;
+class DataSkill;
+class DataSkillPilot;
+class DataPilot;
+
+class GameSkill;
+class GamePilot;
+class GameUnit;
+class GameUnitTeam;

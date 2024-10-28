@@ -57,6 +57,15 @@
     <ClInclude Include="GameMain.h">
       <Filter>ヘッダー ファイル\メインプロセス クラス</Filter>
     </ClInclude>
+    <ClInclude Include="DataSkill.h">
+      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUnit.h">
+      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePilot.h">
+      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
@@ -95,6 +104,15 @@
     </ClCompile>
     <ClCompile Include="GameMain.cpp">
       <Filter>ソース ファイル\メインプロセス クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="DataSkill.cpp">
+      <Filter>ソース ファイル\キャラクター クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUnit.cpp">
+      <Filter>ソース ファイル\キャラクター クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePilot.cpp">
+      <Filter>ソース ファイル\キャラクター クラス</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

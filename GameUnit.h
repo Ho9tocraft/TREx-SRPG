@@ -20,15 +20,12 @@
 #include <DxLib.h>
 
 #include "trex_wrapper.h"
+#include "Main.h"
 #include "GameMain.h"
 #include "json11.hpp"
 #include "DataSkill.h"
 #include "DataPilot.h"
-#include "GameUnit.h"
 #include "strconv2.h"
-
-extern DINPUT_JOYSTATE input;
-std::vector<std::string> split(std::string str, char del);
 
 enum class GameState : uint64_t;
 enum class GameUIState : uint64_t;
@@ -43,3 +40,8 @@ class GameSkill;
 class GamePilot;
 class GameUnit;
 class GameUnitTeam;
+
+class GameUnit
+{
+};
+
