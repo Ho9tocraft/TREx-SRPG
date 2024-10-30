@@ -1,8 +1,8 @@
 ﻿#include "trex_wrapper.h"
 
-GameState Game_TheReminiscenceOfExellia::getCurrentState()
+GameState Game_TheReminiscenceOfExellia::getCurrentState() const
 {
-	return this->currentState;
+	return currentState;
 }
 
 void Game_TheReminiscenceOfExellia::DrawGameTitle()

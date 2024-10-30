@@ -21,7 +21,6 @@
 
 #include "trex_wrapper.h"
 #include "Main.h"
-#include "ResourceLoader.h"
 #include "GameMain.h"
 #include "json11.hpp"
 #include "DataSkill.h"
@@ -55,44 +54,7 @@ enum class GameUnitFaction : uint64_t;
 class GameUnit;
 class GameUnitTeam;
 
-enum class StatusUpgradeType : uint64_t {
-	TRAINING,
-	LEVEL_UP
-};
-
-class GamePilot
-{
+class ResourceLoader {
 protected:
-	/// <summary>
-	/// レベル(最低1,最大100)
-	/// </summary>
-	int64_t level;
-	/// <summary>
-	/// 経験値(最低0,最大499(500到達でレベルアップ))
-	/// </summary>
-	int64_t experience;
-	/// <summary>
-	/// 次レベルまでの経験値(最低1,最大500)
-	/// </summary>
-	int64_t exp_for_levelup;
-	/// <summary>
-	/// 最大気力
-	/// </summary>
-	int64_t maxMorale;
-	/// <summary>
-	/// 最低気力(基本的に気力50)
-	/// </summary>
-	int64_t minMorale;
-	/// <summary>
-	/// 元データ
-	/// </summary>
-	DataPilot* data_pilot;
-	std::map<StatusUpgradeType, std::map<PilotStatsType, int>> pilotStatRevisions;
 public:
-	DataPilot* getPilotData();
-	int64_t getMinMorale() const;
-	int64_t getMaxMorale() const;
-	int getPilotStatus(const PilotStatsType statKey);
-	std::map<PilotStatsType, int> getPilotStatus();
 };
-

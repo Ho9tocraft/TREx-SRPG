@@ -17,8 +17,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInst, _In_opt_ HINSTANCE hPrevInst, _In_ LPST
 
 std::vector<std::string> split(std::string str, char del)
 {
-	int first = 0;
-	int last = str.find_first_of(del);
+	size_t first = 0;
+	size_t last = str.find_first_of(del);
 	std::vector<std::string> result;
 	while (first < str.size()) {
 		std::string subStr(str, first, last - first);
