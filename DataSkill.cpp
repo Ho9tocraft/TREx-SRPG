@@ -34,10 +34,30 @@ DataSkill::DataSkill(std::string unlcl_sname_path, std::string unlcl_sdesc_path,
 
 DataSkill::~DataSkill() {}
 
+DataSkillPilot::DataSkillPilot(std::string unlcl_sname_path, std::string unlcl_sdesc_path,
+	std::map<std::string, json11::Json> LangFiles) : DataSkill(unlcl_sname_path, unlcl_sdesc_path, LangFiles)
+{}
+
 bool DataSkillAttacker::skillCondition(GameUnit* unit)
 {
 	return unit->getMorale() >= 130LL;
 }
 
 void DataSkillAttacker::skillEffect(GameUnit*& unit)
+{}
+
+DataSkillAttacker::DataSkillAttacker(std::string unlcl_sname_path, std::string unlcl_sdesc_path,
+		std::map<std::string, json11::Json> LangFiles) : DataSkillPilot(unlcl_sname_path, unlcl_sdesc_path, LangFiles)
+{}
+
+bool DataSkillDummy::skillCondition(GameUnit* unit)
+{
+	return false;
+}
+
+void DataSkillDummy::skillEffect(GameUnit*& unit)
+{}
+
+DataSkillDummy::DataSkillDummy(std::string unlcl_sname_path, std::string unlcl_sdesc_path,
+		std::map<std::string, json11::Json> LangFiles) : DataSkillPilot(unlcl_sname_path, unlcl_sdesc_path, LangFiles)
 {}

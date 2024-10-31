@@ -42,6 +42,7 @@ enum class DataPilotGender : uint64_t;
 enum class DataPilotPersonality : uint64_t;
 class DataSkill;
 class DataSkillPilot;
+class DataSkillDummy;
 class DataSkillAttacker;
 
 class DataPilot;

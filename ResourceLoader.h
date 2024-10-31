@@ -42,6 +42,7 @@ enum class DataPilotGender : uint64_t;
 enum class DataPilotPersonality : uint64_t;
 class DataSkill;
 class DataSkillPilot;
+class DataSkillDummy;
 class DataSkillAttacker;
 
 class DataPilot;
@@ -57,9 +58,11 @@ class GameUnitTeam;
 
 class ResourceLoader {
 protected:
+	std::map<std::string, std::string> pilotSkillKeybind;
 	std::map<std::string, json11::Json> langFiles;
 	std::map<std::string, DataSkillPilot*> pilotSkillDatabase;
 public:
+	json11::Json getLangFile(std::string langKey);
 	DataSkillPilot* getPilotSkill(std::string skillKey);
 	ResourceLoader();
 };

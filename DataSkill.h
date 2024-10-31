@@ -43,6 +43,7 @@ enum class DataPilotGender : uint64_t;
 enum class DataPilotPersonality : uint64_t;
 class DataSkill;
 class DataSkillPilot;
+class DataSkillDummy;
 class DataSkillAttacker;
 
 class DataPilot;
@@ -72,14 +73,24 @@ public:
 	virtual ~DataSkill();
 };
 
-class DataSkillPilot : DataSkill {
+class DataSkillPilot : public DataSkill {
 protected:
 public:
+	DataSkillPilot(std::string unlcl_sname_path, std::string unlcl_sdesc_path, std::map<std::string, json11::Json> LangFiles);
 };
 
-class DataSkillAttacker : DataSkillPilot {
+class DataSkillDummy : public DataSkillPilot {
 protected:
 public:
 	bool skillCondition(GameUnit* unit) override;
 	void skillEffect(GameUnit*& unit) override;
+	DataSkillDummy(std::string unlcl_sname_path, std::string unlcl_sdesc_path, std::map<std::string, json11::Json> LangFiles);
+};
+
+class DataSkillAttacker : public DataSkillPilot {
+protected:
+public:
+	bool skillCondition(GameUnit* unit) override;
+	void skillEffect(GameUnit*& unit) override;
+	DataSkillAttacker(std::string unlcl_sname_path, std::string unlcl_sdesc_path, std::map<std::string, json11::Json> LangFiles);
 };
