@@ -31,6 +31,7 @@
 enum class DataType : uint64_t;
 enum class GameState : uint64_t;
 enum class GameUIState : uint64_t;
+class ResourceLoader;
 class Game_TheReminiscenceOfExellia;
 
 enum class PilotStatsType : uint64_t;

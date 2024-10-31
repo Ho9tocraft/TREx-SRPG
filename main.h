@@ -30,6 +30,7 @@
 #include "strconv2.h"
 
 extern DINPUT_JOYSTATE input;
+extern ResourceLoader* resLoader;
 std::vector<std::string> split(std::string str, char del);
 
 template<typename Of, typename What>
@@ -40,6 +41,7 @@ inline bool instanceof(const What w) {
 enum class DataType : uint64_t;
 enum class GameState : uint64_t;
 enum class GameUIState : uint64_t;
+class ResourceLoader;
 class Game_TheReminiscenceOfExellia;
 
 enum class PilotStatsType : uint64_t;

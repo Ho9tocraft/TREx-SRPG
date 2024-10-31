@@ -31,6 +31,7 @@
 enum class DataType : uint64_t;
 enum class GameState : uint64_t;
 enum class GameUIState : uint64_t;
+class ResourceLoader;
 class Game_TheReminiscenceOfExellia;
 
 enum class PilotStatsType : uint64_t;
@@ -56,5 +57,9 @@ class GameUnitTeam;
 
 class ResourceLoader {
 protected:
+	std::map<std::string, json11::Json> langFiles;
+	std::map<std::string, DataSkillPilot*> pilotSkillDatabase;
 public:
+	DataSkillPilot* getPilotSkill(std::string skillKey);
+	ResourceLoader();
 };

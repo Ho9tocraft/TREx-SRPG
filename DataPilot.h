@@ -32,6 +32,7 @@
 enum class DataType : uint64_t;
 enum class GameState : uint64_t;
 enum class GameUIState : uint64_t;
+class ResourceLoader;
 class Game_TheReminiscenceOfExellia;
 
 enum class PilotStatsType : uint64_t;
@@ -279,6 +280,7 @@ protected:
 	std::map<DataTerrainType, DataTerrainAdapt> pilotTerrainAdapts;
 	std::vector<DataSkillPilot*> pilotSkills;
 public:
+	int pilotFaceGraphic;
 	int getPilotStats(PilotStatsType statKey);
 	DataPilotGender getPilotGender() const;
 	DataPilotPersonality getPilotPersonality() const;
