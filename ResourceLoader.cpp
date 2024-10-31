@@ -164,6 +164,11 @@ ResourceLoader::ResourceLoader()
 			this->pilotSkillDatabase.insert_or_assign(detected.first,
 				new DataSkillAttacker(detected.second.first, detected.second.second, this->langFiles));
 		}
+		else {
+			//デバッグ時の一時保管用
+			this->pilotSkillDatabase.insert_or_assign(detected.first,
+				new DataSkillDummy(detected.second.first, detected.second.second, this->langFiles));
+		}
 	}
 	ErrorLogTabSub();
 }
