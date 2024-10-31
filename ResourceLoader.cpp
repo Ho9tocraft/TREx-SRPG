@@ -160,7 +160,7 @@ ResourceLoader::ResourceLoader()
 		}
 	}
 	for (std::pair<std::string, std::pair<std::string, std::string>> detected : targetKey) {
-		if (detected.first.compare("Attacker")) {
+		if (detected.first.compare("Attacker") == 0) {
 			this->pilotSkillDatabase.insert_or_assign(detected.first,
 				new DataSkillAttacker(detected.second.first, detected.second.second, this->langFiles));
 		}
