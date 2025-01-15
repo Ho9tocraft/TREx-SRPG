@@ -45,9 +45,6 @@
     <ClInclude Include="Main.h">
       <Filter>ヘッダー ファイル\メインプロセス クラス</Filter>
     </ClInclude>
-    <ClInclude Include="json11.hpp">
-      <Filter>ヘッダー ファイル\データ パーシング クラス</Filter>
-    </ClInclude>
     <ClInclude Include="DataPilot.h">
       <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
     </ClInclude>
@@ -96,9 +93,6 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="json11.cpp">
-      <Filter>ソース ファイル\データ パーシング クラス</Filter>
-    </ClCompile>
     <ClCompile Include="DataPilot.cpp">
       <Filter>ソース ファイル\キャラクター クラス</Filter>
     </ClCompile>
