@@ -42,30 +42,6 @@
     <ClInclude Include="strconv2.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Main.h">
-      <Filter>ヘッダー ファイル\メインプロセス クラス</Filter>
-    </ClInclude>
-    <ClInclude Include="DataPilot.h">
-      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
-    </ClInclude>
-    <ClInclude Include="trex_wrapper.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameMain.h">
-      <Filter>ヘッダー ファイル\メインプロセス クラス</Filter>
-    </ClInclude>
-    <ClInclude Include="DataSkill.h">
-      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
-    </ClInclude>
-    <ClInclude Include="GameUnit.h">
-      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePilot.h">
-      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceLoader.h">
-      <Filter>ヘッダー ファイル\データ パーシング クラス</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
@@ -91,28 +67,5 @@
     <Text Include="Resources\memo.txt">
       <Filter>リソース ファイル\データリスト</Filter>
     </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="DataPilot.cpp">
-      <Filter>ソース ファイル\キャラクター クラス</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>ソース ファイル\メインプロセス クラス</Filter>
-    </ClCompile>
-    <ClCompile Include="GameMain.cpp">
-      <Filter>ソース ファイル\メインプロセス クラス</Filter>
-    </ClCompile>
-    <ClCompile Include="DataSkill.cpp">
-      <Filter>ソース ファイル\キャラクター クラス</Filter>
-    </ClCompile>
-    <ClCompile Include="GameUnit.cpp">
-      <Filter>ソース ファイル\キャラクター クラス</Filter>
-    </ClCompile>
-    <ClCompile Include="GamePilot.cpp">
-      <Filter>ソース ファイル\キャラクター クラス</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceLoader.cpp">
-      <Filter>ソース ファイル\データ パーシング クラス</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
