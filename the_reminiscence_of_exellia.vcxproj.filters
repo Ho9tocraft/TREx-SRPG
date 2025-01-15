@@ -42,6 +42,15 @@
     <ClInclude Include="strconv2.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="DataPilot.h">
+      <Filter>ヘッダー ファイル\データ パーシング クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="Main.h">
+      <Filter>ヘッダー ファイル\メインプロセス クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="All_Header_Wrapper.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
@@ -61,11 +70,16 @@
     <Text Include="Resources\datas\datapacks\units.json">
       <Filter>リソース ファイル\データリスト</Filter>
     </Text>
-    <Text Include="Resources\datas\localization\ja_jp.json">
-      <Filter>リソース ファイル\ローカライズ</Filter>
-    </Text>
     <Text Include="Resources\memo.txt">
       <Filter>リソース ファイル\データリスト</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DataPilot.cpp">
+      <Filter>ソース ファイル\データ パーシング クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>ソース ファイル\メインプロセス クラス</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
