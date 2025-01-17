@@ -4,13 +4,13 @@ DataPilotSkill* GameVariableUtils::ExtractPSkillFromDataMap(std::string const ke
 {
 	DataPilotSkill* sample = DataMapPilotSkills.contains(key) ? DataMapPilotSkills.at(key).get() :
 			DataMapPilotSkills.at("Dummy").get();
-//	if (instanceof<DataPilotSKillDummy>(sample)) return new DataPilotSKillDummy();
-	return nullptr;
+	if (instanceof<DataPilotSkillDummy>(sample)) return new DataPilotSkillDummy(dynamic_cast<DataPilotSkillDummy*>(sample));
+	else return nullptr;
 }
 
 GameVariableUtils::GameVariableUtils()
 {
 	DataMapPilotSkills = {
-		{ "Dummy", std::make_unique<DataPilotSkill>(new DataPilotSKillDummy()) }
+		{ "Dummy", std::make_unique<DataPilotSkill>(new DataPilotSkillDummy()) }
 	};
 }

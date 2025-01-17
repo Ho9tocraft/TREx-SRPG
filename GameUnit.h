@@ -21,7 +21,7 @@
 #include "DataHelper.h"
 #include "DataUnit.h"
 #include "GamePilot.h"
-#include "GameUnit.h"
+#include "GameUtils.h"
 #include "Main.h"
 
 /* -- 前方宣言 -- */
@@ -103,13 +103,7 @@ class GamePilot;
 /// </summary>
 class GameUnit;
 
-struct GameVariableUtils {
-protected:
-	std::map<std::string, std::unique_ptr<DataPilot>> DataMapPilots;
-	std::map<std::string, std::unique_ptr<DataPilotSkill>> DataMapPilotSkills;
-public:
-	DataPilotSkill* ExtractPSkillFromDataMap(std::string const key);
-	GameVariableUtils();
+class GameUnit
+{
 };
 
-using namespace json11;

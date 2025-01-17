@@ -20,6 +20,7 @@
 #include "DataHelper.h"
 #include "DataUnit.h"
 #include "GamePilot.h"
+#include "GameUnit.h"
 #include "GameUtils.h"
 #include "Main.h"
 
@@ -80,7 +81,7 @@ class DataPilotSkill;
 /// <summary>
 /// 存在しないスキルを指定したときのダミー用スキル
 /// </summary>
-class DataPilotSKillDummy;
+class DataPilotSkillDummy;
 /// <summary>
 /// 底力スキル
 /// </summary>
@@ -393,7 +394,7 @@ private:
 	ExpandEnumPilotPersonality();
 protected:
 public:
-	static int64_t ApplyMoraleByPersonality(EnumGameplayMoraleEffectEvent ev, EnumPilotPersonality ps);
+	static int64_t ApplyMoraleByPersonality(EnumGameplayMoraleEffectEvent ev, EnumPilotPersonality ps, std::weak_ptr<GameUnit> tgt);
 };
 
 class ExpandEnumPilotGrowthType {
@@ -562,17 +563,19 @@ public:
 	* - 特殊スキルの発動条件(引数: GameUnit)
 	* - 発動時の特殊効果
 	*/
+	virtual bool isActivatePilotSkill(std::weak_ptr<GameUnit> owner) = 0;
 	DataPilotSkill(std::string pDefName, std::vector<std::string> pDefDesc, std::string pCusName, std::vector<std::string> pCusDesc);
 	DataPilotSkill(DataPilotSkill const& iRhs);
 	DataPilotSkill(DataPilotSkill* iRhs);
 };
 
-class DataPilotSKillDummy : public DataPilotSkill {
+class DataPilotSkillDummy : public DataPilotSkill {
 protected:
 public:
-	DataPilotSKillDummy();
-	DataPilotSKillDummy(DataPilotSKillDummy const& iRhs);
-	DataPilotSKillDummy(DataPilotSKillDummy* iRhs);
+	bool isActivatePilotSkill(std::weak_ptr<GameUnit> owner) override;
+	DataPilotSkillDummy();
+	DataPilotSkillDummy(DataPilotSkillDummy const& iRhs);
+	DataPilotSkillDummy(DataPilotSkillDummy* iRhs);
 };
 
 class DataPilot {
@@ -584,6 +587,7 @@ protected:
 	std::string pilotGenderCustomDisplay;
 	std::string pilotBgmPath;
 	std::string pilotGraphPath;
+	int pilotDropExp;
 	EnumPilotGender pilotGender;
 	EnumPilotPersonality pilotPersonality;
 	EnumPilotGrowthType pilotGrowthType;
@@ -598,4 +602,5 @@ public:
 	std::string GetPilotPersonalityStr() const;
 	EnumPilotGrowthType GetPilotGrowthType() const;
 	std::map<TerrainAdaptType, TerrainAdaptValue>& GetPilotTerrainAdapt();
+	int GetDropExp() const;
 };

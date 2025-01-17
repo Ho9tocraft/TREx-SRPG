@@ -20,6 +20,7 @@
 #include "DataPilot.h"
 #include "DataHelper.h"
 #include "GamePilot.h"
+#include "GameUnit.h"
 #include "GameUtils.h"
 #include "Main.h"
 
@@ -80,7 +81,7 @@ class DataPilotSkill;
 /// <summary>
 /// 存在しないスキルを指定したときのダミー用スキル
 /// </summary>
-class DataPilotSKillDummy;
+class DataPilotSkillDummy;
 /// <summary>
 /// 底力スキル
 /// </summary>

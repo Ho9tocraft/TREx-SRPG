@@ -20,6 +20,7 @@
 #include "DataPilot.h"
 #include "DataUnit.h"
 #include "GamePilot.h"
+#include "GameUnit.h"
 #include "GameUtils.h"
 #include "Main.h"
 
@@ -77,6 +78,10 @@ class ExpandEnumPilotGrowthType;
 /// ライブラリに登録するためのスキルデータ（の、抽象クラス）
 /// </summary>
 class DataPilotSkill;
+/// <summary>
+/// 存在しないスキルを指定したときのダミー用スキル
+/// </summary>
+class DataPilotSkillDummy;
 /// <summary>
 /// 底力スキル
 /// </summary>

@@ -115,6 +115,11 @@ std::map<TerrainAdaptType, TerrainAdaptValue>& DataPilot::GetPilotTerrainAdapt()
 	return this->pilotTerrainAdapt;
 }
 
+int DataPilot::GetDropExp() const
+{
+	return this->pilotDropExp;
+}
+
 std::map<EnumPilotStatCategory, int64_t> ExpandEnumPilotGrowthType::GetPilotGrowthType(EnumPilotGrowthType pGrowthType) const
 {
 	return this->tablePilotGrowthCalc.at(pGrowthType);
@@ -169,14 +174,20 @@ DataPilotSkill::DataPilotSkill(DataPilotSkill* iRhs) : DataPilotSkill(iRhs->skil
 {
 }
 
-DataPilotSKillDummy::DataPilotSKillDummy() : DataPilotSkill("ダミーの特殊スキル", { "ダミーの特殊スキル。", "効果はない。"}, "", {})
+bool DataPilotSkillDummy::isActivatePilotSkill(std::weak_ptr<GameUnit> owner)
+{
+	//ダミーの特殊スキルであるため、常にfalse
+	return false;
+}
+
+DataPilotSkillDummy::DataPilotSkillDummy() : DataPilotSkill("ダミーの特殊スキル", { "ダミーの特殊スキル。", "効果はない。"}, "", {})
 {
 }
 
-DataPilotSKillDummy::DataPilotSKillDummy(DataPilotSKillDummy const& iRhs) : DataPilotSkill(iRhs)
+DataPilotSkillDummy::DataPilotSkillDummy(DataPilotSkillDummy const& iRhs) : DataPilotSkill(iRhs)
 {
 }
 
-DataPilotSKillDummy::DataPilotSKillDummy(DataPilotSKillDummy* iRhs) : DataPilotSkill(iRhs)
+DataPilotSkillDummy::DataPilotSkillDummy(DataPilotSkillDummy* iRhs) : DataPilotSkill(iRhs)
 {
 }
