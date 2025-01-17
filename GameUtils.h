@@ -16,11 +16,11 @@
 #include <DxLib.h>
 #include "json11.hpp"
 
+#include "All_Header_Wrapper.h"
 #include "DataPilot.h"
 #include "DataHelper.h"
 #include "DataUnit.h"
 #include "GamePilot.h"
-#include "GameUtils.h"
 #include "Main.h"
 
 /* -- 前方宣言 -- */
@@ -78,6 +78,10 @@ class ExpandEnumPilotGrowthType;
 /// </summary>
 class DataPilotSkill;
 /// <summary>
+/// 存在しないスキルを指定したときのダミー用スキル
+/// </summary>
+class DataPilotSKillDummy;
+/// <summary>
 /// 底力スキル
 /// </summary>
 class DataPilotSkillPotentiality;
@@ -97,5 +101,14 @@ class GamePilot;
 /// ゲーム上で運用するユニットデータ
 /// </summary>
 class GameUnit;
+
+struct GameVariableUtils {
+protected:
+	std::map<std::string, std::unique_ptr<DataPilot>> DataMapPilots;
+	std::map<std::string, std::unique_ptr<DataPilotSkill>> DataMapPilotSkills;
+public:
+	DataPilotSkill* ExtractPSkillFromDataMap(std::string const key);
+	GameVariableUtils();
+};
 
 using namespace json11;

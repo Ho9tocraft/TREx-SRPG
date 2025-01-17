@@ -16,9 +16,9 @@
 #include <DxLib.h>
 #include "json11.hpp"
 
+#include "All_Header_Wrapper.h"
 #include "DataPilot.h"
 #include "DataHelper.h"
-#include "DataUnit.h"
 #include "GamePilot.h"
 #include "GameUtils.h"
 #include "Main.h"
@@ -78,6 +78,10 @@ class ExpandEnumPilotGrowthType;
 /// </summary>
 class DataPilotSkill;
 /// <summary>
+/// 存在しないスキルを指定したときのダミー用スキル
+/// </summary>
+class DataPilotSKillDummy;
+/// <summary>
 /// 底力スキル
 /// </summary>
 class DataPilotSkillPotentiality;
@@ -98,4 +102,8 @@ class GamePilot;
 /// </summary>
 class GameUnit;
 
-using namespace json11;
+class DataUnit
+{
+protected:
+public:
+};

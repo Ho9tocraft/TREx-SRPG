@@ -16,8 +16,8 @@
 #include <DxLib.h>
 #include "json11.hpp"
 
+#include "All_Header_Wrapper.h"
 #include "DataPilot.h"
-#include "DataHelper.h"
 #include "DataUnit.h"
 #include "GamePilot.h"
 #include "GameUtils.h"
@@ -99,3 +99,22 @@ class GamePilot;
 class GameUnit;
 
 using namespace json11;
+
+enum class EntityNameStrCategory : int64_t {
+	/// <summary>
+	/// フルネーム、正式名称
+	/// </summary>
+	FULL_NAME,
+	/// <summary>
+	/// 表示名称、ニックネーム
+	/// </summary>
+	NICK_NAME,
+	/// <summary>
+	/// 読み仮名
+	/// </summary>
+	READ_NAME,
+	/// <summary>
+	/// 二つ名（Pilotのみ）
+	/// </summary>
+	CODE_NAME
+};

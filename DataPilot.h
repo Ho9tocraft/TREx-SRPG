@@ -12,13 +12,27 @@
 #include <locale>
 #include <sstream>
 #include <string>
+#include <exception>
 #include <DxLib.h>
+#include "json11.hpp"
 
 #include "All_Header_Wrapper.h"
+#include "DataHelper.h"
+#include "DataUnit.h"
+#include "GamePilot.h"
+#include "GameUtils.h"
 #include "Main.h"
 
 /* -- 前方宣言 -- */
 
+/// <summary>
+/// ゲームで用いる変数の類を保存する構造体
+/// </summary>
+struct GameVariableUtils;
+/// <summary>
+/// エンティティ名取得時に用いるマクロ
+/// </summary>
+enum class EntityNameStrCategory : int64_t;
 /// <summary>
 /// 地形適応の項目
 /// </summary>
@@ -60,9 +74,35 @@ class ExpandEnumPilotPersonality;
 /// </summary>
 class ExpandEnumPilotGrowthType;
 /// <summary>
+/// ライブラリに登録するためのスキルデータ（の、抽象クラス）
+/// </summary>
+class DataPilotSkill;
+/// <summary>
+/// 存在しないスキルを指定したときのダミー用スキル
+/// </summary>
+class DataPilotSKillDummy;
+/// <summary>
+/// 底力スキル
+/// </summary>
+class DataPilotSkillPotentiality;
+/// <summary>
 /// ライブラリに登録するためのパイロットデータ
 /// </summary>
 class DataPilot;
+/// <summary>
+/// ライブラリに登録するためのユニットデータ
+/// </summary>
+class DataUnit;
+/// <summary>
+/// ゲーム上で運用するパイロットデータ
+/// </summary>
+class GamePilot;
+/// <summary>
+/// ゲーム上で運用するユニットデータ
+/// </summary>
+class GameUnit;
+
+using namespace json11;
 
 /* --クラス等宣言-- */
 enum class TerrainAdaptType {
@@ -202,7 +242,7 @@ enum class EnumPilotPersonality : int64_t {
 	SACRED_FIRE
 };
 
-enum class EnumPilotGrowthType {
+enum class EnumPilotGrowthType : int64_t {
 	/// <summary>
 	/// 標準
 	/// </summary>
@@ -297,7 +337,7 @@ enum class EnumPilotGrowthType {
 	SUB_PILOT
 };
 
-enum class EnumPilotStatCategory {
+enum class EnumPilotStatCategory : int64_t {
 	/// <summary>
 	/// 格闘
 	/// </summary>
@@ -360,7 +400,6 @@ class ExpandEnumPilotGrowthType {
 private:
 	ExpandEnumPilotGrowthType();
 protected:
-public:
 	std::map<EnumPilotGrowthType, std::map<EnumPilotStatCategory, int64_t>> tablePilotGrowthCalc = {
 		{ EnumPilotGrowthType::NORMS, {
 			{ EnumPilotStatCategory::MEL,   0LL }, { EnumPilotStatCategory::RNG,   0LL }, { EnumPilotStatCategory::MAT,   0LL },
@@ -501,9 +540,62 @@ public:
 			{ EnumPilotStatCategory::SPR,   0LL }
 		}}
 	};
+public:
+	std::map<EnumPilotStatCategory, int64_t> GetPilotGrowthType(EnumPilotGrowthType pGrowthType) const;
+};
+
+class DataPilotSkill {
+protected:
+	std::string skillDefaultName;
+	std::string skillCustomName;
+	std::vector<std::string> skillDefaultDesc;
+	std::vector<std::string> skillCustomDesc;
+	void setDefDisplayData(std::string pDefName, std::vector<std::string> pDefDesc);
+	void setCusDisplayData(std::string pCusName, std::vector<std::string> pCusDesc);
+public:
+	std::string GetSkillDefaultName() const;
+	std::string GetSkillCustomName() const;
+	std::vector<std::string> GetSkillDefaultDesc() const;
+	std::vector<std::string> GetSkillCustomDesc() const;
+	/*
+	* TODO:
+	* - 特殊スキルの発動条件(引数: GameUnit)
+	* - 発動時の特殊効果
+	*/
+	DataPilotSkill(std::string pDefName, std::vector<std::string> pDefDesc, std::string pCusName, std::vector<std::string> pCusDesc);
+	DataPilotSkill(DataPilotSkill const& iRhs);
+	DataPilotSkill(DataPilotSkill* iRhs);
+};
+
+class DataPilotSKillDummy : public DataPilotSkill {
+protected:
+public:
+	DataPilotSKillDummy();
+	DataPilotSKillDummy(DataPilotSKillDummy const& iRhs);
+	DataPilotSKillDummy(DataPilotSKillDummy* iRhs);
 };
 
 class DataPilot {
 protected:
+	std::string pilotFullname;
+	std::string pilotNickname;
+	std::string pilotReadname;
+	std::string pilotCodename;
+	std::string pilotGenderCustomDisplay;
+	std::string pilotBgmPath;
+	std::string pilotGraphPath;
+	EnumPilotGender pilotGender;
+	EnumPilotPersonality pilotPersonality;
+	EnumPilotGrowthType pilotGrowthType;
+	std::map<TerrainAdaptType, TerrainAdaptValue> pilotTerrainAdapt;
+	std::vector<std::unique_ptr<DataPilotSkill>> pilotSkills;
+	void SetDataPilot(Json dataOrigin);
 public:
+	std::string GetPilotName(EntityNameStrCategory target) const;
+	EnumPilotGender GetPilotGender() const;
+	std::string GetPilotGenderStr() const;
+	EnumPilotPersonality GetPilotPersonality() const;
+	std::string GetPilotPersonalityStr() const;
+	EnumPilotGrowthType GetPilotGrowthType() const;
+	std::map<TerrainAdaptType, TerrainAdaptValue>& GetPilotTerrainAdapt();
 };

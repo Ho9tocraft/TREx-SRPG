@@ -78,6 +78,10 @@ class ExpandEnumPilotGrowthType;
 /// </summary>
 class DataPilotSkill;
 /// <summary>
+/// 存在しないスキルを指定したときのダミー用スキル
+/// </summary>
+class DataPilotSKillDummy;
+/// <summary>
 /// 底力スキル
 /// </summary>
 class DataPilotSkillPotentiality;
@@ -98,4 +102,7 @@ class GamePilot;
 /// </summary>
 class GameUnit;
 
-using namespace json11;
+class GamePilot
+{
+};
+
