@@ -21,9 +21,12 @@
 #include <fstream>
 #include <filesystem>
 #include <regex>
+#include <format>
 //NODEC
 #include <nodec/unicode.hpp>
 //DXLIB
 #include <DxLib.h>
 //JSON11
 #include "json11.hpp"
+//STRCONV2
+#include "strconv2.h"

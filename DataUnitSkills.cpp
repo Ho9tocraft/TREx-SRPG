@@ -1,0 +1,8 @@
+﻿#include "stdafx.h"
+#include "Main.h"
+#include "DataPilot.h"
+#include "DataPilotSkills.h"
+#include "DataUnit.h"
+#include "DataUnitSkills.h"
+#include "GamePilot.h"
+#include "GameUnit.h"

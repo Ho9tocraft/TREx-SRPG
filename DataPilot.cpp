@@ -1,5 +1,11 @@
 ﻿#include "stdafx.h"
+#include "Main.h"
 #include "DataPilot.h"
+#include "DataPilotSkills.h"
+#include "DataUnit.h"
+#include "DataUnitSkills.h"
+#include "GamePilot.h"
+#include "GameUnit.h"
 
 DPilotGenderType ConvertToGenderType(int from)
 {
@@ -106,6 +112,27 @@ DPilotGrowthType ConvertToGrowthType(std::string from)
 		regex_match(from, rgxAlmLateBloom) ? 20 : regex_match(from, rgxSPFocus)      ? 21 :
 		regex_match(from, rgxSubPilot)     ? 22 : 0;
 	return ConvertToGrowthType(convert_sample_value);
+}
+
+TerrainAdaptValue ConvertToTAdaptValue(int from)
+{
+	return static_cast<TerrainAdaptValue>(from);
+}
+
+TerrainAdaptValue ConvertToTAdaptValue(std::string from)
+{
+	using std::regex;
+	using std::regex_match;
+	using namespace std::regex_constants;
+	regex rgxTierD(R"(^D)", ECMAScript, icase);
+	regex rgxTierC(R"(^C)", ECMAScript, icase);
+	regex rgxTierB(R"(^B)", ECMAScript, icase);
+	regex rgxTierA(R"(^A)", ECMAScript, icase);
+	regex rgxTierS(R"(^S)", ECMAScript, icase);
+	int convert_index = regex_match(from, rgxTierD) ? 1 : regex_match(from, rgxTierC) ? 2 :
+		regex_match(from, rgxTierB) ? 3 : regex_match(from, rgxTierA) ? 4 :
+		regex_match(from, rgxTierS) ? 5 : 0;
+	return ConvertToTAdaptValue(convert_index);
 }
 
 double ConvertTerrainAdaptToAdjustValue(TerrainAdaptValue val)
@@ -223,4 +250,99 @@ DPilotProfile::DPilotProfile(std::string pFullname, std::string pNickname, std::
 DPilotProfile::DPilotProfile() : DPilotProfile("", "", "", "", "無性", "", "普通", 0, "", "")
 {
 	//なんも引数を設定していないときの初期化。なにもしない
+}
+
+DPilotProfile::DPilotProfile(DPilotProfile& pRef)
+{
+	full_name = pRef.full_name;
+	nick_name = pRef.nick_name;
+	read_name = pRef.read_name;
+	code_name = pRef.code_name;
+	gender_type = pRef.gender_type;
+	gender_custom_display = pRef.gender_custom_display;
+	personality_type = pRef.personality_type;
+	drop_experience = pRef.drop_experience;
+	bgmFile = pRef.bgmFile;
+	graphFile = pRef.graphFile;
+	BgmHandler = pRef.BgmHandler;
+	GraphHandler = pRef.GraphHandler;
+}
+
+DataPilot::DataPilot(json11::Json raw_data)
+{
+	std::string tFullname, tNickname, tReadname, tCodename, tGenderDisp, tBgmFilePath, tGraphPath;
+	int tRawGenderType = -1, tRawPersonalityType = -1, tDropExp = -1;
+	std::string keyGrowthType, keySpecificSkill, keySpiritual;
+	json11::Json jsProfile, jsTerrainAdapt, jsStatus;
+	{
+		jsProfile        = raw_data["profile"];
+		jsTerrainAdapt   = raw_data["terrain_adaption"];
+		jsStatus         = raw_data["status"];
+		keyGrowthType    = "growth_type";
+		keySpecificSkill = "specific_skills";
+		keySpiritual     = "spiritual";
+	}
+	{
+		//Profile
+		json11::Json genderCustomDisplay = jsProfile["gender_custom_display"];
+		tFullname           = jsProfile["full_name"].string_value();
+		tNickname           = jsProfile["nick_name"].string_value();
+		tReadname           = jsProfile["read_name"].string_value();
+		tCodename           = jsProfile["code_name"].string_value();
+		tRawGenderType      = jsProfile["gender"].int_value();
+		tGenderDisp         = genderCustomDisplay.is_null() ? "" : genderCustomDisplay.string_value();
+		tRawPersonalityType = jsProfile["personality_type"].int_value();
+		tDropExp            = jsProfile["drop_experience"].int_value();
+		tBgmFilePath        = jsProfile["default_bgm"].string_value();
+		tGraphPath          = jsProfile["face_graph"].string_value();
+	}
+	this->profile = DPilotProfile(tFullname, tNickname, tReadname, tCodename,
+		ConvertToGenderType(tRawGenderType), tGenderDisp, ConvertToPersonalityType(tRawPersonalityType),
+		tDropExp, tBgmFilePath, tGraphPath);
+	this->growth_type = ConvertToGrowthType(raw_data[keyGrowthType].int_value());
+	{
+		this->terrain_adapt.insert_or_assign(
+			TerrainAdaptType::AIR, ConvertToTAdaptValue(jsTerrainAdapt["air"].int_value()));
+		this->terrain_adapt.insert_or_assign(
+			TerrainAdaptType::GROUND, ConvertToTAdaptValue(jsTerrainAdapt["ground"].int_value()));
+		this->terrain_adapt.insert_or_assign(
+			TerrainAdaptType::OCEAN, ConvertToTAdaptValue(jsTerrainAdapt["ocean"].int_value()));
+		this->terrain_adapt.insert_or_assign(
+			TerrainAdaptType::OUTERLANDS, ConvertToTAdaptValue(jsTerrainAdapt["outerlands"].int_value()));
+	}
+	{
+		json11::Json::array tempJsonSSkill = raw_data[keySpecificSkill].array_items();
+		//Specific Skills
+		for (const json11::Json tJson : tempJsonSSkill) {}
+	}
+	{
+		//Status
+		this->status.insert_or_assign(DPilotStatusType::MEL, jsStatus["MEL"].int_value());
+		this->status.insert_or_assign(DPilotStatusType::RNG, jsStatus["RNG"].int_value());
+		this->status.insert_or_assign(DPilotStatusType::MAT, jsStatus["MAT"].int_value());
+		this->status.insert_or_assign(DPilotStatusType::DEX, jsStatus["DEX"].int_value());
+		this->status.insert_or_assign(DPilotStatusType::DEF, jsStatus["DEF"].int_value());
+		this->status.insert_or_assign(DPilotStatusType::MDF, jsStatus["MDF"].int_value());
+		this->status.insert_or_assign(DPilotStatusType::AVD, jsStatus["AVD"].int_value());
+		this->status.insert_or_assign(DPilotStatusType::ACC, jsStatus["ACC"].int_value());
+		this->status.insert_or_assign(DPilotStatusType::RST, jsStatus["RST"].int_value());
+		this->status.insert_or_assign(DPilotStatusType::SPR, jsStatus["SPR"].int_value());
+	}
+}
+
+bool DataPilot::isGrowthLate() const
+{
+	return this->growth_type == DPilotGrowthType::MELEE_LATE_BLOOM ||
+			this->growth_type == DPilotGrowthType::RANGED_LATE_BLOOM ||
+			this->growth_type == DPilotGrowthType::MAGIC_LATE_BLOOM ||
+			this->growth_type == DPilotGrowthType::ALMIGHTY_LATE_BLOOM;
+}
+
+DataPilot::DataPilot(DataPilot& pRef)
+{
+	this->profile = DPilotProfile(pRef.profile);
+	this->growth_type = pRef.growth_type;
+	this->terrain_adapt = std::map<TerrainAdaptType, TerrainAdaptValue>(pRef.terrain_adapt);
+	this->specific_skills = std::vector<std::shared_ptr<DataPilotSkills>>(pRef.specific_skills);
+	this->status = std::map<DPilotStatusType, int64_t>(pRef.status);
 }

@@ -51,6 +51,27 @@
     <ClInclude Include="DataPilotSkills.h">
       <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
     </ClInclude>
+    <ClInclude Include="DataUnit.h">
+      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="DataUnitSkills.h">
+      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePilot.h">
+      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUnit.h">
+      <Filter>ヘッダー ファイル\キャラクター クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="Main.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Loader.h">
+      <Filter>ヘッダー ファイル\データ パーシング クラス</Filter>
+    </ClInclude>
+    <ClInclude Include="strconv2.h">
+      <Filter>ヘッダー ファイル\データ パーシング クラス</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
@@ -62,15 +83,15 @@
     <None Include="Resources\datas\datapacks\sp.json">
       <Filter>リソース ファイル\データリスト</Filter>
     </None>
+    <None Include="Resources\memo.txt">
+      <Filter>リソース ファイル\データリスト</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\datas\datapacks\pilots.json">
       <Filter>リソース ファイル\データリスト</Filter>
     </Text>
     <Text Include="Resources\datas\datapacks\units.json">
-      <Filter>リソース ファイル\データリスト</Filter>
-    </Text>
-    <Text Include="Resources\memo.txt">
       <Filter>リソース ファイル\データリスト</Filter>
     </Text>
   </ItemGroup>
@@ -86,6 +107,24 @@
     </ClCompile>
     <ClCompile Include="DataPilotSkills.cpp">
       <Filter>ソース ファイル\キャラクター クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="DataUnit.cpp">
+      <Filter>ソース ファイル\キャラクター クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="DataUnitSkills.cpp">
+      <Filter>ソース ファイル\キャラクター クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePilot.cpp">
+      <Filter>ソース ファイル\キャラクター クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUnit.cpp">
+      <Filter>ソース ファイル\キャラクター クラス</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader.cpp">
+      <Filter>ソース ファイル\データ パーシング クラス</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -80,7 +80,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>F:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;F:\Boost\include\boost-1_83;F:\LibOpenSSL\x86\include;C:\Program Files %28x86%29\YAML_CPP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;F:\Boost\include\boost-1_83;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -92,7 +92,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>F:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;F:\LibOpenSSL\x86\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libssl.lib;libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -103,7 +103,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>F:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;F:\Boost\include\boost-1_83;F:\LibOpenSSL\x86\include;C:\Program Files %28x86%29\YAML_CPP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;F:\Boost\include\boost-1_83;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -117,7 +117,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>F:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;F:\LibOpenSSL\x86\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libssl.lib;libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -128,7 +128,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>F:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;F:\nodec-1.0.0\include;F:\Boost\include\boost-1_83;F:\LibOpenSSL\x64\include;C:\Program Files\YAML_CPP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;F:\nodec-1.0.0\include;F:\Boost\include\boost-1_83;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalOptions>/source-charset:utf-8 /execution-charset:utf-8 /MP %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -138,7 +138,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>F:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;F:\LibOpenSSL\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libssl.lib;libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,7 +151,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>F:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;F:\nodec-1.0.0\include;F:\Boost\include\boost-1_83;F:\LibOpenSSL\x64\include;C:\Program Files\YAML_CPP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;F:\nodec-1.0.0\include;F:\Boost\include\boost-1_83;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalOptions>/source-charset:utf-8 /execution-charset:utf-8 /MP %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -163,14 +163,21 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>F:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;F:\LibOpenSSL\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libssl.lib;libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DataPilot.h" />
     <ClInclude Include="DataPilotSkills.h" />
+    <ClInclude Include="DataUnit.h" />
+    <ClInclude Include="DataUnitSkills.h" />
+    <ClInclude Include="GamePilot.h" />
+    <ClInclude Include="GameUnit.h" />
     <ClInclude Include="json11.hpp" />
+    <ClInclude Include="Loader.h" />
+    <ClInclude Include="Main.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="strconv2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -184,12 +191,18 @@
       <FileType>Document</FileType>
       <DeploymentContent>true</DeploymentContent>
     </Text>
-    <Text Include="Resources\memo.txt" />
+    <None Include="Resources\memo.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataPilot.cpp" />
     <ClCompile Include="DataPilotSkills.cpp" />
+    <ClCompile Include="DataUnit.cpp" />
+    <ClCompile Include="DataUnitSkills.cpp" />
+    <ClCompile Include="GamePilot.cpp" />
+    <ClCompile Include="GameUnit.cpp" />
     <ClCompile Include="json11.cpp" />
+    <ClCompile Include="Loader.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

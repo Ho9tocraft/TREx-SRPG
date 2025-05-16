@@ -21,6 +21,7 @@
 #include <fstream>
 #include <filesystem>
 #include <regex>
+#include <format>
 //NODEC
 #include <nodec/unicode.hpp>
 //DXLIB
@@ -29,7 +30,6 @@
 #include "json11.hpp"
 
 /* 前方宣言 */
-
 /// <summary>
 /// 地形適応(Key)
 /// </summary>
@@ -51,6 +51,10 @@ enum class DPilotPersonalityType;
 /// </summary>
 enum class DPilotGrowthType;
 /// <summary>
+/// パイロットのステータス項目
+/// </summary>
+enum class DPilotStatusType;
+/// <summary>
 /// 気力+用コンディション
 /// </summary>
 enum class DIncrMoraleCond;
@@ -67,9 +71,50 @@ class DataPilot;
 /// </summary>
 class DataPilotSkills;
 class DataPSkillDummy;
-
-//Include ho9tocraft
-#include "DataPilotSkills.h"
+/// <summary>
+/// ユニットサイズ
+/// </summary>
+enum class DUnitSize;
+/// <summary>
+/// ユニットプロフィール
+/// </summary>
+struct DUnitProfile;
+/// <summary>
+/// ユニットステータス
+/// </summary>
+struct DUnitStatus;
+/// <summary>
+/// ユニット設定
+/// </summary>
+class DataUnit;
+/// <summary>
+/// ユニットの特殊能力
+/// </summary>
+class DataUnitSkills;
+/// <summary>
+/// 武装の属性のコンディション
+/// </summary>
+enum class DataUWAttributeCondition;
+/// <summary>
+/// 武装の属性
+/// </summary>
+class DataUWeaponAttributes;
+/// <summary>
+/// ユニットの武装
+/// </summary>
+class DataUnitWeapons;
+/// <summary>
+/// ゲーム上のパイロットデータ
+/// </summary>
+class GamePilot;
+/// <summary>
+/// ゲーム上のユニットデータ
+/// </summary>
+class GameUnit;
+/// <summary>
+/// ローダー
+/// </summary>
+class Loader;
 
 /* 関数プロトタイプ宣言 */
 DPilotGenderType ConvertToGenderType(int from);
@@ -78,6 +123,8 @@ DPilotPersonalityType ConvertToPersonalityType(int from);
 DPilotPersonalityType ConvertToPersonalityType(std::string from);
 DPilotGrowthType ConvertToGrowthType(int from);
 DPilotGrowthType ConvertToGrowthType(std::string from);
+TerrainAdaptValue ConvertToTAdaptValue(int from);
+TerrainAdaptValue ConvertToTAdaptValue(std::string from);
 
 double ConvertTerrainAdaptToAdjustValue(TerrainAdaptValue val);
 
@@ -281,6 +328,49 @@ enum class DPilotGrowthType {
 	SUB_PILOTS
 };
 
+enum class DPilotStatusType {
+	/// <summary>
+	/// 格闘
+	/// </summary>
+	MEL,
+	/// <summary>
+	/// 射撃
+	/// </summary>
+	RNG,
+	/// <summary>
+	/// 魔力
+	/// </summary>
+	MAT,
+	/// <summary>
+	/// 技量
+	/// </summary>
+	DEX,
+	/// <summary>
+	/// 物理防御
+	/// </summary>
+	DEF,
+	/// <summary>
+	/// 魔法防御
+	/// </summary>
+	MDF,
+	/// <summary>
+	/// 回避
+	/// </summary>
+	AVD,
+	/// <summary>
+	/// 命中
+	/// </summary>
+	ACC,
+	/// <summary>
+	/// 抵抗
+	/// </summary>
+	RST,
+	/// <summary>
+	/// 精神ポイント
+	/// </summary>
+	SPR
+};
+
 enum class DIncrMoraleCond {
 	/// <summary>
 	/// 闘争心
@@ -354,14 +444,22 @@ public:
 	/// デフォルトコンストラクタ
 	/// </summary>
 	DPilotProfile();
+	/// <summary>
+	/// コピーコンストラクタ
+	/// </summary>
+	/// <param name="pRef">コピー元</param>
+	DPilotProfile(DPilotProfile& pRef);
 };
 
 class DataPilot {
 protected:
-	DataPilot(json11::Json raw_data);
 public:
 	DPilotProfile profile;
 	DPilotGrowthType growth_type;
 	std::map<TerrainAdaptType, TerrainAdaptValue> terrain_adapt;
-	std::vector<DataPilotSkills*> specific_skills;
+	std::vector<std::shared_ptr<DataPilotSkills>> specific_skills;
+	std::map<DPilotStatusType, int64_t> status;
+	bool isGrowthLate() const;
+	DataPilot(json11::Json raw_data);
+	DataPilot(DataPilot& pRef);
 };
