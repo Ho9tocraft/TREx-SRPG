@@ -107,9 +107,33 @@ class DataUnitWeapons;
 /// </summary>
 class GamePilot;
 /// <summary>
+/// ユニットの状態
+/// </summary>
+enum class UnitCondition;
+/// <summary>
+/// ユニットステータスのカテゴリ(改造・参照に使用)
+/// </summary>
+enum class InGUnitStatCategory;
+/// <summary>
+/// ゲーム内のユニットステータス
+/// </summary>
+struct InGameUnitStatus;
+/// <summary>
 /// ゲーム上のユニットデータ
 /// </summary>
 class GameUnit;
+/// <summary>
+/// 陣営
+/// </summary>
+enum class GameFaction;
+/// <summary>
+/// ゲーム上のツインユニットデータ
+/// </summary>
+class GameTroop;
+/// <summary>
+/// 読み込みパスの対象
+/// </summary>
+enum class LoaderHandlerType;
 /// <summary>
 /// ローダー
 /// </summary>

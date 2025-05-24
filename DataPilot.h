@@ -108,9 +108,21 @@ class DataUnitWeapons;
 /// </summary>
 class GamePilot;
 /// <summary>
+/// ユニットステータスのカテゴリ(改造・参照に使用)
+/// </summary>
+enum class InGUnitStatCategory;
+/// <summary>
+/// ゲーム内のユニットステータス
+/// </summary>
+struct InGameUnitStatus;
+/// <summary>
 /// ゲーム上のユニットデータ
 /// </summary>
 class GameUnit;
+/// <summary>
+/// 読み込みパスの対象
+/// </summary>
+enum class LoaderHandlerType;
 /// <summary>
 /// ローダー
 /// </summary>
@@ -408,6 +420,7 @@ protected:
 	std::string gender_custom_display;
 	DPilotPersonalityType personality_type;
 	int drop_experience;
+	bool flagWeed;
 	std::string bgmFile;
 	std::string graphFile;
 	std::string decideGenderDisplayStr(std::string from_value);
@@ -422,24 +435,25 @@ public:
 	std::string getGenderDisplayStr() const;
 	DPilotPersonalityType getPersonality() const;
 	int getDropExp() const;
+	bool isWeed() const;
 	std::string getBgmFile() const;
 	std::string getGraphFile() const;
 	/// <summary>
 	/// コンストラクタ本体
 	/// </summary>
 	DPilotProfile(std::string pFullname, std::string pNickname, std::string pReadname, std::string pCodename,
-		DPilotGenderType pGenderType, std::string pGenderDispStr, DPilotPersonalityType pPersonalityType, int pDropExp,
+		DPilotGenderType pGenderType, std::string pGenderDispStr, DPilotPersonalityType pPersonalityType, int pDropExp, bool pWeed,
 		std::string pBgmFile, std::string pGraphPath);
 	/// <summary>
 	/// string -> enum
 	/// </summary>
 	DPilotProfile(std::string pFullname, std::string pNickname, std::string pReadname, std::string pCodename, std::string pGenderType,
-		std::string pGenderDispStr, std::string pPersonalityType, int pDropExp, std::string pBgmFile, std::string pGraphPath);
+		std::string pGenderDispStr, std::string pPersonalityType, int pDropExp, bool pWeed, std::string pBgmFile, std::string pGraphPath);
 	/// <summary>
 	/// int -> enum
 	/// </summary>
 	DPilotProfile(std::string pFullname, std::string pNickname, std::string pReadname, std::string pCodename, int pGenderType,
-		std::string pGenderDispStr, int pPersonalityType, int pDropExp, std::string pBgmFile, std::string pGraphPath);
+		std::string pGenderDispStr, int pPersonalityType, int pDropExp, bool pWeed, std::string pBgmFile, std::string pGraphPath);
 	/// <summary>
 	/// デフォルトコンストラクタ
 	/// </summary>

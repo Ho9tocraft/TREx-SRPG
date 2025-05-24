@@ -31,12 +31,85 @@ json11::Json Loader::parseResource(const std::string& path)
 	return parsed;
 }
 
+void Loader::initializeConfigureData()
+{
+	std::string path = "./config.json";
+	std::ifstream ifs(path);
+	if (!ifs) {
+		std::map<std::string, int> resolution {{"width", 1600},{"height", 900}};
+		json11::Json config = json11::Json::object {
+			{ "window", resolution }
+		};
+		std::ofstream ofs(path);
+		ofs << config.dump() << std::endl;
+		ofs.close();
+	}
+}
+
+void Loader::registeringPilot(json11::Json raw_data)
+{
+	std::shared_ptr<DataPilot> tmpPilot = std::make_shared<DataPilot>(raw_data);
+	this->registry_pilots.insert_or_assign(sjis_to_utf8(tmpPilot->profile.getFullname()), std::move(tmpPilot));
+}
+
 void Loader::registeringPilot(std::string key, json11::Json raw_data)
 {
-	this->register_pilots.insert_or_assign(key, std::make_shared<DataPilot>(raw_data));
+	this->registry_pilots.insert_or_assign(key, std::make_shared<DataPilot>(raw_data));
+}
+
+void Loader::registeringUnit(json11::Json raw_data)
+{
+	std::shared_ptr<DataUnit> tmpUnit = std::make_shared<DataUnit>(raw_data);
+	this->registry_units.insert_or_assign(sjis_to_utf8(tmpUnit->profile.getUFullname()), std::move(tmpUnit));
 }
 
 void Loader::registeringUnit(std::string key, json11::Json raw_data)
 {
-	this->register_units.insert_or_assign(key, std::make_shared<DataUnit>(raw_data));
+	this->registry_units.insert_or_assign(key, std::make_shared<DataUnit>(raw_data));
+}
+
+std::string Loader::loadPath(LoaderHandlerType hType, std::string path)
+{
+	std::string result = "./Resources/";
+	switch (hType)
+	{
+	case LoaderHandlerType::DATA_PILOT:
+		result += "datas/datapacks/pilots.json";
+		break;
+	case LoaderHandlerType::DATA_UNIT:
+		result += "datas/datapacks/units.json";
+		break;
+	case LoaderHandlerType::DATA_SP:
+		result += "datas/datapacks/sp.json";
+		break;
+	case LoaderHandlerType::DATA_STAGES:
+		result += "datas/datapacks/stages/" + path;
+		break;
+	case LoaderHandlerType::GRAPH_PILOT:
+		result += "images/pilot/" + path;
+		break;
+	case LoaderHandlerType::GRAPH_UNIT:
+		result += "images/unit/" + path;
+		break;
+	case LoaderHandlerType::GRAPH_USER_INTERFACE:
+		result += "images/ui" + path;
+		break;
+	default:
+		break;
+	}
+	return result;
+}
+
+std::shared_ptr<DataPilotSkills> Loader::findSkill(std::string SS_typename)
+{
+	auto result = this->registry_pskills.find(SS_typename);
+	if (result != this->registry_pskills.end()) return result->second;
+	return this->registry_pskills.at("ダミー");
+}
+
+Loader::Loader()
+{
+	this->initializeConfigureData();
+	this->registry_pskills.insert_or_assign("ダミー", std::make_shared<DPilotSkillDummy>());
+	this->unitGraphResolution = 0;
 }

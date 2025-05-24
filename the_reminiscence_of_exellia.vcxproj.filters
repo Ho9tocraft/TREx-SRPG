@@ -22,9 +22,6 @@
     <Filter Include="ソース ファイル\データ パーシング クラス">
       <UniqueIdentifier>{fdb6f849-bf3f-4197-9465-3ec932e70759}</UniqueIdentifier>
     </Filter>
-    <Filter Include="リソース ファイル\ローカライズ">
-      <UniqueIdentifier>{223571c8-70cf-4187-a081-20da2b1d102d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="リソース ファイル\データリスト">
       <UniqueIdentifier>{f7457bae-b71e-41ae-a4e9-10547abe0a37}</UniqueIdentifier>
     </Filter>
@@ -84,6 +81,9 @@
       <Filter>リソース ファイル\データリスト</Filter>
     </None>
     <None Include="Resources\memo.txt">
+      <Filter>リソース ファイル\データリスト</Filter>
+    </None>
+    <None Include="Resources\datas\datapacks\stages\stage_001.json">
       <Filter>リソース ファイル\データリスト</Filter>
     </None>
   </ItemGroup>

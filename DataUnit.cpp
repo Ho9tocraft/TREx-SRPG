@@ -65,6 +65,41 @@ DataUWAttributeCondition ConvertToUnitWeaponAttributeCondition(std::string from)
 	return ConvertToUnitWeaponAttributeCondition(convert_index);
 }
 
+std::string DUnitProfile::getUFullname() const
+{
+	return this->full_name;
+}
+
+std::string DUnitProfile::getUNickname() const
+{
+	return this->nick_name;
+}
+
+std::string DUnitProfile::getUReadname() const
+{
+	return this->read_name;
+}
+
+DUnitSize DUnitProfile::getUnitSize() const
+{
+	return this->unit_size;
+}
+
+int64_t DUnitProfile::getRepairCost() const
+{
+	return this->repair_cost;
+}
+
+int64_t DUnitProfile::getUDropExp() const
+{
+	return this->drop_experience;
+}
+
+std::string DUnitProfile::getGraphPath() const
+{
+	return this->graph_path;
+}
+
 int64_t DUnitStatus::getMaxHealth() const
 {
 	return max_health;
@@ -90,34 +125,47 @@ int64_t DUnitStatus::getEvadeVal() const
 	return evade_value;
 }
 
-DUnitStatus::DUnitStatus(int64_t pHealth, int64_t pEnergy, int64_t pArmor, int64_t pSight, int64_t pEvade, TerrainAdaptValue pAir, TerrainAdaptValue pGround, TerrainAdaptValue pOcean, TerrainAdaptValue pOuter)
+int64_t DUnitStatus::getDistTravel() const
+{
+	return distTravel;
+}
+
+DUnitStatus::DUnitStatus(int64_t pHealth, int64_t pEnergy, int64_t pArmor, int64_t pSight, int64_t pEvade, int64_t pTravel,
+	TerrainAdaptValue pAir, TerrainAdaptValue pGround, TerrainAdaptValue pOcean, TerrainAdaptValue pOuter)
 {
 	max_health = pHealth;
 	max_energy = pEnergy;
 	armor_value = pArmor;
 	sight_value = pSight;
 	evade_value = pEvade;
+	distTravel = pTravel;
 	unitTerrainAdapt.insert_or_assign(TerrainAdaptType::AIR, pAir);
 	unitTerrainAdapt.insert_or_assign(TerrainAdaptType::GROUND, pGround);
 	unitTerrainAdapt.insert_or_assign(TerrainAdaptType::OCEAN, pOcean);
 	unitTerrainAdapt.insert_or_assign(TerrainAdaptType::OUTERLANDS, pOuter);
 }
 
-DUnitStatus::DUnitStatus(int64_t pHealth, int64_t pEnergy, int64_t pArmor, int64_t pSight, int64_t pEvade,
-	int pAir, int pGround, int pOcean, int pOuter) : DUnitStatus(pHealth, pEnergy, pArmor, pSight, pEvade,
+DUnitStatus::DUnitStatus(int64_t pHealth, int64_t pEnergy, int64_t pArmor, int64_t pSight, int64_t pEvade, int64_t pTravel,
+	int pAir, int pGround, int pOcean, int pOuter) : DUnitStatus(pHealth, pEnergy, pArmor, pSight, pEvade, pTravel,
 	ConvertToTAdaptValue(pAir), ConvertToTAdaptValue(pGround), ConvertToTAdaptValue(pOcean),
 	ConvertToTAdaptValue(pOuter))
 {
 }
 
-DUnitStatus::DUnitStatus(int64_t pHealth, int64_t pEnergy, int64_t pArmor, int64_t pSight, int64_t pEvade,
+DUnitStatus::DUnitStatus(int64_t pHealth, int64_t pEnergy, int64_t pArmor, int64_t pSight, int64_t pEvade, int64_t pTravel,
 	std::string pAir, std::string pGround, std::string pOcean, std::string pOuter) : DUnitStatus(pHealth, pEnergy, pArmor, pSight,
-	pEvade, ConvertToTAdaptValue(pAir), ConvertToTAdaptValue(pGround), ConvertToTAdaptValue(pOcean),
+	pEvade, pTravel, ConvertToTAdaptValue(pAir), ConvertToTAdaptValue(pGround), ConvertToTAdaptValue(pOcean),
 	ConvertToTAdaptValue(pOuter))
 {
 }
 
-DUnitStatus::DUnitStatus() : DUnitStatus(1000LL, 100LL, 1000LL, 100LL, 100LL, 4, 4, 3, 4)
+DUnitStatus::DUnitStatus(DUnitStatus& pRef) : DUnitStatus(pRef.max_health, pRef.max_energy, pRef.armor_value, pRef.sight_value, pRef.evade_value,
+	pRef.distTravel, pRef.unitTerrainAdapt[TerrainAdaptType::AIR], pRef.unitTerrainAdapt[TerrainAdaptType::GROUND],
+	pRef.unitTerrainAdapt[TerrainAdaptType::OCEAN], pRef.unitTerrainAdapt[TerrainAdaptType::OUTERLANDS])
+{
+}
+
+DUnitStatus::DUnitStatus() : DUnitStatus(1000LL, 100LL, 1000LL, 100LL, 100LL, 6, 4, 4, 3, 4)
 {
 }
 
@@ -133,12 +181,20 @@ DUnitProfile::DUnitProfile(std::string pFull, std::string pNick, std::string pRe
 	GraphHandler = -1;
 }
 
-DUnitProfile::DUnitProfile(std::string pFull, std::string pNick, std::string pRead, int pSize, int64_t pRepCost, int64_t pDrop, std::string pGrPath) : DUnitProfile(pFull, pNick, pRead, ConvertToUnitSize(pSize), pRepCost, pDrop, pGrPath)
+DUnitProfile::DUnitProfile(std::string pFull, std::string pNick, std::string pRead, int pSize, int64_t pRepCost, int64_t pDrop,
+		std::string pGrPath) : DUnitProfile(pFull, pNick, pRead, ConvertToUnitSize(pSize), pRepCost, pDrop, pGrPath)
 {
 }
 
-DUnitProfile::DUnitProfile(std::string pFull, std::string pNick, std::string pRead, std::string pSize, int64_t pRepCost, int64_t pDrop, std::string pGrPath) : DUnitProfile(pFull, pNick, pRead, ConvertToUnitSize(pSize), pRepCost, pDrop, pGrPath)
+DUnitProfile::DUnitProfile(std::string pFull, std::string pNick, std::string pRead, std::string pSize, int64_t pRepCost, int64_t pDrop,
+		std::string pGrPath) : DUnitProfile(pFull, pNick, pRead, ConvertToUnitSize(pSize), pRepCost, pDrop, pGrPath)
 {
+}
+
+DUnitProfile::DUnitProfile(DUnitProfile& pRef) : DUnitProfile(pRef.full_name, pRef.nick_name, pRef.read_name, pRef.unit_size,
+		pRef.repair_cost, pRef.drop_experience, pRef.graph_path)
+{
+	this->GraphHandler = pRef.GraphHandler;
 }
 
 DUnitProfile::DUnitProfile() : DUnitProfile("", "", "", DUnitSize::M, 0, 0, "")
@@ -308,14 +364,23 @@ DataUnit::DataUnit(json11::Json raw_data)
 		int64_t tTAV = tStatus["TAV"].int_value();
 		int64_t tSIG = tStatus["SIG"].int_value();
 		int64_t tMOB = tStatus["MOB"].int_value();
+		int64_t tTRV = tStatus["TRV"].int_value();
 		int tTAdAir = tStatus["TAdapt"]["air"].int_value();
 		int tTAdGro = tStatus["TAdapt"]["ground"].int_value();
 		int tTAdOce = tStatus["TAdapt"]["ocean"].int_value();
 		int tTAdOut = tStatus["TAdapt"]["outerlands"].int_value();
-		this->status = DUnitStatus(tHP, tEN, tTAV, tSIG, tMOB, tTAdAir, tTAdGro, tTAdOce, tTAdOut);
+		this->status = DUnitStatus(tHP, tEN, tTAV, tSIG, tMOB, tTRV, tTAdAir, tTAdGro, tTAdOce, tTAdOut);
 	}
 	json11::Json::array tWeapons = raw_data["weapons"].array_items();
 	for (json11::Json tWeapon : tWeapons) {
 		this->weapons.push_back(std::make_shared<DataUnitWeapons>(tWeapon));
 	}
+}
+
+DataUnit::DataUnit(DataUnit& pRef)
+{
+	this->profile = DUnitProfile(pRef.profile);
+	this->specific_passives = std::vector<std::shared_ptr<DataUnitSkills>>(pRef.specific_passives);
+	this->status = DUnitStatus(pRef.status);
+	this->weapons = std::vector<std::shared_ptr<DataUnitWeapons>>(pRef.weapons);
 }

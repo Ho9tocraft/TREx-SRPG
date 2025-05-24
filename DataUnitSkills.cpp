@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Main.h"
+#include "Loader.h"
 #include "DataPilot.h"
 #include "DataPilotSkills.h"
 #include "DataUnit.h"

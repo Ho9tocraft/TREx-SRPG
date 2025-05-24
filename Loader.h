@@ -110,23 +110,86 @@ class DataUnitWeapons;
 /// </summary>
 class GamePilot;
 /// <summary>
+/// ユニットの状態
+/// </summary>
+enum class UnitCondition;
+/// <summary>
+/// ユニットステータスのカテゴリ(改造・参照に使用)
+/// </summary>
+enum class InGUnitStatCategory;
+/// <summary>
+/// ゲーム内のユニットステータス
+/// </summary>
+struct InGameUnitStatus;
+/// <summary>
 /// ゲーム上のユニットデータ
 /// </summary>
 class GameUnit;
+/// <summary>
+/// 陣営
+/// </summary>
+enum class GameFaction;
+/// <summary>
+/// ゲーム上のツインユニットデータ
+/// </summary>
+class GameTroop;
+/// <summary>
+/// 読み込みパスの対象
+/// </summary>
+enum class LoaderHandlerType;
 /// <summary>
 /// ローダー
 /// </summary>
 class Loader;
 
+enum class LoaderHandlerType {
+	/// <summary>
+	/// パイロットデータ
+	/// </summary>
+	DATA_PILOT,
+	/// <summary>
+	/// ユニットデータ
+	/// </summary>
+	DATA_UNIT,
+	/// <summary>
+	/// 精神コマンドデータ
+	/// </summary>
+	DATA_SP,
+	/// <summary>
+	/// ステージデータ
+	/// </summary>
+	DATA_STAGES,
+	/// <summary>
+	/// 顔グラ
+	/// </summary>
+	GRAPH_PILOT,
+	/// <summary>
+	/// ユニットグラ
+	/// </summary>
+	GRAPH_UNIT,
+	/// <summary>
+	/// UI
+	/// </summary>
+	GRAPH_USER_INTERFACE
+};
+
 class Loader
 {
 protected:
 public:
-	std::map<std::string, std::shared_ptr<DataPilot>, std::less<>> register_pilots;
-	std::map<std::string, std::shared_ptr<DataUnit>, std::less<>> register_units;
+	int unitGraphResolution;
+	std::map<std::string, std::shared_ptr<DataPilot>, std::less<>> registry_pilots;
+	std::map<std::string, std::shared_ptr<DataPilotSkills>, std::less<>> registry_pskills;
+	std::map<std::string, std::shared_ptr<DataUnit>, std::less<>> registry_units;
 	std::string openTextFile(const std::string& path);
 	json11::Json parseResource(const std::string& path);
+	void initializeConfigureData();
+	void registeringPilot(json11::Json raw_data);
 	void registeringPilot(std::string key, json11::Json raw_data);
+	void registeringUnit(json11::Json raw_data);
 	void registeringUnit(std::string key, json11::Json raw_data);
+	std::string loadPath(LoaderHandlerType hType, std::string path = "");
+	std::shared_ptr<DataPilotSkills> findSkill(std::string SS_typename);
+	Loader();
 };
 

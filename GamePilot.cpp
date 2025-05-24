@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Main.h"
+#include "Loader.h"
 #include "DataPilot.h"
 #include "DataPilotSkills.h"
 #include "DataUnit.h"
@@ -225,7 +226,7 @@ void GamePilot::gainPP(int64_t value)
     this->setPP(this->currentPP + value);
 }
 
-std::weak_ptr<DataPilot> GamePilot::getReferData()
+std::shared_ptr<DataPilot> GamePilot::getReferData()
 {
     return this->refer_data;
 }
@@ -233,6 +234,8 @@ std::weak_ptr<DataPilot> GamePilot::getReferData()
 GamePilot::GamePilot(std::shared_ptr<DataPilot> pRef, int64_t pLevel)
 {
     this->refer_data = std::make_shared<DataPilot>(*pRef.get());
+    this->refer_data->profile.GraphHandler = LoadGraph(
+        sjis_to_utf8("./Resources/images/pilot/" + this->refer_data->profile.getGraphFile()).c_str());
     this->level = pLevel;
     this->experience = 0LL;
     this->inGameStat = std::map<DPilotStatusType, int64_t>(this->refer_data->status);

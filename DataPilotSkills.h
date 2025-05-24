@@ -109,9 +109,33 @@ class DataUnitWeapons;
 /// </summary>
 class GamePilot;
 /// <summary>
+/// ユニットの状態
+/// </summary>
+enum class UnitCondition;
+/// <summary>
+/// ユニットステータスのカテゴリ(改造・参照に使用)
+/// </summary>
+enum class InGUnitStatCategory;
+/// <summary>
+/// ゲーム内のユニットステータス
+/// </summary>
+struct InGameUnitStatus;
+/// <summary>
 /// ゲーム上のユニットデータ
 /// </summary>
 class GameUnit;
+/// <summary>
+/// 陣営
+/// </summary>
+enum class GameFaction;
+/// <summary>
+/// ゲーム上のツインユニットデータ
+/// </summary>
+class GameTroop;
+/// <summary>
+/// 読み込みパスの対象
+/// </summary>
+enum class LoaderHandlerType;
 /// <summary>
 /// ローダー
 /// </summary>
@@ -123,6 +147,8 @@ protected:
 	std::string SS_registryName;
 	std::string SS_displayName;
 	std::vector<std::string> SS_description;
+	std::vector<int64_t> SS_levelDefine;
+	std::vector<int64_t> SS_levelLearn;
 	bool    SS_uniqueSkill;
 	double  SS_atkBuffPercent;
 	double  SS_luckPercent;
@@ -133,50 +159,51 @@ protected:
 	double  SS_incrCriticalPercentOwner;
 	int64_t SS_SPRegenerateValue;
 	double  SS_ConsumeSPDecreasePercent;
-	DataPilotSkills(std::string pRegName, std::string pDispName, std::vector<std::string> pDesc,
-		bool pUnique, double pAtkBuffPct, double pLuckPct, double pComHitPct, double pComEvdPct,
-		double pOwnHitPct, double pOwnEvdPct, double pOwnCrtPct, int64_t pSPRegenVal, double pConsumeSPDecr);
 public:
 	std::string getRegName() const;
 	std::string getDispName() const;
 	std::vector<std::string> getDescription() const;
 	bool getIsUnique() const;
-	virtual double  calcAttackBuffPercent(std::weak_ptr<GameUnit> owner);   //アタッカー、援護攻撃(デバフ)
-	virtual int64_t calcAttackBuffConstant(std::weak_ptr<GameUnit> owner);  //インファイト、ガンファイト、メイジファイト
-	virtual double  calcArmorBuffPercent(std::weak_ptr<GameUnit> owner);    //底力など
-	virtual double  calcDamageDecrPercent(std::weak_ptr<GameUnit> owner);   //ガードなど
-	virtual int64_t calcMoveRangeIncrease(std::weak_ptr<GameUnit> owner);   //インファイト
-	virtual int64_t calcWeaponRangeIncrease(std::weak_ptr<GameUnit> owner); //ガンファイト、メイジファイト
-	virtual double  calcHitCommanding(std::weak_ptr<GameUnit> owner);       //指揮官(命中)
-	virtual double  calcEvadeCommanding(std::weak_ptr<GameUnit> owner);     //指揮官(回避)
-	virtual double  calcHitOwner(std::weak_ptr<GameUnit> owner);            //天才、念動力など(命中)
-	virtual double  calcEvadeOwner(std::weak_ptr<GameUnit> owner);          //天才、念動力など(回避)
-	virtual double  calcCriticalOwner(std::weak_ptr<GameUnit> owner);       //天才、念動力など(CRT)
-	virtual int64_t calcSPRegenerate(std::weak_ptr<GameUnit> owner);        //SP回復
-	virtual bool    canBeSupport(std::weak_ptr<GameUnit> owner);            //援護攻撃、援護防御、MB発動(隣接確認)
-	virtual bool    canBeSAttack(std::weak_ptr<GameUnit> owner);            //援護攻撃、MB発動
-	virtual bool    canBeSDefence(std::weak_ptr<GameUnit> owner);           //援護防御
-	virtual bool    canBeCounter(std::weak_ptr<GameUnit> owner);            //カウンター
-	virtual bool    isActiveReverseStrength(std::weak_ptr<GameUnit> owner); //底力(条件)
-	virtual int64_t calcSPUp(std::weak_ptr<GameUnit> owner);                //SPアップ
-	virtual int64_t calcHitStat(std::weak_ptr<GameUnit> owner);             //見切り(命中)
-	virtual int64_t calcEvadeStat(std::weak_ptr<GameUnit> owner);           //見切り(回避)
-	virtual int64_t calcMoraleOverdrive(std::weak_ptr<GameUnit> owner);     //気力限界突破
-	virtual bool    canREAttack(std::weak_ptr<GameUnit> owner);			    //再攻撃
-	virtual bool    isFocusAttackAvailable(std::weak_ptr<GameUnit> owner);  //集束攻撃
-	virtual bool    isHitAndAway(std::weak_ptr<GameUnit> owner);            //ヒットアンドアウェイ
-	virtual int64_t calcIncrMoraleCond(std::weak_ptr<GameUnit> owner, DIncrMoraleCond pCond); //気力+、戦意高揚、闘争心
-	virtual double  calcConsumeSPDecr(std::weak_ptr<GameUnit> owner);       //集中力
-	virtual bool    canRepSupExtraAction(std::weak_ptr<GameUnit> owner);    //修理技能(HP回復量+20％)、補給技能(移動後使用可能)
-	virtual bool    isLearning(std::weak_ptr<GameUnit> owner);              //ラーニング
-	virtual bool    isBulletSave(std::weak_ptr<GameUnit> owner);            //Bセーブ
-	virtual bool    isEnergySave(std::weak_ptr<GameUnit> owner);            //Eセーブ
+	bool calcSkillLearned(std::shared_ptr<GamePilot> owner);
+	int64_t calcSkillLevel(std::shared_ptr<GamePilot> owner);
+	virtual double  calcAttackBuffPercent(std::shared_ptr<GamePilot> owner, bool isMain);   //アタッカー、援護攻撃(デバフ)
+	virtual int64_t calcAttackBuffConstant(std::shared_ptr<GamePilot> owner, bool isMain);  //インファイト、ガンファイト、メイジファイト
+	virtual double  calcArmorBuffPercent(std::shared_ptr<GamePilot> owner, bool isMain);    //底力など
+	virtual double  calcDamageDecrPercent(std::shared_ptr<GamePilot> owner, bool isMain);   //ガードなど
+	virtual int64_t calcMoveRangeIncrease(std::shared_ptr<GamePilot> owner, bool isMain);   //インファイト
+	virtual int64_t calcWeaponRangeIncrease(std::shared_ptr<GamePilot> owner, bool isMain); //ガンファイト、メイジファイト
+	virtual double  calcHitCommanding(std::shared_ptr<GamePilot> owner, bool isMain);       //指揮官(命中)
+	virtual double  calcEvadeCommanding(std::shared_ptr<GamePilot> owner, bool isMain);     //指揮官(回避)
+	virtual double  calcHitOwner(std::shared_ptr<GamePilot> owner, bool isMain);            //天才、念動力など(命中)
+	virtual double  calcEvadeOwner(std::shared_ptr<GamePilot> owner, bool isMain);          //天才、念動力など(回避)
+	virtual double  calcCriticalOwner(std::shared_ptr<GamePilot> owner, bool isMain);       //天才、念動力など(CRT)
+	virtual int64_t calcSPRegenerate(std::shared_ptr<GamePilot> owner);        //SP回復
+	virtual bool    canBeSupport(std::shared_ptr<GamePilot> owner, bool isMain);            //援護攻撃、援護防御、MB発動(隣接確認)
+	virtual bool    canBeSAttack(std::shared_ptr<GamePilot> owner, bool isMain);            //援護攻撃、MB発動
+	virtual bool    canBeSDefence(std::shared_ptr<GamePilot> owner, bool isMain);           //援護防御
+	virtual bool    canBeCounter(std::shared_ptr<GamePilot> owner, bool isMain);            //カウンター
+	virtual bool    isActiveReverseStrength(std::shared_ptr<GamePilot> owner, bool isMain); //底力(条件)
+	virtual int64_t calcSPUp(std::shared_ptr<GamePilot> owner);                //SPアップ
+	virtual int64_t calcHitStat(std::shared_ptr<GamePilot> owner, bool isMain);             //見切り(命中)
+	virtual int64_t calcEvadeStat(std::shared_ptr<GamePilot> owner, bool isMain);           //見切り(回避)
+	virtual int64_t calcMoraleOverdrive(std::shared_ptr<GamePilot> owner, bool isMain);     //気力限界突破
+	virtual bool    canREAttack(std::shared_ptr<GamePilot> owner, bool isMain);			    //再攻撃
+	virtual bool    isFocusAttackAvailable(std::shared_ptr<GamePilot> owner, bool isMain);  //集束攻撃
+	virtual bool    isHitAndAway(std::shared_ptr<GamePilot> owner, bool isMain);            //ヒットアンドアウェイ
+	virtual int64_t calcIncrMoraleCond(std::shared_ptr<GamePilot> owner, DIncrMoraleCond pCond, bool isMain); //気力+、戦意高揚、闘争心
+	virtual double  calcConsumeSPDecr(std::shared_ptr<GamePilot> owner);       //集中力
+	virtual bool    canRepSupExtraAction(std::shared_ptr<GamePilot> owner, bool isMain);    //修理技能(HP回復量+20％)、補給技能(移動後使用可能)
+	virtual bool    isLearning(std::shared_ptr<GamePilot> owner);              //ラーニング
+	virtual bool    isBulletSave(std::shared_ptr<GamePilot> owner, bool isMain);            //Bセーブ
+	virtual bool    isEnergySave(std::shared_ptr<GamePilot> owner, bool isMain);            //Eセーブ
+	DataPilotSkills(std::string pRegName, std::string pDispName, std::vector<std::string> pDesc, std::vector<int64_t> pLvDef,
+		std::vector<int64_t> pLvLrn, bool pUnique, double pAtkBuffPct, double pLuckPct, double pComHitPct, double pComEvdPct,
+		double pOwnHitPct, double pOwnEvdPct, double pOwnCrtPct, int64_t pSPRegenVal, double pConsumeSPDecr);
 };
 
 class DPilotSkillDummy : public DataPilotSkills {
 protected:
-	DPilotSkillDummy();
 public:
-	static std::shared_ptr<DataPilotSkills> createInstance();
+	DPilotSkillDummy();
 };
 

@@ -161,7 +161,7 @@ std::string DPilotProfile::decideGenderDisplayStr(std::string from_value)
 	default:
 		break;
 	}
-	return from_value.empty() ? result_value : from_value;
+	return utf8_to_sjis(from_value.empty() ? result_value : from_value);
 }
 
 std::string DPilotProfile::getFullname() const
@@ -204,6 +204,11 @@ int DPilotProfile::getDropExp() const
 	return drop_experience;
 }
 
+bool DPilotProfile::isWeed() const
+{
+	return this->flagWeed;
+}
+
 std::string DPilotProfile::getBgmFile() const
 {
 	return bgmFile;
@@ -215,7 +220,7 @@ std::string DPilotProfile::getGraphFile() const
 }
 
 DPilotProfile::DPilotProfile(std::string pFullname, std::string pNickname, std::string pReadname, std::string pCodename,
-	DPilotGenderType pGenderType, std::string pGenderDispStr, DPilotPersonalityType pPersonalityType, int pDropExp,
+	DPilotGenderType pGenderType, std::string pGenderDispStr, DPilotPersonalityType pPersonalityType, int pDropExp, bool pWeed,
 	std::string pBgmFile, std::string pGraphPath)
 {
 	full_name = pFullname;
@@ -233,21 +238,21 @@ DPilotProfile::DPilotProfile(std::string pFullname, std::string pNickname, std::
 }
 
 DPilotProfile::DPilotProfile(std::string pFullname, std::string pNickname, std::string pReadname, std::string pCodename,
-	std::string pGenderType, std::string pGenderDispStr, std::string pPersonalityType, int pDropExp,
+	std::string pGenderType, std::string pGenderDispStr, std::string pPersonalityType, int pDropExp, bool pWeed,
 	std::string pBgmFile, std::string pGraphPath) :
 		DPilotProfile(pFullname, pNickname, pReadname, pCodename, ConvertToGenderType(pGenderType), pGenderDispStr,
-			ConvertToPersonalityType(pPersonalityType), pDropExp, pBgmFile, pGraphPath)
+			ConvertToPersonalityType(pPersonalityType), pDropExp, pWeed, pBgmFile, pGraphPath)
 {
 }
 
 DPilotProfile::DPilotProfile(std::string pFullname, std::string pNickname, std::string pReadname, std::string pCodename,
-	int pGenderType, std::string pGenderDispStr, int pPersonalityType, int pDropExp, std::string pBgmFile, std::string pGraphPath) :
+	int pGenderType, std::string pGenderDispStr, int pPersonalityType, int pDropExp, bool pWeed, std::string pBgmFile, std::string pGraphPath) :
 		DPilotProfile(pFullname, pNickname, pReadname, pCodename, ConvertToGenderType(pGenderType), pGenderDispStr,
-			ConvertToPersonalityType(pPersonalityType), pDropExp, pBgmFile, pGraphPath)
+			ConvertToPersonalityType(pPersonalityType), pDropExp, pWeed, pBgmFile, pGraphPath)
 {
 }
 
-DPilotProfile::DPilotProfile() : DPilotProfile("", "", "", "", "無性", "", "普通", 0, "", "")
+DPilotProfile::DPilotProfile() : DPilotProfile("", "", "", "", "無性", "", "普通", 0, false, "", "")
 {
 	//なんも引数を設定していないときの初期化。なにもしない
 }
@@ -262,6 +267,7 @@ DPilotProfile::DPilotProfile(DPilotProfile& pRef)
 	gender_custom_display = pRef.gender_custom_display;
 	personality_type = pRef.personality_type;
 	drop_experience = pRef.drop_experience;
+	flagWeed = pRef.flagWeed;
 	bgmFile = pRef.bgmFile;
 	graphFile = pRef.graphFile;
 	BgmHandler = pRef.BgmHandler;
@@ -272,6 +278,7 @@ DataPilot::DataPilot(json11::Json raw_data)
 {
 	std::string tFullname, tNickname, tReadname, tCodename, tGenderDisp, tBgmFilePath, tGraphPath;
 	int tRawGenderType = -1, tRawPersonalityType = -1, tDropExp = -1;
+	bool tWeed = true;
 	std::string keyGrowthType, keySpecificSkill, keySpiritual;
 	json11::Json jsProfile, jsTerrainAdapt, jsStatus;
 	{
@@ -290,15 +297,16 @@ DataPilot::DataPilot(json11::Json raw_data)
 		tReadname           = jsProfile["read_name"].string_value();
 		tCodename           = jsProfile["code_name"].string_value();
 		tRawGenderType      = jsProfile["gender"].int_value();
-		tGenderDisp         = genderCustomDisplay.is_null() ? "" : genderCustomDisplay.string_value();
+		tGenderDisp         = genderCustomDisplay.string_value();
 		tRawPersonalityType = jsProfile["personality_type"].int_value();
 		tDropExp            = jsProfile["drop_experience"].int_value();
+		tWeed               = jsProfile["isWeed"].bool_value();
 		tBgmFilePath        = jsProfile["default_bgm"].string_value();
 		tGraphPath          = jsProfile["face_graph"].string_value();
 	}
 	this->profile = DPilotProfile(tFullname, tNickname, tReadname, tCodename,
 		ConvertToGenderType(tRawGenderType), tGenderDisp, ConvertToPersonalityType(tRawPersonalityType),
-		tDropExp, tBgmFilePath, tGraphPath);
+		tDropExp, tWeed, tBgmFilePath, tGraphPath);
 	this->growth_type = ConvertToGrowthType(raw_data[keyGrowthType].int_value());
 	{
 		this->terrain_adapt.insert_or_assign(

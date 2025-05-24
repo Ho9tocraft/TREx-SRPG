@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Main.h"
+#include "Loader.h"
 #include "DataPilot.h"
 #include "DataPilotSkills.h"
 #include "DataUnit.h"
@@ -7,11 +8,15 @@
 #include "GamePilot.h"
 #include "GameUnit.h"
 
-DataPilotSkills::DataPilotSkills(std::string pRegName, std::string pDispName, std::vector<std::string> pDesc, bool pUnique, double pAtkBuffPct, double pLuckPct, double pComHitPct, double pComEvdPct, double pOwnHitPct, double pOwnEvdPct, double pOwnCrtPct, int64_t pSPRegenVal, double pConsumeSPDecr)
+DataPilotSkills::DataPilotSkills(std::string pRegName, std::string pDispName, std::vector<std::string> pDesc, std::vector<int64_t> pLvDef,
+		std::vector<int64_t> pLvLrn, bool pUnique, double pAtkBuffPct, double pLuckPct, double pComHitPct, double pComEvdPct,
+		double pOwnHitPct, double pOwnEvdPct, double pOwnCrtPct, int64_t pSPRegenVal, double pConsumeSPDecr)
 {
 	this->SS_registryName = pRegName;
 	this->SS_displayName = pDispName;
-	std::copy(pDesc.begin(), pDesc.end(), this->SS_description.begin());
+	this->SS_description = std::vector<std::string>(pDesc);
+	this->SS_levelDefine = std::vector<int64_t>(pLvDef);
+	this->SS_levelLearn = std::vector<int64_t>(pLvLrn);
 	this->SS_uniqueSkill = pUnique;
 	this->SS_atkBuffPercent = pAtkBuffPct;
 	this->SS_luckPercent = pLuckPct;
@@ -44,162 +49,175 @@ bool DataPilotSkills::getIsUnique() const
 	return this->SS_uniqueSkill;
 }
 
-double DataPilotSkills::calcAttackBuffPercent(std::weak_ptr<GameUnit> owner)
+bool DataPilotSkills::calcSkillLearned(std::shared_ptr<GamePilot> owner)
+{
+	int64_t tempLv = owner->getLevel();
+	if (tempLv >= this->SS_levelLearn[0]) return true;
+	return false;
+}
+
+int64_t DataPilotSkills::calcSkillLevel(std::shared_ptr<GamePilot> owner)
+{
+	int64_t index = 0LL;
+	for (uint64_t i = 0; i < this->SS_levelLearn.size(); i++) {
+		if (owner->getLevel() >= this->SS_levelLearn.at(i)) {
+			index = i;
+		} else break;
+	}
+	return this->SS_levelDefine.at(index);
+}
+
+double DataPilotSkills::calcAttackBuffPercent(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return 0.0;
 }
 
-int64_t DataPilotSkills::calcAttackBuffConstant(std::weak_ptr<GameUnit> owner)
+int64_t DataPilotSkills::calcAttackBuffConstant(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return 0;
 }
 
-double DataPilotSkills::calcArmorBuffPercent(std::weak_ptr<GameUnit> owner)
+double DataPilotSkills::calcArmorBuffPercent(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return 0.0;
 }
 
-double DataPilotSkills::calcDamageDecrPercent(std::weak_ptr<GameUnit> owner)
+double DataPilotSkills::calcDamageDecrPercent(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return 0.0;
 }
 
-int64_t DataPilotSkills::calcMoveRangeIncrease(std::weak_ptr<GameUnit> owner)
+int64_t DataPilotSkills::calcMoveRangeIncrease(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return 0;
 }
 
-int64_t DataPilotSkills::calcWeaponRangeIncrease(std::weak_ptr<GameUnit> owner)
+int64_t DataPilotSkills::calcWeaponRangeIncrease(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return 0;
 }
 
-double DataPilotSkills::calcHitCommanding(std::weak_ptr<GameUnit> owner)
+double DataPilotSkills::calcHitCommanding(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return 0.0;
 }
 
-double DataPilotSkills::calcEvadeCommanding(std::weak_ptr<GameUnit> owner)
+double DataPilotSkills::calcEvadeCommanding(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return 0.0;
 }
 
-double DataPilotSkills::calcHitOwner(std::weak_ptr<GameUnit> owner)
+double DataPilotSkills::calcHitOwner(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return 0.0;
 }
 
-double DataPilotSkills::calcEvadeOwner(std::weak_ptr<GameUnit> owner)
+double DataPilotSkills::calcEvadeOwner(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return 0.0;
 }
 
-double DataPilotSkills::calcCriticalOwner(std::weak_ptr<GameUnit> owner)
+double DataPilotSkills::calcCriticalOwner(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return 0.0;
 }
 
-int64_t DataPilotSkills::calcSPRegenerate(std::weak_ptr<GameUnit> owner)
+int64_t DataPilotSkills::calcSPRegenerate(std::shared_ptr<GamePilot> owner)
 {
 	return 0;
 }
 
-bool DataPilotSkills::canBeSupport(std::weak_ptr<GameUnit> owner)
+bool DataPilotSkills::canBeSupport(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return false;
 }
 
-bool DataPilotSkills::canBeSAttack(std::weak_ptr<GameUnit> owner)
+bool DataPilotSkills::canBeSAttack(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return false;
 }
 
-bool DataPilotSkills::canBeSDefence(std::weak_ptr<GameUnit> owner)
+bool DataPilotSkills::canBeSDefence(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return false;
 }
 
-bool DataPilotSkills::canBeCounter(std::weak_ptr<GameUnit> owner)
+bool DataPilotSkills::canBeCounter(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return false;
 }
 
-bool DataPilotSkills::isActiveReverseStrength(std::weak_ptr<GameUnit> owner)
+bool DataPilotSkills::isActiveReverseStrength(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return false;
 }
 
-int64_t DataPilotSkills::calcSPUp(std::weak_ptr<GameUnit> owner)
+int64_t DataPilotSkills::calcSPUp(std::shared_ptr<GamePilot> owner)
 {
 	return 0;
 }
 
-int64_t DataPilotSkills::calcHitStat(std::weak_ptr<GameUnit> owner)
+int64_t DataPilotSkills::calcHitStat(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return 0;
 }
 
-int64_t DataPilotSkills::calcEvadeStat(std::weak_ptr<GameUnit> owner)
+int64_t DataPilotSkills::calcEvadeStat(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return 0;
 }
 
-int64_t DataPilotSkills::calcMoraleOverdrive(std::weak_ptr<GameUnit> owner)
+int64_t DataPilotSkills::calcMoraleOverdrive(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return 0;
 }
 
-bool DataPilotSkills::canREAttack(std::weak_ptr<GameUnit> owner)
+bool DataPilotSkills::canREAttack(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return false;
 }
 
-bool DataPilotSkills::isFocusAttackAvailable(std::weak_ptr<GameUnit> owner)
+bool DataPilotSkills::isFocusAttackAvailable(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return false;
 }
 
-bool DataPilotSkills::isHitAndAway(std::weak_ptr<GameUnit> owner)
+bool DataPilotSkills::isHitAndAway(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return false;
 }
 
-int64_t DataPilotSkills::calcIncrMoraleCond(std::weak_ptr<GameUnit> owner, DIncrMoraleCond pCond)
+int64_t DataPilotSkills::calcIncrMoraleCond(std::shared_ptr<GamePilot> owner, DIncrMoraleCond pCond, bool isMain)
 {
 	return 0;
 }
 
-double DataPilotSkills::calcConsumeSPDecr(std::weak_ptr<GameUnit> owner)
+double DataPilotSkills::calcConsumeSPDecr(std::shared_ptr<GamePilot> owner)
 {
 	return 0.0;
 }
 
-bool DataPilotSkills::canRepSupExtraAction(std::weak_ptr<GameUnit> owner)
+bool DataPilotSkills::canRepSupExtraAction(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return false;
 }
 
-bool DataPilotSkills::isLearning(std::weak_ptr<GameUnit> owner)
+bool DataPilotSkills::isLearning(std::shared_ptr<GamePilot> owner)
 {
 	return false;
 }
 
-bool DataPilotSkills::isBulletSave(std::weak_ptr<GameUnit> owner)
+bool DataPilotSkills::isBulletSave(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return false;
 }
 
-bool DataPilotSkills::isEnergySave(std::weak_ptr<GameUnit> owner)
+bool DataPilotSkills::isEnergySave(std::shared_ptr<GamePilot> owner, bool isMain)
 {
 	return false;
 }
 
 DPilotSkillDummy::DPilotSkillDummy() : DataPilotSkills("Dummy", "ダミーの特殊スキル", std::vector<std::string>{"これはダミーです"},
-		false, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0.0)
+		std::vector<int64_t>{1}, std::vector<int64_t>{1}, false, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0.0)
 {
-}
-
-std::shared_ptr<DataPilotSkills> DPilotSkillDummy::createInstance()
-{
-	return std::make_shared<DataPilotSkills>(DPilotSkillDummy());
 }

@@ -109,9 +109,21 @@ class DataUnitWeapons;
 /// </summary>
 class GamePilot;
 /// <summary>
+/// ユニットステータスのカテゴリ(改造・参照に使用)
+/// </summary>
+enum class InGUnitStatCategory;
+/// <summary>
+/// ゲーム内のユニットステータス
+/// </summary>
+struct InGameUnitStatus;
+/// <summary>
 /// ゲーム上のユニットデータ
 /// </summary>
 class GameUnit;
+/// <summary>
+/// 読み込みパスの対象
+/// </summary>
+enum class LoaderHandlerType;
 /// <summary>
 /// ローダー
 /// </summary>
@@ -165,12 +177,20 @@ protected:
 	std::string graph_path;
 public:
 	int GraphHandler;
+	std::string getUFullname() const;
+	std::string getUNickname() const;
+	std::string getUReadname() const;
+	DUnitSize getUnitSize() const;
+	int64_t getRepairCost() const;
+	int64_t getUDropExp() const;
+	std::string getGraphPath() const;
 	DUnitProfile(std::string pFull, std::string pNick, std::string pRead, DUnitSize pSize,
 		int64_t pRepCost, int64_t pDrop, std::string pGrPath);
 	DUnitProfile(std::string pFull, std::string pNick, std::string pRead, int pSize,
 		int64_t pRepCost, int64_t pDrop, std::string pGrPath);
 	DUnitProfile(std::string pFull, std::string pNick, std::string pRead, std::string pSize,
 		int64_t pRepCost, int64_t pDrop, std::string pGrPath);
+	DUnitProfile(DUnitProfile& pRef);
 	/// <summary>
 	/// デフォルトコンストラクタ
 	/// </summary>
@@ -185,19 +205,22 @@ protected:
 	int64_t armor_value; //装甲値 (TAV)
 	int64_t sight_value; //照準値 (SIG)
 	int64_t evade_value; //運動性 (MOV)
+	int64_t distTravel;  //移動距離
 public:
 	int64_t getMaxHealth() const;
 	int64_t getMaxEnergy() const;
 	int64_t getArmorVal() const;
 	int64_t getSightVal() const;
 	int64_t getEvadeVal() const;
+	int64_t getDistTravel() const;
 	std::map<TerrainAdaptType, TerrainAdaptValue> unitTerrainAdapt;
-	DUnitStatus(int64_t pHealth, int64_t pEnergy, int64_t pArmor, int64_t pSight, int64_t pEvade,
+	DUnitStatus(int64_t pHealth, int64_t pEnergy, int64_t pArmor, int64_t pSight, int64_t pEvade, int64_t pTravel,
 		TerrainAdaptValue pAir, TerrainAdaptValue pGround, TerrainAdaptValue pOcean, TerrainAdaptValue pOuter);
-	DUnitStatus(int64_t pHealth, int64_t pEnergy, int64_t pArmor, int64_t pSight, int64_t pEvade,
+	DUnitStatus(int64_t pHealth, int64_t pEnergy, int64_t pArmor, int64_t pSight, int64_t pEvade, int64_t pTravel,
 		int pAir, int pGround, int pOcean, int pOuter);
-	DUnitStatus(int64_t pHealth, int64_t pEnergy, int64_t pArmor, int64_t pSight, int64_t pEvade,
+	DUnitStatus(int64_t pHealth, int64_t pEnergy, int64_t pArmor, int64_t pSight, int64_t pEvade, int64_t pTravel,
 		std::string pAir, std::string pGround, std::string pOcean, std::string pOuter);
+	DUnitStatus(DUnitStatus& pRef);
 	/// <summary>
 	/// デフォルトコンストラクタ
 	/// </summary>
@@ -213,6 +236,7 @@ public:
 	DUnitStatus status;
 	std::vector<std::shared_ptr<DataUnitWeapons>> weapons;
 	DataUnit(json11::Json raw_data);
+	DataUnit(DataUnit& ref);
 };
 
 enum class DataUWAttributeCondition {

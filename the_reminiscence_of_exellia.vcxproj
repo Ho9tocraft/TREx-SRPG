@@ -191,6 +191,7 @@
       <FileType>Document</FileType>
       <DeploymentContent>true</DeploymentContent>
     </Text>
+    <None Include="Resources\datas\datapacks\stages\stage_001.json" />
     <None Include="Resources\memo.txt" />
   </ItemGroup>
   <ItemGroup>
