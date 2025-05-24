@@ -41,7 +41,7 @@ int WINAPI WinMain(_In_ HINSTANCE hIns, _In_opt_ HINSTANCE hPrevIns, _In_ LPSTR 
 	DrawString(0, 24, sjis_to_utf8(game_loader->registry_units.at("エクセリア・シャルロッテ・クレア・ゼーゲブレヒト・アウェア")
 		->profile.getUFullname()).c_str(), 0xff9900);
 	*/
-	game_main->LaunchUnitByFaction("エクセリア・シャルロッテ・クレア・ゼーゲブレヒト・アウェア", 0, 
+	game_main->CreateUnitByFaction("エクセリア・シャルロッテ・クレア・ゼーゲブレヒト・アウェア", 0, 
 		"エクセリア・シャルロッテ・クレア・ゼーゲブレヒト・アウェア", 1, 0, 0, "味方");
 	game_main->DrawStageGraph(windowWidth, windowHeight);
 	WaitKey();
@@ -50,6 +50,15 @@ int WINAPI WinMain(_In_ HINSTANCE hIns, _In_opt_ HINSTANCE hPrevIns, _In_ LPSTR 
 }
 
 /* --- GameMain --- */
+
+std::shared_ptr<GamePilot> GameMain::definationPilot(std::shared_ptr<GamePilot> unit)
+{
+	std::string pilotFullName = sjis_to_utf8(unit->getReferData()->profile.getFullname());
+	bool isUnique = unit->getReferData()->profile.isWeed() == false;
+	if (isUnique) this->generatedPilot.insert_or_assign(pilotFullName, isUnique);
+	else if (this->generatedPilot.contains(pilotFullName)) this->generatedPilot.erase(pilotFullName);
+	return unit;
+}
 
 void GameMain::DrawStageGraph(int windowWidth, int windowHeight)
 {
@@ -110,20 +119,29 @@ void GameMain::eventOnDestroy()
 	}
 }
 
-void GameMain::LaunchUnitByFaction(std::string pKeyUnitMain, int64_t pUnitMainRankHP, int64_t pUnitMainRankEN, int64_t pUnitMainRankArmor,
+void GameMain::LaunchUnitFromSaveData(std::string pKeyPilotMain, std::string pKeyPilotSub)
+{
+}
+
+void GameMain::CreateUnitByFaction(std::string pKeyUnitMain, int64_t pUnitMainRankHP, int64_t pUnitMainRankEN, int64_t pUnitMainRankArmor,
 	int64_t pUnitMainRankSight, int64_t pUnitMainRankEvade, std::string pKeyPilotMain, int64_t pPilotMainLevel, std::string pFaction,
 	int64_t pPosX, int64_t pPosY, std::string pKeyUnitSub, int64_t pUnitSubRankHP, int64_t pUnitSubRankEN, int64_t pUnitSubRankArmor,
 	int64_t pUnitSubRankSight, int64_t pUnitSubRankEvade, std::string pKeyPilotSub, int64_t pPilotSubLevel)
 {
+	//既出チェック
+	//雑魚はもれなくfalseとなるので無視される
+	if (this->generatedPilot[pKeyPilotMain] || this->generatedPilot[pKeyPilotSub]) return;
 	std::shared_ptr<GameUnit> tmpUnitMain = std::make_shared<GameUnit>(game_loader->registry_units.at(pKeyUnitMain),
 		pUnitMainRankHP, pUnitMainRankEN, pUnitMainRankArmor, pUnitMainRankSight, pUnitMainRankSight);
 	std::shared_ptr<GameUnit> tmpUnitSub;
 	std::shared_ptr<GameTroop> tmpTroop;
-	tmpUnitMain->ridePilot(std::make_shared<GamePilot>(game_loader->registry_pilots.at(pKeyPilotMain), pPilotMainLevel));
+	tmpUnitMain->ridePilot(this->definationPilot(
+		std::make_shared<GamePilot>(game_loader->registry_pilots.at(pKeyPilotMain), pPilotMainLevel)));
 	if (!pKeyPilotSub.empty()) {
 		tmpUnitSub = std::make_shared<GameUnit>(game_loader->registry_units.at(pKeyUnitSub),
 			pUnitSubRankHP, pUnitSubRankEN, pUnitSubRankArmor, pUnitSubRankSight, pUnitSubRankEvade);
-		tmpUnitSub->ridePilot(std::make_shared<GamePilot>(game_loader->registry_pilots.at(pKeyPilotSub), pPilotSubLevel));
+		tmpUnitSub->ridePilot(this->definationPilot(
+			std::make_shared<GamePilot>(game_loader->registry_pilots.at(pKeyPilotSub), pPilotSubLevel)));
 	}
 	if (!tmpUnitSub) tmpTroop = std::make_shared<GameTroop>(tmpUnitMain, tmpUnitSub);
 	else tmpTroop = std::make_shared<GameTroop>(tmpUnitMain);
@@ -144,9 +162,9 @@ void GameMain::LaunchUnitByFaction(std::string pKeyUnitMain, int64_t pUnitMainRa
 	this->troopList.push_back(std::move(tmpTroop));
 }
 
-void GameMain::LaunchUnitByFaction(std::string pKeyUnitMain, int64_t pUnitMainRank, std::string pKeyPilotMain, int64_t pPilotMainLevel, int64_t pPosX, int64_t pPosY, std::string pFaction, std::string pKeyUnitSub, int64_t pUnitRankSub, std::string pKeyPilotSub, int64_t pPilotSubLevel)
+void GameMain::CreateUnitByFaction(std::string pKeyUnitMain, int64_t pUnitMainRank, std::string pKeyPilotMain, int64_t pPilotMainLevel, int64_t pPosX, int64_t pPosY, std::string pFaction, std::string pKeyUnitSub, int64_t pUnitRankSub, std::string pKeyPilotSub, int64_t pPilotSubLevel)
 {
-	this->LaunchUnitByFaction(pKeyUnitMain, pUnitMainRank, pUnitMainRank, pUnitMainRank,
+	this->CreateUnitByFaction(pKeyUnitMain, pUnitMainRank, pUnitMainRank, pUnitMainRank,
 		pUnitMainRank, pUnitMainRank, pKeyPilotMain, pPilotMainLevel, pFaction, pPosX, pPosY, pKeyUnitSub,
 		pUnitRankSub, pUnitRankSub, pUnitRankSub, pUnitRankSub, pUnitRankSub,
 		pKeyPilotSub, pPilotSubLevel);

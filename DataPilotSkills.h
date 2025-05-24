@@ -177,13 +177,13 @@ public:
 	virtual double  calcHitOwner(std::shared_ptr<GamePilot> owner, bool isMain);            //天才、念動力など(命中)
 	virtual double  calcEvadeOwner(std::shared_ptr<GamePilot> owner, bool isMain);          //天才、念動力など(回避)
 	virtual double  calcCriticalOwner(std::shared_ptr<GamePilot> owner, bool isMain);       //天才、念動力など(CRT)
-	virtual int64_t calcSPRegenerate(std::shared_ptr<GamePilot> owner);        //SP回復
+	virtual int64_t calcSPRegenerate(std::shared_ptr<GamePilot> owner);		                //SP回復
 	virtual bool    canBeSupport(std::shared_ptr<GamePilot> owner, bool isMain);            //援護攻撃、援護防御、MB発動(隣接確認)
 	virtual bool    canBeSAttack(std::shared_ptr<GamePilot> owner, bool isMain);            //援護攻撃、MB発動
 	virtual bool    canBeSDefence(std::shared_ptr<GamePilot> owner, bool isMain);           //援護防御
 	virtual bool    canBeCounter(std::shared_ptr<GamePilot> owner, bool isMain);            //カウンター
 	virtual bool    isActiveReverseStrength(std::shared_ptr<GamePilot> owner, bool isMain); //底力(条件)
-	virtual int64_t calcSPUp(std::shared_ptr<GamePilot> owner);                //SPアップ
+	virtual int64_t calcSPUp(std::shared_ptr<GamePilot> owner);                             //SPアップ
 	virtual int64_t calcHitStat(std::shared_ptr<GamePilot> owner, bool isMain);             //見切り(命中)
 	virtual int64_t calcEvadeStat(std::shared_ptr<GamePilot> owner, bool isMain);           //見切り(回避)
 	virtual int64_t calcMoraleOverdrive(std::shared_ptr<GamePilot> owner, bool isMain);     //気力限界突破
@@ -191,9 +191,9 @@ public:
 	virtual bool    isFocusAttackAvailable(std::shared_ptr<GamePilot> owner, bool isMain);  //集束攻撃
 	virtual bool    isHitAndAway(std::shared_ptr<GamePilot> owner, bool isMain);            //ヒットアンドアウェイ
 	virtual int64_t calcIncrMoraleCond(std::shared_ptr<GamePilot> owner, DIncrMoraleCond pCond, bool isMain); //気力+、戦意高揚、闘争心
-	virtual double  calcConsumeSPDecr(std::shared_ptr<GamePilot> owner);       //集中力
+	virtual double  calcConsumeSPDecr(std::shared_ptr<GamePilot> owner);                    //集中力
 	virtual bool    canRepSupExtraAction(std::shared_ptr<GamePilot> owner, bool isMain);    //修理技能(HP回復量+20％)、補給技能(移動後使用可能)
-	virtual bool    isLearning(std::shared_ptr<GamePilot> owner);              //ラーニング
+	virtual bool    isLearning(std::shared_ptr<GamePilot> owner);                           //ラーニング
 	virtual bool    isBulletSave(std::shared_ptr<GamePilot> owner, bool isMain);            //Bセーブ
 	virtual bool    isEnergySave(std::shared_ptr<GamePilot> owner, bool isMain);            //Eセーブ
 	DataPilotSkills(std::string pRegName, std::string pDispName, std::vector<std::string> pDesc, std::vector<int64_t> pLvDef,

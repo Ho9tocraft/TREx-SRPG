@@ -165,20 +165,24 @@ public:
 
 class GameMain {
 protected:
+	std::shared_ptr<GamePilot> definationPilot(std::shared_ptr<GamePilot> unit);
 public:
 	int64_t map_width;
 	int64_t map_height;
+	std::map<std::string, bool, std::less<>> generatedPilot;
+	std::map<std::string, GameUnit, std::less<>> savedUnit;
 	std::vector<std::shared_ptr<GameTroop>> troopList;
 	std::vector<std::vector<std::pair<bool, GameMapPath>>> stageMap;
 	void DrawStageGraph(int windowWidth, int windowHeight);
 	void setStageMap(json11::Json raw_data);
 	void eventOnDestroy();
-	void LaunchUnitByFaction(std::string pKeyUnitMain, int64_t pUnitMainRankHP, int64_t pUnitMainRankEN, int64_t pUnitMainRankArmor,
+	void LaunchUnitFromSaveData(std::string pKeyPilotMain, std::string pKeyPilotSub);
+	void CreateUnitByFaction(std::string pKeyUnitMain, int64_t pUnitMainRankHP, int64_t pUnitMainRankEN, int64_t pUnitMainRankArmor,
 		int64_t pUnitMainRankSight, int64_t pUnitMainRankEvade, std::string pKeyPilotMain, int64_t pPilotMainLevel, std::string pFaction,
 		int64_t pPosX, int64_t pPosY, std::string pKeyUnitSub = "", int64_t pUnitSubRankHP = 0LL, int64_t pUnitSubRankEN = 0LL,
 		int64_t pUnitSubRankArmor = 0LL, int64_t pUnitSubRankSight = 0LL, int64_t pUnitSubRankEvade = 0LL, std::string pKeyPilotSub = "",
 		int64_t pPilotSubLevel = 0LL);
-	void LaunchUnitByFaction(std::string pKeyUnitMain, int64_t pUnitMainRank, std::string pKeyPilotMain, int64_t pPilotMainLevel, int64_t pPosX,
+	void CreateUnitByFaction(std::string pKeyUnitMain, int64_t pUnitMainRank, std::string pKeyPilotMain, int64_t pPilotMainLevel, int64_t pPosX,
 		int64_t pPosY, std::string pFaction, std::string pKeyUnitSub = "", int64_t pUnitRankSub = 0LL, std::string pKeyPilotSub = "",
 		int64_t pPilotSubLevel = 0LL);
 	GameMain();
