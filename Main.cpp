@@ -119,10 +119,6 @@ void GameMain::eventOnDestroy()
 	}
 }
 
-void GameMain::LaunchUnitFromSaveData(std::string pKeyPilotMain, std::string pKeyPilotSub)
-{
-}
-
 void GameMain::CreateUnitByFaction(std::string pKeyUnitMain, int64_t pUnitMainRankHP, int64_t pUnitMainRankEN, int64_t pUnitMainRankArmor,
 	int64_t pUnitMainRankSight, int64_t pUnitMainRankEvade, std::string pKeyPilotMain, int64_t pPilotMainLevel, std::string pFaction,
 	int64_t pPosX, int64_t pPosY, std::string pKeyUnitSub, int64_t pUnitSubRankHP, int64_t pUnitSubRankEN, int64_t pUnitSubRankArmor,
