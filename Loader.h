@@ -170,7 +170,11 @@ enum class LoaderHandlerType {
 	/// <summary>
 	/// UI
 	/// </summary>
-	GRAPH_USER_INTERFACE
+	GRAPH_USER_INTERFACE,
+	/// <summary>
+	/// 音源
+	/// </summary>
+	AUDIO
 };
 
 class Loader

@@ -260,6 +260,7 @@ DataUnitWeapons::DataUnitWeapons(json11::Json raw_data)
 		this->W_cost_en = std::pair<bool, int64_t>(consume_en[keyReq].bool_value(), consume_en[keyCost].int_value());
 		this->W_cost_bullet = std::pair<bool, int64_t>(consume_blt[keyReq].bool_value(), consume_blt[keyCost].int_value());
 		this->W_cost_morale = std::pair<bool, int64_t>(require_morale[keyReq].bool_value(), consume_blt[keyCost].int_value());
+		this->current_bullet = this->W_cost_bullet.second;
 	}
 	{
 		json11::Json tempTerrain = raw_data["w_terrain"];

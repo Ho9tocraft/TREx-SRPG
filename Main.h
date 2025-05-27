@@ -167,16 +167,25 @@ class GameMain {
 protected:
 	std::shared_ptr<GamePilot> definationPilot(std::shared_ptr<GamePilot> unit);
 public:
+	bool stage_loaded;
+	int map_soundhandler;
+	uint64_t map_round;
 	int64_t map_width;
 	int64_t map_height;
+	GameFaction map_phase;
+	json11::Json operation_condition;
+	std::map<uint64_t, json11::Json> eventTurns;
+	std::map<uint64_t, std::map<GameFaction, bool>> isInitialized;
 	std::map<std::string, bool, std::less<>> generatedPilot;
-	std::map<std::string, GameUnit, std::less<>> savedUnit;
+	std::map<std::string, std::shared_ptr<GameUnit>, std::less<>> savedUnit;
 	std::vector<std::shared_ptr<GameTroop>> troopList;
 	std::vector<std::vector<std::pair<bool, GameMapPath>>> stageMap;
 	void DrawStageGraph(int windowWidth, int windowHeight);
 	void setStageMap(json11::Json raw_data);
 	void eventOnDestroy();
-	void LaunchUnitFromSaveData(std::string pKeyPilotMain, std::string pKeyPilotSub);
+	void eventOnTurn();
+	void LaunchUnitFromSaveData(std::string pKeyPilotMain, int64_t pPosX, int64_t pPosY,
+		std::string pKeyPilotSub = "", GameFaction pFaction = static_cast<GameFaction>(1));
 	void CreateUnitByFaction(std::string pKeyUnitMain, int64_t pUnitMainRankHP, int64_t pUnitMainRankEN, int64_t pUnitMainRankArmor,
 		int64_t pUnitMainRankSight, int64_t pUnitMainRankEvade, std::string pKeyPilotMain, int64_t pPilotMainLevel, std::string pFaction,
 		int64_t pPosX, int64_t pPosY, std::string pKeyUnitSub = "", int64_t pUnitSubRankHP = 0LL, int64_t pUnitSubRankEN = 0LL,
@@ -185,6 +194,8 @@ public:
 	void CreateUnitByFaction(std::string pKeyUnitMain, int64_t pUnitMainRank, std::string pKeyPilotMain, int64_t pPilotMainLevel, int64_t pPosX,
 		int64_t pPosY, std::string pFaction, std::string pKeyUnitSub = "", int64_t pUnitRankSub = 0LL, std::string pKeyPilotSub = "",
 		int64_t pPilotSubLevel = 0LL);
+	void SequenceIncreaseTurn();
+	bool foundFaction(GameFaction faction);
 	GameMain();
 };
 

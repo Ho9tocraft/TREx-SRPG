@@ -20,3 +20,31 @@ Button 10: L3
 Button 11: R3
 Button 12: PSボタン
 Button 13: タッチパッド
+
+		/*
+		stage_info: ステージのキャラ配置情報など
+		  create_launch: キャラ作成・出撃
+		    event_turn: このイベントを処理するターン (string)
+			- 0 で戦闘開始前
+			event_phase: このイベントを処理するフェーズ (int)
+			- event_turnが0のときは無視
+			- 1: プレイヤーフェーズ
+			- 2: 敵フェーズ(敵)
+			- 3: 敵フェーズ(中立)
+			- 4: NPCフェーズ
+		    event_pop: 出現するツインユニットの配列
+		      main_unit_unit_name: メインユニットのユニット名 (正式名称)
+			  main_unit_unit_rank: メインユニットのランク (intまたはobject) ※intを使う場合は一括指定
+			    HP, EN, AMR, SIG, EVA: それぞれHP、EN、装甲値、照準値、運動性
+			  main_unit_main_pilot_name: メインユニットのメインパイロット名 (正式名称)
+			  main_unit_main_pilot_level: メインユニットのメインパイロットレベル (int)
+			  sub_unit_unit_name: サブユニットのユニット名 (省略可)
+			  sub_unit_unit_rank: サブユニットのランク (省略可/intまたはobject)。記法はメインユニットのランクと同じ
+			  sub_unit_main_pilot_name: サブユニットのメインパイロット名 (正式名称)
+			  sub_unit_main_pilot_level: サブユニットのメインパイロットレベル (int)
+			  troop_posX: X座標
+			  troop_posY: Y座標
+			  troop_faction: 所属陣営 (int)
+		  operation_condition: 勝利条件・敗北条件・SRポイント
+		*/
+

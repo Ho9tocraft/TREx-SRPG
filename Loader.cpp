@@ -83,16 +83,19 @@ std::string Loader::loadPath(LoaderHandlerType hType, std::string path)
 		result += "datas/datapacks/sp.json";
 		break;
 	case LoaderHandlerType::DATA_STAGES:
-		result += "datas/datapacks/stages/" + path;
+		result += ("datas/datapacks/stages/" + path);
 		break;
 	case LoaderHandlerType::GRAPH_PILOT:
-		result += "images/pilot/" + path;
+		result += ("images/pilot/" + path);
 		break;
 	case LoaderHandlerType::GRAPH_UNIT:
-		result += "images/unit/" + path;
+		result += ("images/unit/" + path);
 		break;
 	case LoaderHandlerType::GRAPH_USER_INTERFACE:
-		result += "images/ui" + path;
+		result += ("images/ui" + path);
+		break;
+	case LoaderHandlerType::AUDIO:
+		result += ("audio/" + path);
 		break;
 	default:
 		break;

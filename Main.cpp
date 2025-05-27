@@ -15,7 +15,6 @@ int WINAPI WinMain(_In_ HINSTANCE hIns, _In_opt_ HINSTANCE hPrevIns, _In_ LPSTR 
 	game_loader = std::make_shared<Loader>();
 	game_main = std::make_shared<GameMain>();
 	json11::Json parsedConfig = game_loader->parseResource("./config.json");
-	json11::Json stageData = game_loader->parseResource(game_loader->loadPath(LoaderHandlerType::DATA_STAGES, "stage_001.json"));
 	int windowWidth = parsedConfig["window"]["width"].int_value();
 	int windowHeight = parsedConfig["window"]["height"].int_value();
 	game_loader->unitGraphResolution = windowWidth / 32;
@@ -34,16 +33,18 @@ int WINAPI WinMain(_In_ HINSTANCE hIns, _In_opt_ HINSTANCE hPrevIns, _In_ LPSTR 
 	for (const json11::Json& unit : unitList) {
 		game_loader->registeringUnit(unit);
 	}
-	game_main->setStageMap(stageData);
-	/*
-	DrawString(0, 0, sjis_to_utf8(game_loader->registry_pilots.at("エクセリア・シャルロッテ・クレア・ゼーゲブレヒト・アウェア")
-		->profile.getFullname()).c_str(), 0xffff00);
-	DrawString(0, 24, sjis_to_utf8(game_loader->registry_units.at("エクセリア・シャルロッテ・クレア・ゼーゲブレヒト・アウェア")
-		->profile.getUFullname()).c_str(), 0xff9900);
-	*/
-	game_main->CreateUnitByFaction("エクセリア・シャルロッテ・クレア・ゼーゲブレヒト・アウェア", 0, 
-		"エクセリア・シャルロッテ・クレア・ゼーゲブレヒト・アウェア", 1, 0, 0, "味方");
-	game_main->DrawStageGraph(windowWidth, windowHeight);
+	SetDrawScreen(DX_SCREEN_BACK);
+	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0) {
+		if (!game_main->stage_loaded) {
+			json11::Json stageData = game_loader->parseResource(game_loader->loadPath(LoaderHandlerType::DATA_STAGES, "stage_001.json"));
+			game_main->setStageMap(stageData);
+			game_main->stage_loaded = true;
+		}
+		ClearDrawScreen();
+		game_main->eventOnTurn();
+		game_main->DrawStageGraph(windowWidth, windowHeight);
+		ScreenFlip();
+	}
 	WaitKey();
 	DxLib_End();
 	return 0;
@@ -81,7 +82,7 @@ void GameMain::DrawStageGraph(int windowWidth, int windowHeight)
 
 void GameMain::setStageMap(json11::Json raw_data)
 {
-	json11::Json area_properties = raw_data["area_properties"];
+	json11::Json area_properties = raw_data["stage_data"]["area_properties"];
 	std::vector<std::vector<uint64_t>> terrain_data_index;
 	auto& arrItemAll = area_properties.array_items();
 	for (auto& arrayY : arrItemAll) {
@@ -96,13 +97,33 @@ void GameMain::setStageMap(json11::Json raw_data)
 		if (tmpArrItemAll > this->map_height) this->map_height = tmpArrItemAll;
 		terrain_data_index.push_back(prefetch_index);
 	}
-	json11::Json path_data = raw_data["path_data"];
+	json11::Json path_data = raw_data["stage_data"]["path_data"];
 	for (auto& terrainY : terrain_data_index) {
 		std::vector<std::pair<bool, GameMapPath>> prefetch_terrain;
 		for (auto& terrainX : terrainY) {
 			prefetch_terrain.push_back(std::make_pair(false, GameMapPath(path_data[terrainX])));
 		}
 		this->stageMap.push_back(prefetch_terrain);
+	}
+	json11::Json stageInfo = raw_data["stage_data"]["stage_info"];
+	{
+		auto& eventCreateLaunch = stageInfo["create_launch"].array_items();
+		for (auto& evData : eventCreateLaunch) {
+			uint64_t eventTurn = stoull(evData["event_turn"].string_value());
+			this->eventTurns.insert_or_assign(eventTurn, evData);
+			this->isInitialized.insert_or_assign(eventTurn, std::map<GameFaction, bool>{
+				{ GameFaction::NOT_CREATED, false },
+				{ GameFaction::PLAYER, false },
+				{ GameFaction::ENEMY_1, false },
+				{ GameFaction::ENEMY_2, false },
+				{ GameFaction::ALLY, false }
+			});
+		}
+		this->operation_condition = stageInfo["operation_condition"];
+		json11::Json bgm = stageInfo["background_music"];
+		if (bgm["common"].is_string()) this->map_soundhandler = LoadSoundMem(
+			game_loader->loadPath(LoaderHandlerType::AUDIO, sjis_to_utf8(bgm["common"].string_value())).c_str());
+		ChangeVolumeSoundMem(255 * 40 / 100, this->map_soundhandler);
 	}
 }
 
@@ -119,6 +140,115 @@ void GameMain::eventOnDestroy()
 	}
 }
 
+void GameMain::eventOnTurn()
+{
+	if (this->isInitialized.contains(this->map_round) && !this->isInitialized.at(this->map_round).at(this->map_phase)) {
+		json11::Json& incStRound = this->eventTurns.at(this->map_round);
+		GameFaction tgtPhase = static_cast<GameFaction>(incStRound["event_phase"].int_value());
+		if (this->map_phase == tgtPhase || this->map_round == 0ULL) {
+			json11::Json::array popEntity = incStRound["event_pop"].array_items();
+			for (auto& entity : popEntity) {
+				std::string tMainUnit = sjis_to_utf8(entity["main_unit_unit_name"].string_value());
+				std::string tMainPilot = sjis_to_utf8(entity["main_unit_main_pilot_name"].string_value());
+				std::string tSubUnit = sjis_to_utf8(entity["sub_unit_unit_name"].string_value());
+				std::string tSubPilot = sjis_to_utf8(entity["sub_unit_main_pilot_name"].string_value());
+				int64_t tMainLevel = static_cast<int64_t>(entity["main_unit_main_pilot_level"].int_value());
+				int64_t tSubLevel = static_cast<int64_t>(entity["sub_unit_main_pilot_level"].int_value());
+				int64_t posX = static_cast<int64_t>(entity["troop_posX"].int_value());
+				int64_t posY = static_cast<int64_t>(entity["troop_posY"].int_value());
+				std::string faction = entity["troop_faction"].string_value();
+				if (this->savedUnit.contains(tMainPilot)) {
+					using std::regex;
+					using std::regex_match;
+					using namespace std::regex_constants;
+					regex FAC_PLAYER(R"(^味方|プレイヤー|PC)", ECMAScript, icase);
+					regex FAC_ENEMY_1(R"(^敵|ENM1)", ECMAScript, icase);
+					regex FAC_ENEMY_2(R"(^中立|ENM2)", ECMAScript, icase);
+					regex FAC_NPC(R"(^NPC|ノンプレイヤー)", ECMAScript, icase);
+					int tmpFact_index = regex_match(faction, FAC_PLAYER) ? 1 : regex_match(faction, FAC_ENEMY_1) ? 2 :
+						regex_match(faction, FAC_ENEMY_2) ? 3 : regex_match(faction, FAC_NPC) ? 4 : 4;
+					if (!tSubPilot.empty() && this->savedUnit.contains(tSubPilot)) {
+						this->LaunchUnitFromSaveData(tMainPilot, posX, posY, 
+							tSubPilot, static_cast<GameFaction>(tmpFact_index));
+					}
+					else if (tSubPilot.empty()) {
+						this->LaunchUnitFromSaveData(tMainPilot, posX, posY, 
+							"", static_cast<GameFaction>(tmpFact_index));
+					}
+				}
+				else {
+					int64_t rankMainAll = entity["main_unit_unit_rank"].is_number() ?
+						static_cast<int64_t>(entity["main_unit_unit_rank"].int_value()) : 0LL;
+					int64_t rankMainHP = rankMainAll,
+						rankMainEN = rankMainAll,
+						rankMainArmor = rankMainAll,
+						rankMainSight = rankMainAll,
+						rankMainEvade = rankMainAll;
+					json11::Json column_modify;
+					if (entity["main_unit_unit_rank"].is_object()) {
+						column_modify = entity["main_unit_unit_rank"];
+						rankMainHP = static_cast<int64_t>(column_modify["HP"].int_value());
+						rankMainEN = static_cast<int64_t>(column_modify["EN"].int_value());
+						rankMainArmor = static_cast<int64_t>(column_modify["AMR"].int_value());
+						rankMainSight = static_cast<int64_t>(column_modify["SIG"].int_value());
+						rankMainEvade = static_cast<int64_t>(column_modify["EVA"].int_value());
+					}
+					if (!tSubPilot.empty() && !this->savedUnit.contains(tSubPilot)) {
+						int64_t rankSubAll = entity["sub_unit_unit_rank"].is_number() ?
+							static_cast<int64_t>(entity["sub_unit_unit_rank"].int_value()) : 0LL;
+						int64_t rankSubHP = rankSubAll,
+							rankSubEN = rankSubAll,
+							rankSubArmor = rankSubAll,
+							rankSubSight = rankSubAll,
+							rankSubEvade = rankSubAll;
+						if (entity["sub_unit_unit_rank"].is_object()) {
+							column_modify = entity["sub_unit_unit_rank"];
+							rankSubHP = static_cast<int64_t>(column_modify["HP"].int_value());
+							rankSubEN = static_cast<int64_t>(column_modify["EN"].int_value());
+							rankSubArmor = static_cast<int64_t>(column_modify["AMR"].int_value());
+							rankSubSight = static_cast<int64_t>(column_modify["SIG"].int_value());
+							rankSubEvade = static_cast<int64_t>(column_modify["EVA"].int_value());
+						}
+						this->CreateUnitByFaction(tMainUnit, rankMainHP, rankMainEN,
+							rankMainArmor, rankMainSight, rankMainEvade, tMainPilot,
+							tMainLevel, faction, posX, posY, tSubUnit, rankSubHP,
+							rankSubEN, rankSubArmor, rankSubSight, rankSubEvade,
+							tSubPilot, tSubLevel);
+					}
+					else if (tSubPilot.empty()) {
+						this->CreateUnitByFaction(tMainUnit, rankMainHP, rankMainEN,
+							rankMainArmor, rankMainSight, rankMainEvade,
+							tMainPilot, tMainLevel, faction, posX, posY);
+					}
+				}
+			}
+			this->isInitialized.at(this->map_round).insert_or_assign(this->map_phase, true);
+			if (this->map_round == 0ULL) {
+				this->isInitialized.at(this->map_round).insert_or_assign(GameFaction::PLAYER, true);
+				this->isInitialized.at(this->map_round).insert_or_assign(GameFaction::ENEMY_1, true);
+				this->isInitialized.at(this->map_round).insert_or_assign(GameFaction::ENEMY_2, true);
+				this->isInitialized.at(this->map_round).insert_or_assign(GameFaction::ALLY, true);
+				this->SequenceIncreaseTurn();
+			}
+			if (CheckSoundMem(this->map_soundhandler) == 0) PlaySoundMem(this->map_soundhandler, DX_PLAYTYPE_LOOP);
+		}
+	}
+}
+
+void GameMain::LaunchUnitFromSaveData(std::string pKeyPilotMain, int64_t pPosX, int64_t pPosY, std::string pKeyPilotSub, GameFaction pFaction)
+{
+	//既出チェック(セーブデータにない場合は除外)
+	if (!this->savedUnit.contains(pKeyPilotMain) || (!pKeyPilotSub.empty() && !this->savedUnit.contains(pKeyPilotSub))) return;
+	std::shared_ptr<GameUnit> tmpUnitMain = this->savedUnit.at(pKeyPilotMain);
+	std::shared_ptr<GameTroop> tmpTroop;
+	if (!pKeyPilotSub.empty()) {
+		std::shared_ptr<GameUnit> tmpUnitSub = this->savedUnit.at(pKeyPilotSub);
+		tmpTroop = std::make_shared<GameTroop>(tmpUnitMain, tmpUnitSub);
+	}
+	else tmpTroop = std::make_shared<GameTroop>(tmpUnitMain);
+	tmpTroop->launchUnit(pPosX, pPosY, pFaction);
+}
+
 void GameMain::CreateUnitByFaction(std::string pKeyUnitMain, int64_t pUnitMainRankHP, int64_t pUnitMainRankEN, int64_t pUnitMainRankArmor,
 	int64_t pUnitMainRankSight, int64_t pUnitMainRankEvade, std::string pKeyPilotMain, int64_t pPilotMainLevel, std::string pFaction,
 	int64_t pPosX, int64_t pPosY, std::string pKeyUnitSub, int64_t pUnitSubRankHP, int64_t pUnitSubRankEN, int64_t pUnitSubRankArmor,
@@ -127,6 +257,8 @@ void GameMain::CreateUnitByFaction(std::string pKeyUnitMain, int64_t pUnitMainRa
 	//既出チェック
 	//雑魚はもれなくfalseとなるので無視される
 	if (this->generatedPilot[pKeyPilotMain] || this->generatedPilot[pKeyPilotSub]) return;
+	//また、セーブファイルにある場合も無視
+	if (this->savedUnit.contains(pKeyPilotMain) || this->savedUnit.contains(pKeyPilotSub)) return;
 	std::shared_ptr<GameUnit> tmpUnitMain = std::make_shared<GameUnit>(game_loader->registry_units.at(pKeyUnitMain),
 		pUnitMainRankHP, pUnitMainRankEN, pUnitMainRankArmor, pUnitMainRankSight, pUnitMainRankSight);
 	std::shared_ptr<GameUnit> tmpUnitSub;
@@ -166,10 +298,48 @@ void GameMain::CreateUnitByFaction(std::string pKeyUnitMain, int64_t pUnitMainRa
 		pKeyPilotSub, pPilotSubLevel);
 }
 
+void GameMain::SequenceIncreaseTurn()
+{
+	if (this->map_round == 0ULL) {
+		this->map_phase = GameFaction::PLAYER;
+		this->map_round++;
+	}
+	else {
+		int stackCheck = 0;
+		int current_phase = static_cast<int>(this->map_phase);
+		GameFaction moved_to_phase = this->map_phase;
+		do {
+			if (stackCheck == 8) break; //スタックオーバーフロー対策
+			if (moved_to_phase != GameFaction::ALLY) {
+				current_phase++;
+				moved_to_phase = static_cast<GameFaction>(current_phase);
+			}
+			else {
+				moved_to_phase = GameFaction::PLAYER;
+			}
+			stackCheck++;
+		}
+		while (!this->foundFaction(moved_to_phase));
+	}
+}
+
+bool GameMain::foundFaction(GameFaction faction)
+{
+	uint64_t countTroop = 0ULL;
+	for (auto& tmpTroop : this->troopList) {
+		if (tmpTroop->getFaction() == faction) countTroop++;
+	}
+	return countTroop > 0ULL;
+}
+
 GameMain::GameMain()
 {
+	this->stage_loaded = false;
 	this->map_width = 0LL;
 	this->map_height = 0LL;
+	this->map_round = 0ULL;
+	this->map_phase = GameFaction::NOT_CREATED;
+	this->map_soundhandler = 0;
 }
 
 std::string GameMapPath::getPathName() const

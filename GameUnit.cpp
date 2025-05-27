@@ -58,6 +58,11 @@ void GameUnit::healUnit(int64_t pHeal)
 	this->status.setNowHP(this->getUnitNowHP() + pHeal);
 }
 
+void GameUnit::setSavedFaction(GameFaction pSave)
+{
+	this->savedFaction = pSave;
+}
+
 std::shared_ptr<GamePilot> GameUnit::getMainPilot()
 {
 	return this->main_pilot;
@@ -148,6 +153,11 @@ int64_t GameUnit::getMorale() const
 	return this->morale;
 }
 
+GameFaction GameUnit::getSavedFaction() const
+{
+	return this->savedFaction;
+}
+
 double GameUnit::getRankPercent() const
 {
 	return this->status.calculateConfigureRank();
@@ -160,6 +170,7 @@ void GameUnit::setCond(const UnitCondition pCond)
 
 GameUnit::GameUnit(std::shared_ptr<DataUnit> pRef, const int64_t confHP, const int64_t confEN, const int64_t confArmor, const int64_t confSight, const int64_t confEvade)
 {
+	this->savedFaction = GameFaction::NOT_CREATED;
 	this->cond = UnitCondition::AVAILABLE_SORTIES;
 	this->refer_data = std::make_shared<DataUnit>(*pRef.get());
 	this->refer_data->profile.GraphHandler = LoadGraph(

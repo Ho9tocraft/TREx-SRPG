@@ -224,6 +224,7 @@ protected:
 	std::shared_ptr<GamePilot> main_pilot;
 	std::vector<std::shared_ptr<GamePilot>> sub_pilots;
 	int64_t morale;
+	GameFaction savedFaction;
 public:
 	InGameUnitStatus status;
 	std::shared_ptr<GamePilot> getMainPilot();
@@ -244,6 +245,7 @@ public:
 	int64_t getUnitConfEvade() const;
 	int64_t getUnitDistTravel() const;
 	int64_t getMorale() const;
+	GameFaction getSavedFaction() const;
 	double getRankPercent() const;
 	void setCond(const UnitCondition pCond);
 	void setMorale(const int64_t moraleValue);
@@ -252,6 +254,7 @@ public:
 	void ridePilot(std::shared_ptr<GamePilot> pRef);
 	void damageUnit(int64_t pDamage);
 	void healUnit(int64_t pHeal);
+	void setSavedFaction(GameFaction pSave);
 	GameUnit(std::shared_ptr<DataUnit> pRef, const int64_t confHP, const int64_t confEN,
 		const int64_t confArmor, const int64_t confSight, const int64_t confEvade);
 	GameUnit(std::shared_ptr<DataUnit> pRef, const int64_t confAll);

@@ -327,6 +327,7 @@ protected:
 	int64_t W_max_range;
 	std::pair<bool, int64_t> W_cost_en;
 	std::pair<bool, int64_t> W_cost_bullet;
+	int64_t current_bullet;
 	std::pair<bool, int64_t> W_cost_morale;
 	int64_t W_adjust_hit;
 	int64_t W_adjust_crt;
